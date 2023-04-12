@@ -8,22 +8,22 @@
 				<thead>
 					<tr>
 						<th class="" >
-						  Id
+						  Id_client
 						</th>
 						<th class="" >
 						  Nom
 						</th>
 						<th class="" >
-						  Durée
+						  prenom
 						</th>
 						<th class="" >
-						  Date de sortie
+						  date de naissance
 						</th>
 						<th class="" >
-						  Description
+						  Genre
 						</th>
 						<th class="" >
-						  Affiche
+						  Assurance maladie
 						</th>
 					</tr>
 				</thead>
@@ -32,23 +32,21 @@
 			<tbody>
 				<tr>
 					  <th class="align-middle">
-						  {{ row.id_film }}
+						  {{ row.id_client }}
 					  </th>
 					  <th class="align-middle">
-						{{ row.nom_film }}
+						{{ row.nom }}
 					  </th>
 					  <th class="align-middle">
-						{{ row.duree_film|default("", True) }}
+						{{ row.prenom }}
 					  </th>
 					  <th class="align-middle">
-						{{ row.date_sortie_film|default("", True) }}
+						{{ row.date_de_nais }}
 					  </th>
 					  <th class="align-middle">
-						{{ row.description_film|default("", True) }}
+						{{ row.Assu_malaide}}
 					  </th>
-					  <th class="align-middle">
-						<img class="img" src={{ row.cover_link_film|default(None, True) }} style="border: 0;display:block; width:150px; max-height:auto;"  alt = "image masquée FFP8 (in COVID-19 Memory) (absente) mod 164">
-					  </th>
+
 					  <th class="align-middle">
 						<a class="btn btn-primary" href="{{ url_for('avertissement_sympa_pour_geeks') }}" role="button">Ajouter</a>
 					  </th>
@@ -63,7 +61,7 @@
 							<a class="btn btn-warning" href="{{ url_for('edit_genre_film_selected', id_film_genres_edit_html=row.id_film) }}" role="button">Modifier</a>
 						</td>
 						<td class="align-middle" colspan="5">
-							{{ row.GenresFilms|default("PAS DE GENRES", True) }}
+							{{ row.fk_genre |default("PAS DE GENRES", True) }}
 						</td>
 					</tr>
 				</tr>

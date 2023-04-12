@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<title>{% block title %}Mon beau projet{% endblock %}</title>
+	<title>{% block title %}Gestion de médicament{% endblock %}</title>
 
 	<!-- Bootstrap CSS en local -->
 	<!-- OM 2020.05.04 OM JE PREFERE GARDER MES FICHIERS CSS ET JS DANS UN REPERTOIRE "EN LOCAL"
@@ -38,7 +38,7 @@
 <div class="container">
 	<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-secondary">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="{{ url_for('mapageprincipale') }}">LAITNOIXRONDLAITUE</a>
+			<a class="navbar-brand" href="{{ url_for('mapageprincipale') }}">Pharmacie de Cugy :)</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
@@ -51,12 +51,12 @@
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="navdropdownfilms" role="button"
 						   data-bs-toggle="dropdown" aria-expanded="false">
-							Films
+							Clients
 						</a>
 						<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-							<li><a class="nav-link" href="{{ url_for('films_genres_afficher', id_film_sel=0) }}">Films</a>
+							<li><a class="nav-link" href="{{ url_for('films_genres_afficher', id_film_sel=0) }}">Clients</a>
 							</li>
-							<li><a class="nav-link" href="{{ url_for('films_genres_afficher', id_film_sel=0) }}">Films/Genres</a></li>
+							<li><a class="nav-link" href="{{ url_for('films_genres_afficher', id_film_sel=0) }}">Mail</a></li>
 						</ul>
 					</li>
 

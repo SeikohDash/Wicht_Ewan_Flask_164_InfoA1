@@ -11,24 +11,24 @@
 				<!-- Protection contre les attaques Cross-Site Request Forgery (CSRF) -->
 				{{ form_delete.hidden_tag() }}
 				<table class="table table-bordered table-sm">
-					{% if data_films_associes %}
-						<h3>Ce genre est associé avec le(s) film(s) suivant(s) :</h3>
+					{% if data_client_associes %}
+						<h3>Ce genre est associé avec le(s) client(s) suivant(s) :</h3>
 					{% else %}
-						<h3>Ce genre à effacer n'est associé à aucun film.</h3>
+						<h3>Ce genre à effacer n'est associé à aucun client :(.</h3>
 					{% endif %}
-					{% if data_films_associes %}
+					{% if data_client_associes %}
 						<thead>
 							<tr>
 								<th>
-									FILM(S)
+									Client(S)
 								</th>
 							</tr>
 						</thead>
-						{% for row in data_films_associes %}
+						{% for row in data_client_associes %}
 							<tbody>
 								<tr>
 									<td>
-										{{ row.nom_film }}
+										{{ row.nom }}
 									</td>
 								</tr>
 							</tbody>
