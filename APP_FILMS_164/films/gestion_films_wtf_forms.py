@@ -16,16 +16,42 @@ class FormWTFAddFilm(FlaskForm):
         Dans le formulaire "genres_ajouter_wtf.html" on impose que le champ soit rempli.
         Définition d'un "bouton" submit avec un libellé personnalisé.
     """
-    nom_film_regexp = ""
-    nom_film_add_wtf = StringField("Nom du film ", validators=[Length(min=2, max=2000, message="min 2 max 20"),
-                                                               Regexp(nom_film_regexp,
+    nom_client_regexp = "^([A-Z]|[a-zÀ-ÖØ-öø-ÿ])[A-Za-zÀ-ÖØ-öø-ÿ]*['\- ]?[A-Za-zÀ-ÖØ-öø-ÿ]+$"
+    nom_client_wtf = StringField("Nom du client", validators=[Length(min=2, max=50, message="min 2 max 50 "),
+                                                               Regexp(nom_client_regexp,
                                                                       message="Pas de chiffres, de caractères "
                                                                               "spéciaux, "
                                                                               "d'espace à double, de double "
                                                                               "apostrophe, de double trait union")
                                                                ])
+    prenom_client_regexp = "^([A-Z]|[a-zÀ-ÖØ-öø-ÿ])[A-Za-zÀ-ÖØ-öø-ÿ]*['\- ]?[A-Za-zÀ-ÖØ-öø-ÿ]+$"
+    prenom_client_wtf = StringField("prenom du client", validators=[Length(min=1, max=50, message="min 2 max 50"),
+                                                                       Regexp(prenom_client_regexp,
+                                                                              message="Pas de chiffres, de caractères "
+                                                                                      "spéciaux, "
+                                                                                      "d'espace à double, de double "
+                                                                                      "apostrophe, de double trait union")
+                                                                       ])
+    date_nais_client_regexp = "^([0-9]{4})-([0-9]{2})-([0-9]{2})$"
+    date_nais_client_wtf = StringField("Date de naissance (format : AAAA-MM-JJ)",
+                                       validators=[Length(min=10, max=10, message="Date trop longue/court"),
+                                                   Regexp(date_nais_client_regexp,
+                                                          message="Le format de la date doit être AAAA-MM-JJ")])
+    fk_genre_client_regexp = ""
+    fk_genre_client_wtf = IntegerField("Genre de la personne 1 = Homme 2 = Femme 3 = Autre", validators=[InputRequired("Le genre doit etre comrpis entre 1 - 2 - 3"),
+                                                                           NumberRange(min=1, max=3,
+                                                                                       message="Le genre doit être 1 2 ou 3")
+                                                                           ])
+    assu_maladie_client_regexp = "^([A-Z]|[a-zÀ-ÖØ-öø-ÿ])[A-Za-zÀ-ÖØ-öø-ÿ]*['\- ]?[A-Za-zÀ-ÖØ-öø-ÿ]+$"
+    assu_maladie_client_wtf = StringField("Assurance maladie de la personne", validators=[Length(min=1, max=50, message="min 2 max 50"),
+                                                                      Regexp(assu_maladie_client_regexp,
+                                                                             message="Pas de chiffres, de caractères "
+                                                                                     "spéciaux, "
+                                                                                     "d'espace à double, de double "
+                                                                                     "apostrophe, de double trait union")
+                                                                      ])
 
-    submit = SubmitField("Enregistrer film")
+    submit = SubmitField("Enregistrer le client")
 
 
 class FormWTFUpdateFilm(FlaskForm):

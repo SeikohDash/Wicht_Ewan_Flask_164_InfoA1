@@ -31,18 +31,31 @@ Remarque :  Dans le champ "nom_film_update_wtf" du formulaire "films/films_updat
 @app.route("/film_add", methods=['GET', 'POST'])
 def film_add_wtf():
     # Objet formulaire pour AJOUTER un film
-    form_add_film = FormWTFAddFilm()
+    form = FormWTFAddFilm()
     if request.method == "POST":
         try:
-            if form_add_film.validate_on_submit():
-                nom_film_add = form_add_film.nom_film_add_wtf.data
-                prenom_client_add = form_add_film.prenom_client_add_wtf.date
+            if form.validate_on_submit():
 
-                valeurs_insertion_dictionnaire = {"value_nom_film": nom_film_add,
-                                                  "Value_prenom_client": prenom_client_add}
+                nom_client = form.nom_client_wtf.data
+                prenom_client = form.prenom_client_wtf.data
+                date_nais_client = form.date_nais_client_wtf.data
+                fk_genre_client = form.fk_genre_client_wtf.data
+                assu_maladie_client = form.assu_maladie_client_wtf.data
+
+
+
+
+
+                valeurs_insertion_dictionnaire = {"value_nom_client": nom_client,
+                                                  "value_prenom_client": prenom_client,
+                                                  "value_date_client": date_nais_client,
+                                                  "value_genre_client": fk_genre_client,
+                                                  "value_assurance_client": assu_maladie_client
+                                                  }
                 print("valeurs_insertion_dictionnaire ", valeurs_insertion_dictionnaire)
 
-                strsql_insert_film = """INSERT INTO t_client (nom,prenom,date_de_nais,fk_genre,Assu_maladie) VALUES (NULL,%(value_nom_film)s) """
+                strsql_insert_film = """INSERT INTO t_client (id_client,nom,prenom,date_de_nais,fk_genre,Assu_maladie) 
+                                        VALUES (NULL,%(value_nom_client)s,%(value_prenom_client)s,%(value_date_client)s,%(value_genre_client)s,%(value_assurance_client)s) """
                 with DBconnection() as mconn_bd:
                     mconn_bd.execute(strsql_insert_film, valeurs_insertion_dictionnaire)
 
@@ -57,7 +70,7 @@ def film_add_wtf():
                                             f"{film_add_wtf.__name__} ; "
                                             f"{Exception_genres_ajouter_wtf}")
 
-    return render_template("films/film_add_wtf.html", form_add_film=form_add_film)
+    return render_template("films/film_add_wtf.html", form=form)
 
 
 """Editer(update) un film qui a été sélectionné dans le formulaire "films_genres_afficher.html"

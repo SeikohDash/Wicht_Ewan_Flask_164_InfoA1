@@ -5,22 +5,52 @@
 	<div class="row">
 		<div class="col-md-12">
 			<p>
-				Ajouter un nouveau FILM (WTForms)
+				Ajouter un nouveau Client
 			</p>
 			<form action="" method="POST" novalidate>
 				<!-- Protection contre les attaques Cross-Site Request Forgery (CSRF) -->
-				{{ form_add_film.hidden_tag() }}
+				{{ form.hidden_tag() }}
 				<div class="form-group">
 					<p>
-						{{ form_add_film.nom_film_add_wtf.label }}<br>
-						{{ form_add_film.nom_film_add_wtf(size=32) }}<br>
-						{% for error in form_add_film.nom_film_add_wtf.errors %}
+						{{ form.nom_client_wtf.label }}<br>
+						{{ form.nom_client_wtf(size=24) }}<br>
+						{% for error in form.nom_client_wtf.errors %}
 							<span style="color: red;">[{{ error }}]</span>
 						{% endfor %}
 					</p>
-					Voilà c'est juste pour vous montrer l'ossature du projet je n'ai pas tout fait...
+					<p>
+						{{ form.prenom_client_wtf.label }}<br>
+						{{ form.prenom_client_wtf(size=24) }}<br>
+						{% for error in form.prenom_client_wtf.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					</p>
+					<p>
+  						{{ form.date_nais_client_wtf.label }}<br>
+						{{ form.date_nais_client_wtf(size=24) }}<br>
+						{% for error in form.date_nais_client_wtf.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+
+					</p>
+
+					<p>
+						{{ form.fk_genre_client_wtf.label }}<br>
+						{{ form.fk_genre_client_wtf(size=3) }}<br>
+						{% for error in form.fk_genre_client_wtf.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					</p>
+					<p>
+						{{ form.assu_maladie_client_wtf.label }}<br>
+						{{ form.assu_maladie_client_wtf(size=24) }}<br>
+						{% for error in form.assu_maladie_client_wtf.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					</p>
+
 				</div>
-				{{ form_add_film.submit(class="btn btn-primary") }}
+				{{ form.submit(class="btn btn-primary") }}
 			</form>
 		</div>
 	</div>
