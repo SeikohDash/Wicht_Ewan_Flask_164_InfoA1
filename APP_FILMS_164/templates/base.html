@@ -23,7 +23,8 @@
 	<!-- https://bootswatch.com/superhero/ -->
 <!--	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bootswatch-4/superhero/bootstrap.min.css') }}">-->
 	<!-- https://flask.palletsprojects.com/en/1.1.x/patterns/favicon/ -->
-	<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+	<link rel="icon" type="image/png" href="{{ url_for('static', filename='pharmacy.ico') }}">
+
 
 	{% block head %}
 	{% endblock %}
@@ -44,10 +45,7 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
 				<ul class="navbar-nav">
-					<li class="nav-item">
-						<!--		Afficher la liste des genres dans l'ordre (ASC) et tous les genres (0)-->
-						<a class="nav-link" href="{{ url_for('genres_afficher', order_by='ASC', id_genre_sel=0) }}">Genres</a>
-					</li>
+
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="navdropdownfilms" role="button"
 						   data-bs-toggle="dropdown" aria-expanded="false">
@@ -55,6 +53,7 @@
 						</a>
 						<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
 							<li><a class="nav-link" href="{{ url_for('films_genres_afficher', id_film_sel=0) }}">Clients</a>
+								<a class="nav-link" href="{{ url_for('genres_afficher', order_by='ASC', id_genre_sel=0) }}">Genres</a>
 							</li>
 
 						</ul>

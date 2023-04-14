@@ -25,7 +25,7 @@ class FormWTFAddFilm(FlaskForm):
                                                                               "apostrophe, de double trait union")
                                                                ])
     prenom_client_regexp = "^([A-Z]|[a-zÀ-ÖØ-öø-ÿ])[A-Za-zÀ-ÖØ-öø-ÿ]*['\- ]?[A-Za-zÀ-ÖØ-öø-ÿ]+$"
-    prenom_client_wtf = StringField("prenom du client", validators=[Length(min=1, max=50, message="min 2 max 50"),
+    prenom_client_wtf = StringField("Prenom du client", validators=[Length(min=1, max=50, message="min 2 max 50"),
                                                                        Regexp(prenom_client_regexp,
                                                                               message="Pas de chiffres, de caractères "
                                                                                       "spéciaux, "
@@ -43,7 +43,7 @@ class FormWTFAddFilm(FlaskForm):
                                                                                        message="Le genre doit être 1 2 ou 3")
                                                                            ])
     assu_maladie_client_regexp = "^([A-Z]|[a-zÀ-ÖØ-öø-ÿ])[A-Za-zÀ-ÖØ-öø-ÿ]*['\- ]?[A-Za-zÀ-ÖØ-öø-ÿ]+$"
-    assu_maladie_client_wtf = StringField("Assurance maladie de la personne", validators=[Length(min=1, max=50, message="min 2 max 50"),
+    assu_maladie_client_wtf = StringField("Assurance maladie du client", validators=[Length(min=1, max=50, message="min 2 max 50"),
                                                                       Regexp(assu_maladie_client_regexp,
                                                                              message="Pas de chiffres, de caractères "
                                                                                      "spéciaux, "
