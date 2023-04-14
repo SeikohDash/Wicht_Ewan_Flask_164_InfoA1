@@ -11,7 +11,7 @@ from flask import url_for
 
 from APP_FILMS_164.database.database_tools import DBconnection
 from APP_FILMS_164.erreurs.exceptions import *
-from APP_FILMS_164.films.gestion_films_wtf_forms import FormWTFUpdateFilm, FormWTFAddFilm, FormWTFDeleteFilm
+from APP_FILMS_164.clients.gestion_films_wtf_forms import FormWTFUpdateFilm, FormWTFAddFilm, FormWTFDeleteFilm
 
 """Ajouter un film grâce au formulaire "film_add_wtf.html"
 Auteur : OM 2022.04.11
@@ -70,7 +70,7 @@ def film_add_wtf():
                                             f"{film_add_wtf.__name__} ; "
                                             f"{Exception_genres_ajouter_wtf}")
 
-    return render_template("films/film_add_wtf.html", form=form)
+    return render_template("clients/film_add_wtf.html", form=form)
 
 
 """Editer(update) un film qui a été sélectionné dans le formulaire "films_genres_afficher.html"
@@ -83,7 +83,7 @@ Paramètres : sans
 
 But : Editer(update) un genre qui a été sélectionné dans le formulaire "genres_afficher.html"
 
-Remarque :  Dans le champ "nom_film_update_wtf" du formulaire "films/films_update_wtf.html",
+Remarque :  Dans le champ "nom_film_update_wtf" du formulaire "clients/films_update_wtf.html",
             le contrôle de la saisie s'effectue ici en Python.
             On ne doit pas accepter un champ vide.
 """
@@ -155,7 +155,7 @@ def film_update_wtf():
                                      f"{film_update_wtf.__name__} ; "
                                      f"{Exception_film_update_wtf}")
 
-    return render_template("films/film_update_wtf.html", form_update_film=form_update_film)
+    return render_template("clients/film_update_wtf.html", form_update_film=form_update_film)
 
 
 """Effacer(delete) un film qui a été sélectionné dans le formulaire "films_genres_afficher.html"
@@ -166,7 +166,7 @@ Test : ex. cliquer sur le menu "film" puis cliquer sur le bouton "DELETE" d'un "
     
 Paramètres : sans
 
-Remarque :  Dans le champ "nom_film_delete_wtf" du formulaire "films/film_delete_wtf.html"
+Remarque :  Dans le champ "nom_film_delete_wtf" du formulaire "clients/film_delete_wtf.html"
             On doit simplement cliquer sur "DELETE"
 """
 
@@ -188,7 +188,7 @@ def film_delete_wtf():
 
         if form_delete_film.submit_btn_conf_del_film.data:
             # Récupère les données afin d'afficher à nouveau
-            # le formulaire "films/film_delete_wtf.html" lorsque le bouton "Etes-vous sur d'effacer ?" est cliqué.
+            # le formulaire "clients/film_delete_wtf.html" lorsque le bouton "Etes-vous sur d'effacer ?" est cliqué.
             data_film_delete = session['data_film_delete']
             print("data_film_delete ", data_film_delete)
 
@@ -228,7 +228,7 @@ def film_delete_wtf():
                 print("data_film_delete...", data_film_delete)
 
                 # Nécessaire pour mémoriser les données afin d'afficher à nouveau
-                # le formulaire "films/film_delete_wtf.html" lorsque le bouton "Etes-vous sur d'effacer ?" est cliqué.
+                # le formulaire "clients/film_delete_wtf.html" lorsque le bouton "Etes-vous sur d'effacer ?" est cliqué.
                 session['data_film_delete'] = data_film_delete
 
             # Le bouton pour l'action "DELETE" dans le form. "film_delete_wtf.html" est caché.
@@ -239,7 +239,7 @@ def film_delete_wtf():
                                      f"{film_delete_wtf.__name__} ; "
                                      f"{Exception_film_delete_wtf}")
 
-    return render_template("films/film_delete_wtf.html",
+    return render_template("clients/film_delete_wtf.html",
                            form_delete_film=form_delete_film,
                            btn_submit_del=btn_submit_del,
                            data_film_del=data_film_delete
