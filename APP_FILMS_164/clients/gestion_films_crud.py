@@ -91,36 +91,36 @@ Remarque :  Dans le champ "nom_film_update_wtf" du formulaire "clients/films_upd
 
 @app.route("/film_update", methods=['GET', 'POST'])
 def film_update_wtf():
-    # L'utilisateur vient de cliquer sur le bouton "EDIT". Récupère la valeur de "id_film"
-    id_film_update = request.values['id_film_btn_edit_html']
+    # L'utilisateur vient de cliquer sur le bouton "EDIT". Récupère la valeur de "id_client"
+    id_client_update = request.values['id_client_btn_edit_html']
 
     # Objet formulaire pour l'UPDATE
-    form_update_film = FormWTFUpdateFilm()
+    form_update_client = FormWTFUpdateFilm()
     try:
-        print(" on submit ", form_update_film.validate_on_submit())
-        if form_update_film.validate_on_submit():
+        print(" on submit ", form_update_client.validate_on_submit())
+        if form_update_client.validate_on_submit():
             # Récupèrer la valeur du champ depuis "genre_update_wtf.html" après avoir cliqué sur "SUBMIT".
-            nom_film_update = form_update_film.nom_film_update_wtf.data
-            duree_film_update = form_update_film.duree_film_update_wtf.data
-            description_film_update = form_update_film.description_film_update_wtf.data
-            cover_link_film_update = form_update_film.cover_link_film_update_wtf.data
-            datesortie_film_update = form_update_film.datesortie_film_update_wtf.data
+            nom_client_update = form_update_client.nom_client_update_wtf.data
+            prenom_client_update = form_update_client.prenom_client_update_wtf.data
+            date_nais_client_update = form_update_client.date_nais_client_update_wtf.data
+            fk_genre_client_update = form_update_client.fk_genre_client_update_wtf.data
+            assu_maladie_client_update = form_update_client.assu_maladie_client_update_wtf.data
 
-            valeur_update_dictionnaire = {"value_id_film": id_film_update,
-                                          "value_nom_film": nom_film_update,
-                                          "value_duree_film": duree_film_update,
-                                          "value_description_film": description_film_update,
-                                          "value_cover_link_film": cover_link_film_update,
-                                          "value_datesortie_film": datesortie_film_update
-                                          }
+            valeur_update_dictionnaire = {"value_id_client": id_client_update,
+                                          "value_nom_client": nom_client_update,
+                                          "value_prenom_client": prenom_client_update,
+                                          "value_date_client": date_nais_client_update,
+                                          "value_genre_client": fk_genre_client_update,
+                                          "value_assurance_client": assu_maladie_client_update
+                                        }
             print("valeur_update_dictionnaire ", valeur_update_dictionnaire)
 
-            str_sql_update_nom_film = """UPDATE t_film SET nom_film = %(value_nom_film)s,
-                                                            duree_film = %(value_duree_film)s,
-                                                            description_film = %(value_description_film)s,
-                                                            cover_link_film = %(value_cover_link_film)s,
-                                                            date_sortie_film = %(value_datesortie_film)s
-                                                            WHERE id_film = %(value_id_film)s"""
+            str_sql_update_nom_film = """UPDATE t_client SET nom_client = %(value_nom_client)s,
+                                                            prenom_client = %(value_prenom_client)s,
+                                                            date_client = %(value_date_client)s,
+                                                            genre_client = %(value_genre_client)s,
+                                                            assurance_client = %(value_assurance_client)s
+                                                            WHERE id_client = %(value_id_client)s"""
             with DBconnection() as mconn_bd:
                 mconn_bd.execute(str_sql_update_nom_film, valeur_update_dictionnaire)
 
@@ -128,34 +128,32 @@ def film_update_wtf():
             print(f"Donnée mise à jour !!")
 
             # afficher et constater que la donnée est mise à jour.
-            # Afficher seulement le film modifié, "ASC" et l'"id_film_update"
-            return redirect(url_for('films_genres_afficher', id_film_sel=id_film_update))
+            # Afficher seulement le film modifié, "ASC" et l'"id_client_update"
+            return redirect(url_for('films_genres_afficher', id_film_sel=id_client_update))
         elif request.method == "GET":
             # Opération sur la BD pour récupérer "id_film" et "intitule_genre" de la "t_genre"
-            str_sql_id_film = "SELECT * FROM t_film WHERE id_film = %(value_id_film)s"
-            valeur_select_dictionnaire = {"value_id_film": id_film_update}
+            str_sql_id_film = "SELECT * FROM t_client WHERE id_client = %(value_id_client)s"
+            valeur_select_dictionnaire = {"value_id_client": id_client_update}
             with DBconnection() as mybd_conn:
                 mybd_conn.execute(str_sql_id_film, valeur_select_dictionnaire)
             # Une seule valeur est suffisante "fetchone()", vu qu'il n'y a qu'un seul champ "nom genre" pour l'UPDATE
-            data_film = mybd_conn.fetchone()
-            print("data_film ", data_film, " type ", type(data_film), " genre ",
-                  data_film["nom_film"])
+            data_client = mybd_conn.fetchone()
+            print("data_client ", data_client, " type ", type(data_client), " genre ",
+                  data_client["nom_client"])
 
             # Afficher la valeur sélectionnée dans le champ du formulaire "film_update_wtf.html"
-            form_update_film.nom_film_update_wtf.data = data_film["nom_film"]
-            form_update_film.duree_film_update_wtf.data = data_film["duree_film"]
-            # Debug simple pour contrôler la valeur dans la console "run" de PyCharm
-            print(f" duree film  ", data_film["duree_film"], "  type ", type(data_film["duree_film"]))
-            form_update_film.description_film_update_wtf.data = data_film["description_film"]
-            form_update_film.cover_link_film_update_wtf.data = data_film["cover_link_film"]
-            form_update_film.datesortie_film_update_wtf.data = data_film["date_sortie_film"]
+            form_update_client.nom_client_update_wtf.data = data_client["nom_client"]
+            form_update_client.prenom_client_update_wtf.data = data_client["prenom_client"]
+            form_update_client.date_nais_client_update_wtf.data = data_client["date_client"]
+            form_update_client.fk_genre_client_update_wtf.data = data_client["genre_client"]
+            form_update_client.assu_maladie_client_update_wtf.data = data_client["assurance_client"]
 
     except Exception as Exception_film_update_wtf:
         raise ExceptionFilmUpdateWtf(f"fichier : {Path(__file__).name}  ;  "
                                      f"{film_update_wtf.__name__} ; "
                                      f"{Exception_film_update_wtf}")
 
-    return render_template("clients/film_update_wtf.html", form_update_film=form_update_film)
+    return render_template("clients/film_update_wtf.html", form_update_client=form_update_client)
 
 
 """Effacer(delete) un film qui a été sélectionné dans le formulaire "films_genres_afficher.html"
