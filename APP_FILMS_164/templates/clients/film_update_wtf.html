@@ -13,7 +13,7 @@
 				<div class="form-group">
 					<p>
 						{{ form_update_client.nom_client_update_wtf.label }}<br>
-						{{ form_update_client.nom_client_update_wtf(cols=50, rows=3) }}<br>
+						{{ form_update_client.nom_client_update_wtf(size=32) }}<br>
 						{% for error in form_update_client.nom_client_update_wtf.errors %}
 						<span style="color: red;">[{{ error }}]</span>
 						{% endfor %}

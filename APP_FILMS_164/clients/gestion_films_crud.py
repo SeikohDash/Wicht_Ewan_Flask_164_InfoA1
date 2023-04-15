@@ -115,11 +115,11 @@ def film_update_wtf():
                                         }
             print("valeur_update_dictionnaire ", valeur_update_dictionnaire)
 
-            str_sql_update_nom_film = """UPDATE t_client SET nom_client = %(value_nom_client)s,
-                                                            prenom_client = %(value_prenom_client)s,
-                                                            date_client = %(value_date_client)s,
-                                                            genre_client = %(value_genre_client)s,
-                                                            assurance_client = %(value_assurance_client)s
+            str_sql_update_nom_film = """UPDATE t_client SET nom = %(value_nom_client)s,
+                                                            prenom = %(value_prenom_client)s,
+                                                            date_de_nais = %(value_date_client)s,
+                                                            fk_genre = %(value_genre_client)s,
+                                                            Assu_maladie = %(value_assurance_client)s
                                                             WHERE id_client = %(value_id_client)s"""
             with DBconnection() as mconn_bd:
                 mconn_bd.execute(str_sql_update_nom_film, valeur_update_dictionnaire)
@@ -139,14 +139,14 @@ def film_update_wtf():
             # Une seule valeur est suffisante "fetchone()", vu qu'il n'y a qu'un seul champ "nom genre" pour l'UPDATE
             data_client = mybd_conn.fetchone()
             print("data_client ", data_client, " type ", type(data_client), " genre ",
-                  data_client["nom_client"])
+                  data_client["nom"])
 
             # Afficher la valeur sélectionnée dans le champ du formulaire "film_update_wtf.html"
-            form_update_client.nom_client_update_wtf.data = data_client["nom_client"]
-            form_update_client.prenom_client_update_wtf.data = data_client["prenom_client"]
-            form_update_client.date_nais_client_update_wtf.data = data_client["date_client"]
-            form_update_client.fk_genre_client_update_wtf.data = data_client["genre_client"]
-            form_update_client.assu_maladie_client_update_wtf.data = data_client["assurance_client"]
+            form_update_client.nom_client_update_wtf.data = data_client["nom"]
+            form_update_client.prenom_client_update_wtf.data = data_client["prenom"]
+            form_update_client.date_nais_client_update_wtf.data = data_client["date_de_nais"]
+            form_update_client.fk_genre_client_update_wtf.data = data_client["fk_genre"]
+            form_update_client.assu_maladie_client_update_wtf.data = data_client["Assu_maladie"]
 
     except Exception as Exception_film_update_wtf:
         raise ExceptionFilmUpdateWtf(f"fichier : {Path(__file__).name}  ;  "
