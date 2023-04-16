@@ -11,35 +11,35 @@
 				<!-- Protection contre les attaques Cross-Site Request Forgery (CSRF) -->
 				{{ form_update_client.hidden_tag() }}
 				<div class="form-group">
-					<p>
+					<p style = "color:white">
 						{{ form_update_client.nom_client_update_wtf.label }}<br>
 						{{ form_update_client.nom_client_update_wtf(size=32) }}<br>
 						{% for error in form_update_client.nom_client_update_wtf.errors %}
 						<span style="color: red;">[{{ error }}]</span>
 						{% endfor %}
 					</p>
-					<p>
+					<p style = "color:white">
 						{{ form_update_client.prenom_client_update_wtf.label }}<br>
 						{{ form_update_client.prenom_client_update_wtf(size=32) }}<br>
 						{% for error in form_update_client.prenom_client_update_wtf.errors %}
 						<span style="color: red;">[{{ error }}]</span>
 						{% endfor %}
 					</p>
-					<p>
+					<p style = "color:white">
 						{{ form_update_client.date_nais_client_update_wtf.label }}<br>
 						{{ form_update_client.date_nais_client_update_wtf(cols=50, rows=10) }}<br>
 						{% for error in form_update_client.date_nais_client_update_wtf.errors %}
 						<span style="color: red;">[{{ error }}]</span>
 						{% endfor %}
 					</p>
-					<p>
+					<p style = "color:white">
 						{{ form_update_client.fk_genre_client_update_wtf.label }}<br>
 						{{ form_update_client.fk_genre_client_update_wtf(cols=100, rows=10) }}<br>
 						{% for error in form_update_client.fk_genre_client_update_wtf.errors %}
 						<span style="color: red;">[{{ error }}]</span>
 						{% endfor %}
 					</p>
-					<p>
+					<p style = "color:white">
 						{{ form_update_client.assu_maladie_client_update_wtf.label }}<br>
 						{{ form_update_client.assu_maladie_client_update_wtf(size=12) }}<br>
 						{% for error in form_update_client.assu_maladie_client_update_wtf.errors %}

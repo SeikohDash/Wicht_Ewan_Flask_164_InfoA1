@@ -6,18 +6,17 @@
 		<table class="table table-responsive-sm">
             {% if data %}
 				<thead>
-					<tr>
-						<th class="align-middle" >
-						  Client
+					<th class="align-middle" >
+						  Id_client
 						</th>
 						<th class="align-middle" >
 						  Nom
 						</th>
 						<th class="align-middle" >
-						  Prenom
+						  prenom
 						</th>
 						<th class="align-middle" >
-						  Date de naissance
+						  date de naissance
 						</th>
 						<th class="align-middle" >
 						  Genre
@@ -25,6 +24,9 @@
 						<th class="align-middle" >
 						  Assurance maladie
 						</th>
+						<th class="">
+
+                        </th>
 						<th class="">
 
                         </th>
@@ -49,8 +51,11 @@
 					  <th class="align-middle">
 						{{ row.date_de_nais }}
 					  </th>
+					<th class="align-middle">
+						{{ row.nom_genre}}
+					  </th>
 					  <th class="align-middle">
-						{{ row.Assu_malaide}}
+						{{ row.Assu_maladie}}
 					  </th>
 
 					  <th class="align-middle">
@@ -62,13 +67,6 @@
 					  <th class="align-middle">
 						<a class="btn btn-danger" href="{{ url_for('avertissement_sympa_pour_geeks') }}" role="button">Delete</a>
 					  </th>
-					<tr>
-
-						<td class="align-middle" colspan="5">
-							{{ row.fk_genre |default("PAS DE GENRES", True) }}
-						</td>
-					</tr>
-				</tr>
 			</tbody>
 			{% else %}
 				<tbody>

@@ -37,16 +37,16 @@ USE `wicht_ewan_infoa1_pharmacie`;
 -- Export de la structure de la table wicht_ewan_infoa1_pharmacie. t_achat
 CREATE TABLE IF NOT EXISTS `t_achat` (
   `id_achat` int NOT NULL AUTO_INCREMENT,
-  `fk-objets` int DEFAULT NULL,
+  `fk_objets` int DEFAULT NULL,
   `date` date DEFAULT NULL,
   PRIMARY KEY (`id_achat`),
-  KEY `FK_t_achat_objets` (`fk-objets`),
-  CONSTRAINT `FK_t_achat_objets` FOREIGN KEY (`fk-objets`) REFERENCES `t_objets` (`id_objets`)
+  KEY `FK_t_achat_objets` (`fk_objets`),
+  CONSTRAINT `FK_t_achat_objets` FOREIGN KEY (`fk_objets`) REFERENCES `t_objets` (`id_objets`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Export de données de la table wicht_ewan_infoa1_pharmacie.t_achat : ~0 rows (environ)
 /*!40000 ALTER TABLE `t_achat` DISABLE KEYS */;
-INSERT INTO `t_achat` (`id_achat`, `fk-objets`, `date`) VALUES
+INSERT INTO `t_achat` (`id_achat`, `fk_objets`, `date`) VALUES
 	(1, 1, '2023-03-13');
 /*!40000 ALTER TABLE `t_achat` ENABLE KEYS */;
 
@@ -91,12 +91,17 @@ CREATE TABLE IF NOT EXISTS `t_client` (
   PRIMARY KEY (`id_client`),
   KEY `fk_genre` (`fk_genre`),
   CONSTRAINT `fk_genre` FOREIGN KEY (`fk_genre`) REFERENCES `t_genre` (`id_genre`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Export de données de la table wicht_ewan_infoa1_pharmacie.t_client : ~0 rows (environ)
+-- Export de données de la table wicht_ewan_infoa1_pharmacie.t_client : ~6 rows (environ)
 /*!40000 ALTER TABLE `t_client` DISABLE KEYS */;
 INSERT INTO `t_client` (`id_client`, `nom`, `prenom`, `date_de_nais`, `fk_genre`, `Assu_maladie`) VALUES
-	(1, 'Wicht', 'Ewan', '2006-07-06', 1, 'VD');
+	(1, 'Antuness', 'Ewan', '2006-07-06', 1, 'VD'),
+	(2, 'Loic', 'lolo', '2001-01-01', 1, 'VD'),
+	(3, 'LOLO', 'Ewan', '2023-04-13', 1, 'VD'),
+	(4, 'Eric', 'Fabio', '2005-12-05', 1, 'VD'),
+	(5, 'Wicht', 'Stephane', '2004-03-03', 2, 'VD'),
+	(6, 'Meric', 'Lilou', '2005-12-05', 2, 'VD');
 /*!40000 ALTER TABLE `t_client` ENABLE KEYS */;
 
 -- Export de la structure de la table wicht_ewan_infoa1_pharmacie. t_fournisseur
@@ -115,43 +120,43 @@ CREATE TABLE IF NOT EXISTS `t_genre` (
   `id_genre` int NOT NULL AUTO_INCREMENT,
   `nom_genre` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id_genre`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Export de données de la table wicht_ewan_infoa1_pharmacie.t_genre : ~3 rows (environ)
 /*!40000 ALTER TABLE `t_genre` DISABLE KEYS */;
 INSERT INTO `t_genre` (`id_genre`, `nom_genre`) VALUES
-	(1, 'M'),
-	(2, 'F'),
-	(4, 'lo');
+	(1, 'homme'),
+	(2, 'femme'),
+	(3, 'autre');
 /*!40000 ALTER TABLE `t_genre` ENABLE KEYS */;
 
 -- Export de la structure de la table wicht_ewan_infoa1_pharmacie. t_mail
 CREATE TABLE IF NOT EXISTS `t_mail` (
   `id_mail` int NOT NULL AUTO_INCREMENT,
-  `nom-mail` varchar(50) DEFAULT NULL,
+  `nom_mail` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id_mail`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Export de données de la table wicht_ewan_infoa1_pharmacie.t_mail : ~0 rows (environ)
 /*!40000 ALTER TABLE `t_mail` DISABLE KEYS */;
-INSERT INTO `t_mail` (`id_mail`, `nom-mail`) VALUES
+INSERT INTO `t_mail` (`id_mail`, `nom_mail`) VALUES
 	(1, 'e.wicht@gmail.com');
 /*!40000 ALTER TABLE `t_mail` ENABLE KEYS */;
 
 -- Export de la structure de la table wicht_ewan_infoa1_pharmacie. t_mise_en_stock
 CREATE TABLE IF NOT EXISTS `t_mise_en_stock` (
   `id_mise_en_stock` int NOT NULL AUTO_INCREMENT,
-  `fk-objets` int DEFAULT NULL,
+  `fk_objets` int DEFAULT NULL,
   `date` date DEFAULT NULL,
   `nb_objets` int DEFAULT NULL,
   PRIMARY KEY (`id_mise_en_stock`),
-  KEY `FK_t_mise_en_stock_objets` (`fk-objets`),
-  CONSTRAINT `FK_t_mise_en_stock_objets` FOREIGN KEY (`fk-objets`) REFERENCES `t_objets` (`id_objets`)
+  KEY `FK_t_mise_en_stock_objets` (`fk_objets`),
+  CONSTRAINT `FK_t_mise_en_stock_objets` FOREIGN KEY (`fk_objets`) REFERENCES `t_objets` (`id_objets`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Export de données de la table wicht_ewan_infoa1_pharmacie.t_mise_en_stock : ~0 rows (environ)
 /*!40000 ALTER TABLE `t_mise_en_stock` DISABLE KEYS */;
-INSERT INTO `t_mise_en_stock` (`id_mise_en_stock`, `fk-objets`, `date`, `nb_objets`) VALUES
+INSERT INTO `t_mise_en_stock` (`id_mise_en_stock`, `fk_objets`, `date`, `nb_objets`) VALUES
 	(1, 1, '2023-03-13', 10);
 /*!40000 ALTER TABLE `t_mise_en_stock` ENABLE KEYS */;
 
@@ -175,99 +180,99 @@ INSERT INTO `t_objets` (`id_objets`, `medic`, `vaccin`, `perimer`, `cb_ean`, `pr
 -- Export de la structure de la table wicht_ewan_infoa1_pharmacie. t_pers_achat_client
 CREATE TABLE IF NOT EXISTS `t_pers_achat_client` (
   `id_pers_achat_client` int NOT NULL AUTO_INCREMENT,
-  `fk-client` int DEFAULT NULL,
-  `fk-achat_client` int DEFAULT NULL,
+  `fk_client` int DEFAULT NULL,
+  `fk_achat_client` int DEFAULT NULL,
   PRIMARY KEY (`id_pers_achat_client`),
-  KEY `FK_t_pers_achat_client_achat_client` (`fk-achat_client`),
-  KEY `FK_t_pers_achat_client_client` (`fk-client`),
-  CONSTRAINT `FK_t_pers_achat_client_achat_client` FOREIGN KEY (`fk-achat_client`) REFERENCES `t_achat_client` (`id_achat_client`),
-  CONSTRAINT `FK_t_pers_achat_client_client` FOREIGN KEY (`fk-client`) REFERENCES `t_client` (`id_client`)
+  KEY `FK_t_pers_achat_client_achat_client` (`fk_achat_client`),
+  KEY `FK_t_pers_achat_client_client` (`fk_client`),
+  CONSTRAINT `FK_t_pers_achat_client_achat_client` FOREIGN KEY (`fk_achat_client`) REFERENCES `t_achat_client` (`id_achat_client`),
+  CONSTRAINT `FK_t_pers_achat_client_client` FOREIGN KEY (`fk_client`) REFERENCES `t_client` (`id_client`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Export de données de la table wicht_ewan_infoa1_pharmacie.t_pers_achat_client : ~0 rows (environ)
 /*!40000 ALTER TABLE `t_pers_achat_client` DISABLE KEYS */;
-INSERT INTO `t_pers_achat_client` (`id_pers_achat_client`, `fk-client`, `fk-achat_client`) VALUES
+INSERT INTO `t_pers_achat_client` (`id_pers_achat_client`, `fk_client`, `fk_achat_client`) VALUES
 	(1, 1, 1);
 /*!40000 ALTER TABLE `t_pers_achat_client` ENABLE KEYS */;
 
 -- Export de la structure de la table wicht_ewan_infoa1_pharmacie. t_pers_adresse
 CREATE TABLE IF NOT EXISTS `t_pers_adresse` (
   `id_pers_adresse` int NOT NULL AUTO_INCREMENT,
-  `fk-client` int DEFAULT NULL,
-  `fk-adresse` int DEFAULT NULL,
+  `fk_client` int DEFAULT NULL,
+  `fk_adresse` int DEFAULT NULL,
   PRIMARY KEY (`id_pers_adresse`),
-  KEY `FK_t_pers_adresse_client` (`fk-client`),
-  KEY `FK_t_pers_adresse_adresse` (`fk-adresse`),
-  CONSTRAINT `FK_t_pers_adresse_adresse` FOREIGN KEY (`fk-adresse`) REFERENCES `t_adresse` (`id_adresse`),
-  CONSTRAINT `FK_t_pers_adresse_client` FOREIGN KEY (`fk-client`) REFERENCES `t_client` (`id_client`)
+  KEY `FK_t_pers_adresse_client` (`fk_client`),
+  KEY `FK_t_pers_adresse_adresse` (`fk_adresse`),
+  CONSTRAINT `FK_t_pers_adresse_adresse` FOREIGN KEY (`fk_adresse`) REFERENCES `t_adresse` (`id_adresse`),
+  CONSTRAINT `FK_t_pers_adresse_client` FOREIGN KEY (`fk_client`) REFERENCES `t_client` (`id_client`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Export de données de la table wicht_ewan_infoa1_pharmacie.t_pers_adresse : ~0 rows (environ)
 /*!40000 ALTER TABLE `t_pers_adresse` DISABLE KEYS */;
-INSERT INTO `t_pers_adresse` (`id_pers_adresse`, `fk-client`, `fk-adresse`) VALUES
+INSERT INTO `t_pers_adresse` (`id_pers_adresse`, `fk_client`, `fk_adresse`) VALUES
 	(1, 1, 1);
 /*!40000 ALTER TABLE `t_pers_adresse` ENABLE KEYS */;
 
 -- Export de la structure de la table wicht_ewan_infoa1_pharmacie. t_pers_mail
 CREATE TABLE IF NOT EXISTS `t_pers_mail` (
   `id_pers_mail` int NOT NULL AUTO_INCREMENT,
-  `fk-client` int DEFAULT NULL,
-  `fk-mail` int DEFAULT NULL,
+  `fk_client` int DEFAULT NULL,
+  `fk_mail` int DEFAULT NULL,
   PRIMARY KEY (`id_pers_mail`),
-  KEY `FK_t_pers_mail_client` (`fk-client`),
-  KEY `FK_t_pers_mail_mail` (`fk-mail`),
-  CONSTRAINT `FK_t_pers_mail_client` FOREIGN KEY (`fk-client`) REFERENCES `t_client` (`id_client`),
-  CONSTRAINT `FK_t_pers_mail_mail` FOREIGN KEY (`fk-mail`) REFERENCES `t_mail` (`id_mail`)
+  KEY `FK_t_pers_mail_client` (`fk_client`),
+  KEY `FK_t_pers_mail_mail` (`fk_mail`),
+  CONSTRAINT `FK_t_pers_mail_client` FOREIGN KEY (`fk_client`) REFERENCES `t_client` (`id_client`),
+  CONSTRAINT `FK_t_pers_mail_mail` FOREIGN KEY (`fk_mail`) REFERENCES `t_mail` (`id_mail`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Export de données de la table wicht_ewan_infoa1_pharmacie.t_pers_mail : ~0 rows (environ)
 /*!40000 ALTER TABLE `t_pers_mail` DISABLE KEYS */;
-INSERT INTO `t_pers_mail` (`id_pers_mail`, `fk-client`, `fk-mail`) VALUES
+INSERT INTO `t_pers_mail` (`id_pers_mail`, `fk_client`, `fk_mail`) VALUES
 	(1, 1, 1);
 /*!40000 ALTER TABLE `t_pers_mail` ENABLE KEYS */;
 
 -- Export de la structure de la table wicht_ewan_infoa1_pharmacie. t_pers_telephone
 CREATE TABLE IF NOT EXISTS `t_pers_telephone` (
   `id_pers_telephone` int NOT NULL AUTO_INCREMENT,
-  `fk-client` int DEFAULT NULL,
-  `fk-telephone` int DEFAULT NULL,
+  `fk_client` int DEFAULT NULL,
+  `fk_telephone` int DEFAULT NULL,
   PRIMARY KEY (`id_pers_telephone`),
-  KEY `FK_t_pers_telephone_client` (`fk-client`),
-  KEY `FK_t_pers_telephone_telephone` (`fk-telephone`),
-  CONSTRAINT `FK_t_pers_telephone_client` FOREIGN KEY (`fk-client`) REFERENCES `t_client` (`id_client`),
-  CONSTRAINT `FK_t_pers_telephone_telephone` FOREIGN KEY (`fk-telephone`) REFERENCES `t_telephone` (`id_telephone`)
+  KEY `FK_t_pers_telephone_client` (`fk_client`),
+  KEY `FK_t_pers_telephone_telephone` (`fk_telephone`),
+  CONSTRAINT `FK_t_pers_telephone_client` FOREIGN KEY (`fk_client`) REFERENCES `t_client` (`id_client`),
+  CONSTRAINT `FK_t_pers_telephone_telephone` FOREIGN KEY (`fk_telephone`) REFERENCES `t_telephone` (`id_telephone`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Export de données de la table wicht_ewan_infoa1_pharmacie.t_pers_telephone : ~0 rows (environ)
 /*!40000 ALTER TABLE `t_pers_telephone` DISABLE KEYS */;
-INSERT INTO `t_pers_telephone` (`id_pers_telephone`, `fk-client`, `fk-telephone`) VALUES
+INSERT INTO `t_pers_telephone` (`id_pers_telephone`, `fk_client`, `fk_telephone`) VALUES
 	(1, 1, 1);
 /*!40000 ALTER TABLE `t_pers_telephone` ENABLE KEYS */;
 
 -- Export de la structure de la table wicht_ewan_infoa1_pharmacie. t_pers_traitement
 CREATE TABLE IF NOT EXISTS `t_pers_traitement` (
   `id_pers_traitement` int NOT NULL AUTO_INCREMENT,
-  `fk-client` int NOT NULL DEFAULT '0',
-  `fk-traitement` int NOT NULL DEFAULT '0',
+  `fk_client` int NOT NULL DEFAULT '0',
+  `fk_traitement` int NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_pers_traitement`),
-  KEY `fk-client` (`fk-client`),
-  KEY `fk-traitement` (`fk-traitement`)
+  KEY `fk-client` (`fk_client`),
+  KEY `fk-traitement` (`fk_traitement`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Export de données de la table wicht_ewan_infoa1_pharmacie.t_pers_traitement : ~0 rows (environ)
 /*!40000 ALTER TABLE `t_pers_traitement` DISABLE KEYS */;
-INSERT INTO `t_pers_traitement` (`id_pers_traitement`, `fk-client`, `fk-traitement`) VALUES
+INSERT INTO `t_pers_traitement` (`id_pers_traitement`, `fk_client`, `fk_traitement`) VALUES
 	(1, 1, 1);
 /*!40000 ALTER TABLE `t_pers_traitement` ENABLE KEYS */;
 
 -- Export de la structure de la table wicht_ewan_infoa1_pharmacie. t_reception
 CREATE TABLE IF NOT EXISTS `t_reception` (
   `id_reception` int NOT NULL AUTO_INCREMENT,
-  `fk-objets` int DEFAULT NULL,
+  `fk_objets` int DEFAULT NULL,
   `date` date DEFAULT NULL,
   PRIMARY KEY (`id_reception`),
-  KEY `FK_t_reception_objets` (`fk-objets`),
-  CONSTRAINT `FK_t_reception_objets` FOREIGN KEY (`fk-objets`) REFERENCES `t_objets` (`id_objets`)
+  KEY `FK_t_reception_objets` (`fk_objets`),
+  CONSTRAINT `FK_t_reception_objets` FOREIGN KEY (`fk_objets`) REFERENCES `t_objets` (`id_objets`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Export de données de la table wicht_ewan_infoa1_pharmacie.t_reception : ~0 rows (environ)
@@ -277,29 +282,29 @@ CREATE TABLE IF NOT EXISTS `t_reception` (
 -- Export de la structure de la table wicht_ewan_infoa1_pharmacie. t_retour_client
 CREATE TABLE IF NOT EXISTS `t_retour_client` (
   `id_retourner` int NOT NULL AUTO_INCREMENT,
-  `fk-objets` int DEFAULT NULL,
+  `fk_objets` int DEFAULT NULL,
   PRIMARY KEY (`id_retourner`),
-  KEY `FK__objets` (`fk-objets`),
-  CONSTRAINT `FK__objets` FOREIGN KEY (`fk-objets`) REFERENCES `t_objets` (`id_objets`)
+  KEY `FK__objets` (`fk_objets`),
+  CONSTRAINT `FK__objets` FOREIGN KEY (`fk_objets`) REFERENCES `t_objets` (`id_objets`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Export de données de la table wicht_ewan_infoa1_pharmacie.t_retour_client : ~0 rows (environ)
 /*!40000 ALTER TABLE `t_retour_client` DISABLE KEYS */;
-INSERT INTO `t_retour_client` (`id_retourner`, `fk-objets`) VALUES
+INSERT INTO `t_retour_client` (`id_retourner`, `fk_objets`) VALUES
 	(1, 1);
 /*!40000 ALTER TABLE `t_retour_client` ENABLE KEYS */;
 
 -- Export de la structure de la table wicht_ewan_infoa1_pharmacie. t_retour_objets
 CREATE TABLE IF NOT EXISTS `t_retour_objets` (
   `id_retour_objets` int NOT NULL AUTO_INCREMENT,
-  `fk-objets` int DEFAULT NULL,
-  `fk-fournisseur` int DEFAULT NULL,
+  `fk_objets` int DEFAULT NULL,
+  `fk_fournisseur` int DEFAULT NULL,
   `date` date DEFAULT NULL,
   PRIMARY KEY (`id_retour_objets`),
-  KEY `FK_t_retour_objets_objets` (`fk-objets`),
-  KEY `FK_t_retour_objets_fournisseur` (`fk-fournisseur`),
-  CONSTRAINT `FK_t_retour_objets_fournisseur` FOREIGN KEY (`fk-fournisseur`) REFERENCES `t_fournisseur` (`id_fournisseur`),
-  CONSTRAINT `FK_t_retour_objets_objets` FOREIGN KEY (`fk-objets`) REFERENCES `t_objets` (`id_objets`)
+  KEY `FK_t_retour_objets_objets` (`fk_objets`),
+  KEY `FK_t_retour_objets_fournisseur` (`fk_fournisseur`),
+  CONSTRAINT `FK_t_retour_objets_fournisseur` FOREIGN KEY (`fk_fournisseur`) REFERENCES `t_fournisseur` (`id_fournisseur`),
+  CONSTRAINT `FK_t_retour_objets_objets` FOREIGN KEY (`fk_objets`) REFERENCES `t_objets` (`id_objets`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Export de données de la table wicht_ewan_infoa1_pharmacie.t_retour_objets : ~0 rows (environ)
@@ -309,12 +314,12 @@ CREATE TABLE IF NOT EXISTS `t_retour_objets` (
 -- Export de la structure de la table wicht_ewan_infoa1_pharmacie. t_retrait_du_stock
 CREATE TABLE IF NOT EXISTS `t_retrait_du_stock` (
   `id_retrait_du_stock` int NOT NULL AUTO_INCREMENT,
-  `fk-objets` int DEFAULT NULL,
+  `fk_objets` int DEFAULT NULL,
   `date` date DEFAULT NULL,
   `nb_objets` int DEFAULT NULL,
   PRIMARY KEY (`id_retrait_du_stock`),
-  KEY `FK_t_retrait_du_stock_objets` (`fk-objets`),
-  CONSTRAINT `FK_t_retrait_du_stock_objets` FOREIGN KEY (`fk-objets`) REFERENCES `t_objets` (`id_objets`)
+  KEY `FK_t_retrait_du_stock_objets` (`fk_objets`),
+  CONSTRAINT `FK_t_retrait_du_stock_objets` FOREIGN KEY (`fk_objets`) REFERENCES `t_objets` (`id_objets`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Export de données de la table wicht_ewan_infoa1_pharmacie.t_retrait_du_stock : ~0 rows (environ)
@@ -324,16 +329,16 @@ CREATE TABLE IF NOT EXISTS `t_retrait_du_stock` (
 -- Export de la structure de la table wicht_ewan_infoa1_pharmacie. t_stock
 CREATE TABLE IF NOT EXISTS `t_stock` (
   `id_stock` int NOT NULL AUTO_INCREMENT,
-  `fk-objets` int DEFAULT NULL,
+  `fk_objets` int DEFAULT NULL,
   `emplacement` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id_stock`),
-  KEY `FK_stock_objets` (`fk-objets`),
-  CONSTRAINT `FK_stock_objets` FOREIGN KEY (`fk-objets`) REFERENCES `t_objets` (`id_objets`)
+  KEY `FK_stock_objets` (`fk_objets`),
+  CONSTRAINT `FK_stock_objets` FOREIGN KEY (`fk_objets`) REFERENCES `t_objets` (`id_objets`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Export de données de la table wicht_ewan_infoa1_pharmacie.t_stock : ~0 rows (environ)
 /*!40000 ALTER TABLE `t_stock` DISABLE KEYS */;
-INSERT INTO `t_stock` (`id_stock`, `fk-objets`, `emplacement`) VALUES
+INSERT INTO `t_stock` (`id_stock`, `fk_objets`, `emplacement`) VALUES
 	(1, 1, 'A2');
 /*!40000 ALTER TABLE `t_stock` ENABLE KEYS */;
 
@@ -368,10 +373,10 @@ INSERT INTO `t_traitement` (`id_traitement`, `Ordonnance`, `type_traitement`) VA
 -- Export de la structure de la table wicht_ewan_infoa1_pharmacie. t_vendu_client
 CREATE TABLE IF NOT EXISTS `t_vendu_client` (
   `id_vendu` int NOT NULL AUTO_INCREMENT,
-  `fk-objets` int DEFAULT NULL,
+  `fk_objets` int DEFAULT NULL,
   PRIMARY KEY (`id_vendu`),
-  KEY `FK_t_vendu_objets` (`fk-objets`),
-  CONSTRAINT `FK_t_vendu_objets` FOREIGN KEY (`fk-objets`) REFERENCES `t_objets` (`id_objets`)
+  KEY `FK_t_vendu_objets` (`fk_objets`),
+  CONSTRAINT `FK_t_vendu_objets` FOREIGN KEY (`fk_objets`) REFERENCES `t_objets` (`id_objets`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Export de données de la table wicht_ewan_infoa1_pharmacie.t_vendu_client : ~0 rows (environ)
@@ -381,12 +386,12 @@ CREATE TABLE IF NOT EXISTS `t_vendu_client` (
 -- Export de la structure de la table wicht_ewan_infoa1_pharmacie. t_vols
 CREATE TABLE IF NOT EXISTS `t_vols` (
   `id_vols` int NOT NULL AUTO_INCREMENT,
-  `fk-objets` int DEFAULT NULL,
+  `fk_objets` int DEFAULT NULL,
   `date` date DEFAULT NULL,
   `nb_objets` int DEFAULT NULL,
   PRIMARY KEY (`id_vols`),
-  KEY `FK_t_vols_objets` (`fk-objets`),
-  CONSTRAINT `FK_t_vols_objets` FOREIGN KEY (`fk-objets`) REFERENCES `t_objets` (`id_objets`)
+  KEY `FK_t_vols_objets` (`fk_objets`),
+  CONSTRAINT `FK_t_vols_objets` FOREIGN KEY (`fk_objets`) REFERENCES `t_objets` (`id_objets`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Export de données de la table wicht_ewan_infoa1_pharmacie.t_vols : ~0 rows (environ)

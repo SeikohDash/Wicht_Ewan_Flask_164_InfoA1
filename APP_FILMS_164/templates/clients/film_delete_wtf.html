@@ -5,29 +5,29 @@
 	<div class="row">
 		<div class="col-md-12">
 			<p>
-				Effacer un FILM
+				Effacer un client
 			</p>
 			<table class="table table-responsive-sm">
 				{% if data_film_del %}
 				<thead>
 				<tr>
-					<th class="">
+					<th class="" >
 						Id
 					</th>
 					<th class="">
 						Nom
 					</th>
 					<th class="">
-						Durée
+						Prenom
 					</th>
 					<th class="">
-						Date de sortie
+						Date de naissance
 					</th>
 					<th class="">
-						Description
+						Genre
 					</th>
 					<th class="">
-						Affiche
+						Assurance Maladie
 					</th>
 				</tr>
 				</thead>
@@ -36,24 +36,22 @@
 				<tbody>
 				<tr>
 					<th class="align-middle">
-						{{ row.id_film }}
+						{{ row.id_client }}
 					</th>
 					<th class="align-middle">
-						{{ row.nom_film }}
+						{{ row.nom }}
 					</th>
 					<th class="align-middle">
-						{{ row.duree_film|default("", True) }}
+						{{ row.prenom }}
 					</th>
 					<th class="align-middle">
-						{{ row.date_sortie_film|default("", True) }}
+						{{ row.date_de_nais }}
 					</th>
 					<th class="align-middle">
-						{{ row.description_film|default("", True) }}
+						{{ row.fk_genre }}
 					</th>
 					<th class="align-middle">
-						<img class="img" src={{ row.cover_link_film|default(None, True) }}
-							 style="border: 0;display:block; width:150px; max-height:auto;"
-							 alt="image masquée FFP8 (in COVID-19 Memory) (absente) mod 164">
+						{{ row.Assu_maladie }}
 					</th>
 
 				<tr>
@@ -73,14 +71,14 @@
 
 			<form action="" method="POST" novalidate>
 				<!-- Protection contre les attaques Cross-Site Request Forgery (CSRF) -->
-				{{ form_delete_film.hidden_tag() }}
-				{{ form_delete_film.submit_btn_conf_del_film(class="btn btn-info") }}
+				{{ form_delete_client.hidden_tag() }}
+				{{ form_delete_client.submit_btn_conf_del_film(class="btn btn-info") }}
 
 				{% if btn_submit_del %}
-					{{ form_delete_film.submit_btn_del_film(class="btn btn-danger") }}
+					{{ form_delete_client.submit_btn_del_film(class="btn btn-danger") }}
 				{% endif %}
 
-				{{ form_delete_film.submit_btn_annuler(class="btn btn-primary") }}
+				{{ form_delete_client.submit_btn_annuler(class="btn btn-primary") }}
 			</form>
 		</div>
 	</div>
