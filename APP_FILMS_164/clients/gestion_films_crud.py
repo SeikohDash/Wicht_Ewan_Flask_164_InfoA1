@@ -190,9 +190,9 @@ def film_delete_wtf():
             data_client_delete = session['data_client_delete']
             print("data_client_delete ", data_client_delete)
 
-            flash(f"Effacer le film de façon définitive de la BD !!!", "danger")
+            flash(f"Effacer le client de façon définitive de la BD !!!", "danger")
             # L'utilisateur vient de cliquer sur le bouton de confirmation pour effacer...
-            # On affiche le bouton "Effacer genre" qui va irrémédiablement EFFACER le genre
+            # On affiche le bouton "Effacer client" qui va irrémédiablement EFFACER le client
             btn_submit_del = True
 
         # L'utilisateur a vraiment décidé d'effacer.
@@ -200,13 +200,21 @@ def film_delete_wtf():
             valeur_delete_dictionnaire = {"value_id_client": id_client_delete}
             print("valeur_delete_dictionnaire ", valeur_delete_dictionnaire)
 
-            str_sql_delete_fk_film_genre = """DELETE FROM t_pers_achat_client WHERE fk_client = %(value_id_client)s"""
-            str_sql_delete_film = """DELETE FROM t_client WHERE id_client = %(value_id_client)s"""
+            str_sql_delete_fk_traitement_client = """DELETE FROM t_pers_traitement WHERE fk_client = %(value_id_client)s"""
+            str_sql_delete_fk_telephone_client = """DELETE FROM t_pers_telephone WHERE fk_client = %(value_id_client)s"""
+            str_sql_delete_fk_mail_client = """DELETE FROM t_pers_mail WHERE fk_client = %(value_id_client)s"""
+            str_sql_delete_fk_adresse_client = """DELETE FROM t_pers_adresse WHERE fk_client = %(value_id_client)s"""
+            str_sql_delete_fk_achat_client = """DELETE FROM t_pers_achat_client WHERE fk_client = %(value_id_client)s"""
+            str_sql_delete_client = """DELETE FROM t_client WHERE id_client = %(value_id_client)s"""
             # Manière brutale d'effacer d'abord la "fk_film", même si elle n'existe pas dans la "t_genre_film"
             # Ensuite on peut effacer le film vu qu'il n'est plus "lié" (INNODB) dans la "t_genre_film"
             with DBconnection() as mconn_bd:
-                mconn_bd.execute(str_sql_delete_fk_film_genre, valeur_delete_dictionnaire)
-                mconn_bd.execute(str_sql_delete_film, valeur_delete_dictionnaire)
+                mconn_bd.execute(str_sql_delete_fk_traitement_client, valeur_delete_dictionnaire)
+                mconn_bd.execute(str_sql_delete_fk_telephone_client, valeur_delete_dictionnaire)
+                mconn_bd.execute(str_sql_delete_fk_mail_client, valeur_delete_dictionnaire)
+                mconn_bd.execute(str_sql_delete_fk_achat_client, valeur_delete_dictionnaire)
+                mconn_bd.execute(str_sql_delete_fk_adresse_client, valeur_delete_dictionnaire)
+                mconn_bd.execute(str_sql_delete_client, valeur_delete_dictionnaire)
 
             flash(f"Client définitivement effacé !!", "success")
             print(f"Client définitivement effacé !!")
