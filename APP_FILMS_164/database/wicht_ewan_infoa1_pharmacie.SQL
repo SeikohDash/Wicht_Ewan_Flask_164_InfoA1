@@ -80,6 +80,21 @@ INSERT INTO `t_adresse` (`id_adresse`, `nom_rue`, `NPA`, `Localite`) VALUES
 	(1, 'Route d\'Yverdon', '1033', 'cheseaux');
 /*!40000 ALTER TABLE `t_adresse` ENABLE KEYS */;
 
+-- Export de la structure de la table wicht_ewan_infoa1_pharmacie. t_assurance
+CREATE TABLE IF NOT EXISTS `t_assurance` (
+  `id_assu` int NOT NULL AUTO_INCREMENT,
+  `nom_assu` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id_assu`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Export de données de la table wicht_ewan_infoa1_pharmacie.t_assurance : ~0 rows (environ)
+/*!40000 ALTER TABLE `t_assurance` DISABLE KEYS */;
+INSERT INTO `t_assurance` (`id_assu`, `nom_assu`) VALUES
+	(1, 'Assura'),
+	(2, 'Helsana'),
+	(3, 'Visana');
+/*!40000 ALTER TABLE `t_assurance` ENABLE KEYS */;
+
 -- Export de la structure de la table wicht_ewan_infoa1_pharmacie. t_client
 CREATE TABLE IF NOT EXISTS `t_client` (
   `id_client` int NOT NULL AUTO_INCREMENT,
@@ -87,21 +102,22 @@ CREATE TABLE IF NOT EXISTS `t_client` (
   `prenom` varchar(50) DEFAULT NULL,
   `date_de_nais` date DEFAULT NULL,
   `fk_genre` int DEFAULT NULL,
-  `Assu_maladie` varchar(50) DEFAULT NULL,
+  `fk_assu` int DEFAULT NULL,
   PRIMARY KEY (`id_client`),
   KEY `fk_genre` (`fk_genre`),
-  CONSTRAINT `fk_genre` FOREIGN KEY (`fk_genre`) REFERENCES `t_genre` (`id_genre`)
+  KEY `FK_t_client_t_assurance` (`fk_assu`),
+  CONSTRAINT `fk_genre` FOREIGN KEY (`fk_genre`) REFERENCES `t_genre` (`id_genre`),
+  CONSTRAINT `FK_t_client_t_assurance` FOREIGN KEY (`fk_assu`) REFERENCES `t_assurance` (`id_assu`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Export de données de la table wicht_ewan_infoa1_pharmacie.t_client : ~6 rows (environ)
+-- Export de données de la table wicht_ewan_infoa1_pharmacie.t_client : ~5 rows (environ)
 /*!40000 ALTER TABLE `t_client` DISABLE KEYS */;
-INSERT INTO `t_client` (`id_client`, `nom`, `prenom`, `date_de_nais`, `fk_genre`, `Assu_maladie`) VALUES
-	(1, 'Antuness', 'Ewan', '2006-07-06', 1, 'VD'),
-	(2, 'Loic', 'lolo', '2001-01-01', 1, 'VD'),
-	(3, 'LOLO', 'Ewan', '2023-04-13', 1, 'VD'),
-	(4, 'Eric', 'Fabio', '2005-12-05', 1, 'VD'),
-	(5, 'Wicht', 'Stephane', '2004-03-03', 2, 'VD'),
-	(6, 'Meric', 'Lilou', '2005-12-05', 2, 'VD');
+INSERT INTO `t_client` (`id_client`, `nom`, `prenom`, `date_de_nais`, `fk_genre`, `fk_assu`) VALUES
+	(2, 'Loic', 'lolo', '2001-01-01', 1, 2),
+	(3, 'LOLO', 'Ewan', '2023-04-13', 1, 1),
+	(4, 'Eric', 'Fabio', '2005-12-05', 1, 3),
+	(5, 'Wicht', 'Stephane', '2004-03-03', 2, 1),
+	(6, 'Meric', 'Lilou', '2005-12-05', 2, 1);
 /*!40000 ALTER TABLE `t_client` ENABLE KEYS */;
 
 -- Export de la structure de la table wicht_ewan_infoa1_pharmacie. t_fournisseur
@@ -191,8 +207,6 @@ CREATE TABLE IF NOT EXISTS `t_pers_achat_client` (
 
 -- Export de données de la table wicht_ewan_infoa1_pharmacie.t_pers_achat_client : ~0 rows (environ)
 /*!40000 ALTER TABLE `t_pers_achat_client` DISABLE KEYS */;
-INSERT INTO `t_pers_achat_client` (`id_pers_achat_client`, `fk_client`, `fk_achat_client`) VALUES
-	(1, 1, 1);
 /*!40000 ALTER TABLE `t_pers_achat_client` ENABLE KEYS */;
 
 -- Export de la structure de la table wicht_ewan_infoa1_pharmacie. t_pers_adresse
@@ -209,8 +223,6 @@ CREATE TABLE IF NOT EXISTS `t_pers_adresse` (
 
 -- Export de données de la table wicht_ewan_infoa1_pharmacie.t_pers_adresse : ~0 rows (environ)
 /*!40000 ALTER TABLE `t_pers_adresse` DISABLE KEYS */;
-INSERT INTO `t_pers_adresse` (`id_pers_adresse`, `fk_client`, `fk_adresse`) VALUES
-	(1, 1, 1);
 /*!40000 ALTER TABLE `t_pers_adresse` ENABLE KEYS */;
 
 -- Export de la structure de la table wicht_ewan_infoa1_pharmacie. t_pers_mail
@@ -227,8 +239,6 @@ CREATE TABLE IF NOT EXISTS `t_pers_mail` (
 
 -- Export de données de la table wicht_ewan_infoa1_pharmacie.t_pers_mail : ~0 rows (environ)
 /*!40000 ALTER TABLE `t_pers_mail` DISABLE KEYS */;
-INSERT INTO `t_pers_mail` (`id_pers_mail`, `fk_client`, `fk_mail`) VALUES
-	(1, 1, 1);
 /*!40000 ALTER TABLE `t_pers_mail` ENABLE KEYS */;
 
 -- Export de la structure de la table wicht_ewan_infoa1_pharmacie. t_pers_telephone
@@ -245,8 +255,6 @@ CREATE TABLE IF NOT EXISTS `t_pers_telephone` (
 
 -- Export de données de la table wicht_ewan_infoa1_pharmacie.t_pers_telephone : ~0 rows (environ)
 /*!40000 ALTER TABLE `t_pers_telephone` DISABLE KEYS */;
-INSERT INTO `t_pers_telephone` (`id_pers_telephone`, `fk_client`, `fk_telephone`) VALUES
-	(1, 1, 1);
 /*!40000 ALTER TABLE `t_pers_telephone` ENABLE KEYS */;
 
 -- Export de la structure de la table wicht_ewan_infoa1_pharmacie. t_pers_traitement
@@ -261,8 +269,6 @@ CREATE TABLE IF NOT EXISTS `t_pers_traitement` (
 
 -- Export de données de la table wicht_ewan_infoa1_pharmacie.t_pers_traitement : ~0 rows (environ)
 /*!40000 ALTER TABLE `t_pers_traitement` DISABLE KEYS */;
-INSERT INTO `t_pers_traitement` (`id_pers_traitement`, `fk_client`, `fk_traitement`) VALUES
-	(1, 1, 1);
 /*!40000 ALTER TABLE `t_pers_traitement` ENABLE KEYS */;
 
 -- Export de la structure de la table wicht_ewan_infoa1_pharmacie. t_reception

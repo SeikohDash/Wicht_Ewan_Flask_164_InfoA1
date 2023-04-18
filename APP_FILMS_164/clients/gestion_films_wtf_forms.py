@@ -42,13 +42,10 @@ class FormWTFAddFilm(FlaskForm):
                                                                            NumberRange(min=1, max=3,
                                                                                        message="Le genre doit être 1 2 ou 3")
                                                                            ])
-    assu_maladie_client_regexp = "^([A-Z]|[a-zÀ-ÖØ-öø-ÿ])[A-Za-zÀ-ÖØ-öø-ÿ]*['\- ]?[A-Za-zÀ-ÖØ-öø-ÿ]+$"
-    assu_maladie_client_wtf = StringField("Assurance maladie du client", validators=[Length(min=1, max=50, message="min 2 max 50"),
-                                                                      Regexp(assu_maladie_client_regexp,
-                                                                             message="Pas de chiffres, de caractères "
-                                                                                     "spéciaux, "
-                                                                                     "d'espace à double, de double "
-                                                                                     "apostrophe, de double trait union")
+    fk_assu_client_regexp = ""
+    fk_assu_client_wtf = IntegerField("Assurance maladie du client 1 = Assura 2 = Helsana 3 = Visana", validators=[InputRequired("L'assurance doit etre comrpis entre 1 et 5"),
+                                                                                NumberRange(min=1, max=5,
+                                                                             message="L'assurance doit être 1 et 5")
                                                                       ])
 
     submit = SubmitField("Enregistrer le client")
@@ -87,15 +84,11 @@ class FormWTFUpdateFilm(FlaskForm):
                                                    NumberRange(min=1, max=3,
                                                                message="Le genre doit être 1 2 ou 3")
                                                    ])
-    assu_maladie_client_update_regexp = "^([A-Z]|[a-zÀ-ÖØ-öø-ÿ])[A-Za-zÀ-ÖØ-öø-ÿ]*['\- ]?[A-Za-zÀ-ÖØ-öø-ÿ]+$"
-    assu_maladie_client_update_wtf = StringField("Assurance maladie du client",
-                                          validators=[Length(min=1, max=50, message="min 2 max 50"),
-                                                      Regexp(assu_maladie_client_update_regexp,
-                                                             message="Pas de chiffres, de caractères "
-                                                                     "spéciaux, "
-                                                                     "d'espace à double, de double "
-                                                                     "apostrophe, de double trait union")
-                                                      ])
+    assu_maladie_client_update_regexp = ""
+    fk_assu_client_update_wtf = IntegerField("Assurance maladie du client 1 = Assura 2 = Helsana 3 = Visana", validators=[InputRequired("L'assurance doit etre comrpis entre 1 et 5"),
+                                                    NumberRange(min=1, max=5,
+                                                                message="L'assurance doit être 1 et 5")
+                                                   ])
     submit = SubmitField("Update Client")
 
 

@@ -42,9 +42,9 @@
 						{% endfor %}
 					</p>
 					<p style = "color:white">
-						{{ form.assu_maladie_client_wtf.label }}<br>
-						{{ form.assu_maladie_client_wtf(size=24) }}<br>
-						{% for error in form.assu_maladie_client_wtf.errors %}
+						{{ form.fk_assu_client_wtf.label }}<br>
+						{{ form.fk_assu_client_wtf(size=3) }}<br>
+						{% for error in form.fk_assu_client_wtf.errors %}
 							<span style="color: red;">[{{ error }}]</span>
 						{% endfor %}
 					</p>

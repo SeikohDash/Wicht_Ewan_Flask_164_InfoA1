@@ -32,8 +32,9 @@ def films_genres_afficher(id_film_sel):
     if request.method == "GET":
         try:
             with DBconnection() as mc_afficher:
-                strsql_genres_films_afficher_data = """SELECT id_client, nom, prenom, date_de_nais,nom_genre,Assu_maladie FROM t_client 
-                                            INNER JOIN t_genre ON t_genre.id_genre = t_client.fk_genre"""
+                strsql_genres_films_afficher_data = """SELECT id_client, nom, prenom, date_de_nais,nom_genre,nom_assu FROM t_client 
+                                            INNER JOIN t_genre ON t_genre.id_genre = t_client.fk_genre
+                                            INNER JOIN t_assurance on t_assurance.id_assu = t_client.fk_assu"""
                 if id_film_sel == 0:
                     # le paramètre 0 permet d'afficher tous les films
                     # Sinon le paramètre représente la valeur de l'id du film

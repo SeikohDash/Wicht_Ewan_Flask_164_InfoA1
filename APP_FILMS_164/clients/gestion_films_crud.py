@@ -40,7 +40,7 @@ def film_add_wtf():
                 prenom_client = form.prenom_client_wtf.data
                 date_nais_client = form.date_nais_client_wtf.data
                 fk_genre_client = form.fk_genre_client_wtf.data
-                assu_maladie_client = form.assu_maladie_client_wtf.data
+                fk_assu_client = form.fk_assu_client_wtf.data
 
 
 
@@ -50,11 +50,11 @@ def film_add_wtf():
                                                   "value_prenom_client": prenom_client,
                                                   "value_date_client": date_nais_client,
                                                   "value_genre_client": fk_genre_client,
-                                                  "value_assurance_client": assu_maladie_client
+                                                  "value_assurance_client": fk_assu_client
                                                   }
                 print("valeurs_insertion_dictionnaire ", valeurs_insertion_dictionnaire)
 
-                strsql_insert_film = """INSERT INTO t_client (id_client,nom,prenom,date_de_nais,fk_genre,Assu_maladie) 
+                strsql_insert_film = """INSERT INTO t_client (id_client,nom,prenom,date_de_nais,fk_genre,fk_assu) 
                                         VALUES (NULL,%(value_nom_client)s,%(value_prenom_client)s,%(value_date_client)s,%(value_genre_client)s,%(value_assurance_client)s) """
                 with DBconnection() as mconn_bd:
                     mconn_bd.execute(strsql_insert_film, valeurs_insertion_dictionnaire)
@@ -104,14 +104,14 @@ def film_update_wtf():
             prenom_client_update = form_update_client.prenom_client_update_wtf.data
             date_nais_client_update = form_update_client.date_nais_client_update_wtf.data
             fk_genre_client_update = form_update_client.fk_genre_client_update_wtf.data
-            assu_maladie_client_update = form_update_client.assu_maladie_client_update_wtf.data
+            fk_assu_client_update = form_update_client.fk_assu_client_update_wtf.data
 
             valeur_update_dictionnaire = {"value_id_client": id_client_update,
                                           "value_nom_client": nom_client_update,
                                           "value_prenom_client": prenom_client_update,
                                           "value_date_client": date_nais_client_update,
                                           "value_genre_client": fk_genre_client_update,
-                                          "value_assurance_client": assu_maladie_client_update
+                                          "value_assurance_client": fk_assu_client_update
                                         }
             print("valeur_update_dictionnaire ", valeur_update_dictionnaire)
 
@@ -119,7 +119,7 @@ def film_update_wtf():
                                                             prenom = %(value_prenom_client)s,
                                                             date_de_nais = %(value_date_client)s,
                                                             fk_genre = %(value_genre_client)s,
-                                                            Assu_maladie = %(value_assurance_client)s
+                                                            fk_assu = %(value_assurance_client)s
                                                             WHERE id_client = %(value_id_client)s"""
             with DBconnection() as mconn_bd:
                 mconn_bd.execute(str_sql_update_nom_film, valeur_update_dictionnaire)
@@ -146,7 +146,7 @@ def film_update_wtf():
             form_update_client.prenom_client_update_wtf.data = data_client["prenom"]
             form_update_client.date_nais_client_update_wtf.data = data_client["date_de_nais"]
             form_update_client.fk_genre_client_update_wtf.data = data_client["fk_genre"]
-            form_update_client.assu_maladie_client_update_wtf.data = data_client["Assu_maladie"]
+            form_update_client.fk_assu_client_update_wtf.data = data_client["fk_assu"]
 
     except Exception as Exception_film_update_wtf:
         raise ExceptionFilmUpdateWtf(f"fichier : {Path(__file__).name}  ;  "
