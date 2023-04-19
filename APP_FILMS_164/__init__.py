@@ -44,11 +44,10 @@ try:
     from APP_FILMS_164.genres import gestion_genres_crud
     from APP_FILMS_164.demos_om_164 import routes_demos
 
-    from APP_FILMS_164.films_genres import gestion_films_genres_crud
     from APP_FILMS_164.erreurs import msg_avertissements
 
-    from APP_FILMS_164.clients import gestion_films_crud
-    from APP_FILMS_164.clients import gestion_films_wtf_forms
+    from APP_FILMS_164.clients import gestion_clients_crud
+    from APP_FILMS_164.clients import gestion_clients_wtf_forms
 
     from APP_FILMS_164.assurance import gestion_assu_crud
     from APP_FILMS_164.assurance import gestion_assu_wtf_forms
