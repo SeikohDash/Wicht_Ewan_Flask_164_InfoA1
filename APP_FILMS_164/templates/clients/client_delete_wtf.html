@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block title %} Effacer un FILM (WTF) {% endblock %}
+{% block body %}
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<p>
+				Effacer un client
+			</p>
+			<table class="table table-responsive-sm">
+				{% if data_film_del %}
+				<thead>
+				<tr>
+					<th class="" >
+						Id
+					</th>
+					<th class="">
+						Nom
+					</th>
+					<th class="">
+						Prenom
+					</th>
+					<th class="">
+						Date de naissance
+					</th>
+					<th class="">
+						Genre
+					</th>
+					<th class="">
+						Assurance Maladie
+					</th>
+				</tr>
+				</thead>
+				{% endif %}
+				{% for row in data_film_del %}
+				<tbody>
+				<tr>
+					<th class="align-middle">
+						{{ row.id_client }}
+					</th>
+					<th class="align-middle">
+						{{ row.nom }}
+					</th>
+					<th class="align-middle">
+						{{ row.prenom }}
+					</th>
+					<th class="align-middle">
+						{{ row.date_de_nais }}
+					</th>
+					<th class="align-middle">
+						{{ row.fk_genre }}
+					</th>
+					<th class="align-middle">
+						{{ row.fk_assu }}
+					</th>
+
+				<tr>
+
+				</tr>
+				</tr>
+				</tbody>
+				{% else %}
+				<tbody>
+				<tr>
+
+				</tr>
+				</tbody>
+				{% endfor %}
+
+			</table>
+
+			<form action="" method="POST" novalidate>
+				<!-- Protection contre les attaques Cross-Site Request Forgery (CSRF) -->
+				{{ form_delete_client.hidden_tag() }}
+				{{ form_delete_client.submit_btn_conf_del_film(class="btn btn-info") }}
+
+				{% if btn_submit_del %}
+					{{ form_delete_client.submit_btn_del_film(class="btn btn-danger") }}
+				{% endif %}
+
+				{{ form_delete_client.submit_btn_annuler(class="btn btn-primary") }}
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
