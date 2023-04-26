@@ -84,7 +84,7 @@
     <form action="{{ url_for('demo_select_dropdown_bootstrap') }}" method="POST" novalidate>
         <select id="essai_dropdown"  name="ma_petite_liste_unique" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
             {% for row in data_genres_drop_down %}
-                <option value="{{ row.id_genre }}">{{ row.intitule_genre }}</option>
+                <option value="{{ row.id_genre }}">{{ row.nom_genre }}</option>
             {% endfor %}
         </select>
         <button type="submit" value="Submit">Choix</button>

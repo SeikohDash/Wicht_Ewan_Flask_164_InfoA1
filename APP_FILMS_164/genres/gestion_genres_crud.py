@@ -176,7 +176,7 @@ def genre_update_wtf():
             # Affiche seulement la valeur modifiée, "ASC" et l'"id_genre_update"
             return redirect(url_for('genres_afficher', order_by="ASC", id_genre_sel=id_genre_update))
         elif request.method == "GET":
-            # Opération sur la BD pour récupérer "id_genre" et "intitule_genre" de la "t_genre"
+            # Opération sur la BD pour récupérer "id_genre" et "nom_genre" de la "t_genre"
             str_sql_id_genre = "SELECT id_genre, nom_genre FROM t_genre " \
                                "WHERE id_genre = %(value_id_genre)s"
             valeur_select_dictionnaire = {"value_id_genre": id_genre_update}
@@ -246,8 +246,8 @@ def genre_delete_wtf():
 
                 str_sql_delete_client_genre = """DELETE FROM t_client WHERE fk_genre = %(value_id_genre)s"""
                 str_sql_delete_idgenre = """DELETE FROM t_genre WHERE id_genre = %(value_id_genre)s"""
-                # Manière brutale d'effacer d'abord la "fk_genre", même si elle n'existe pas dans la "t_genre_film"
-                # Ensuite on peut effacer le genre vu qu'il n'est plus "lié" (INNODB) dans la "t_genre_film"
+                # Manière brutale d'effacer d'abord la "fk_genre", même si elle n'existe pas dans la "t_pers_mail"
+                # Ensuite on peut effacer le genre vu qu'il n'est plus "lié" (INNODB) dans la "t_pers_mail"
                 with DBconnection() as mconn_bd:
                     mconn_bd.execute(str_sql_delete_client_genre, valeur_delete_dictionnaire)
                     mconn_bd.execute(str_sql_delete_idgenre, valeur_delete_dictionnaire)
@@ -276,7 +276,7 @@ def genre_delete_wtf():
                 # le formulaire "genres/genre_delete_wtf.html" lorsque le bouton "Etes-vous sur d'effacer ?" est cliqué.
                 session['data_client_attribue_genre_delete'] = data_client_attribue_genre_delete
 
-                # Opération sur la BD pour récupérer "id_genre" et "intitule_genre" de la "t_genre"
+                # Opération sur la BD pour récupérer "id_genre" et "nom_genre" de la "t_genre"
                 str_sql_id_genre = "SELECT id_genre, nom_genre FROM t_genre WHERE id_genre = %(value_id_genre)s"
 
                 mydb_conn.execute(str_sql_id_genre, valeur_select_dictionnaire)

@@ -22,7 +22,7 @@ Test : exemple: cliquer sur le menu "Films/Genres" puis cliquer sur le bouton "A
 Paramètres : sans
 
 
-Remarque :  Dans le champ "nom_film_update_wtf" du formulaire "films/films_update_wtf.html",
+Remarque :  Dans le champ "nom_mail_update_wtf" du formulaire "films/films_update_wtf.html",
             le contrôle de la saisie s'effectue ici en Python dans le fichier ""
             On ne doit pas accepter un champ vide.
 """
@@ -56,7 +56,7 @@ def clients_afficher(id_client_sel):
                 if not data_client_afficher and id_client_sel == 0:
                     flash("""La table "t_client" est vide. !""", "warning")
                 elif not data_client_afficher and id_client_sel > 0:
-                    # Si l'utilisateur change l'id_film dans l'URL et qu'il ne correspond à aucun film
+                    # Si l'utilisateur change l'id_mail dans l'URL et qu'il ne correspond à aucun film
                     flash(f"Le client {id_client_sel} demandé n'existe pas !!", "warning")
                 else:
                     flash(f"Données client affichés !!", "success")
@@ -96,10 +96,10 @@ def client_add_wtf():
                                                   }
                 print("valeurs_insertion_dictionnaire ", valeurs_insertion_dictionnaire)
 
-                strsql_insert_film = """INSERT INTO t_client (id_client,nom,prenom,date_de_nais,fk_genre,fk_assu) 
+                strsql_insert_mail = """INSERT INTO t_client (id_client,nom,prenom,date_de_nais,fk_genre,fk_assu) 
                                         VALUES (NULL,%(value_nom_client)s,%(value_prenom_client)s,%(value_date_client)s,%(value_genre_client)s,%(value_assurance_client)s) """
                 with DBconnection() as mconn_bd:
-                    mconn_bd.execute(strsql_insert_film, valeurs_insertion_dictionnaire)
+                    mconn_bd.execute(strsql_insert_mail, valeurs_insertion_dictionnaire)
 
                 flash(f"Données insérées !!", "success")
                 print(f"Données insérées !!")
@@ -125,7 +125,7 @@ Paramètres : sans
 
 But : Editer(update) un genre qui a été sélectionné dans le formulaire "genres_afficher.html"
 
-Remarque :  Dans le champ "nom_film_update_wtf" du formulaire "clients/films_update_wtf.html",
+Remarque :  Dans le champ "nom_mail_update_wtf" du formulaire "clients/films_update_wtf.html",
             le contrôle de la saisie s'effectue ici en Python.
             On ne doit pas accepter un champ vide.
 """
@@ -157,14 +157,14 @@ def client_update_wtf():
                                         }
             print("valeur_update_dictionnaire ", valeur_update_dictionnaire)
 
-            str_sql_update_nom_film = """UPDATE t_client SET nom = %(value_nom_client)s,
+            str_sql_update_nom_mail = """UPDATE t_client SET nom = %(value_nom_client)s,
                                                             prenom = %(value_prenom_client)s,
                                                             date_de_nais = %(value_date_client)s,
                                                             fk_genre = %(value_genre_client)s,
                                                             fk_assu = %(value_assurance_client)s
                                                             WHERE id_client = %(value_id_client)s"""
             with DBconnection() as mconn_bd:
-                mconn_bd.execute(str_sql_update_nom_film, valeur_update_dictionnaire)
+                mconn_bd.execute(str_sql_update_nom_mail, valeur_update_dictionnaire)
 
             flash(f"Donnée mise à jour !!", "success")
             print(f"Donnée mise à jour !!")
@@ -173,11 +173,11 @@ def client_update_wtf():
             # Afficher seulement le film modifié, "ASC" et l'"id_client_update"
             return redirect(url_for('clients_afficher', id_client_sel=id_client_update))
         elif request.method == "GET":
-            # Opération sur la BD pour récupérer "id_film" et "intitule_genre" de la "t_genre"
-            str_sql_id_film = "SELECT * FROM t_client WHERE id_client = %(value_id_client)s"
+            # Opération sur la BD pour récupérer "id_mail" et "nom_genre" de la "t_genre"
+            str_sql_id_mail = "SELECT * FROM t_client WHERE id_client = %(value_id_client)s"
             valeur_select_dictionnaire = {"value_id_client": id_client_update}
             with DBconnection() as mybd_conn:
-                mybd_conn.execute(str_sql_id_film, valeur_select_dictionnaire)
+                mybd_conn.execute(str_sql_id_mail, valeur_select_dictionnaire)
             # Une seule valeur est suffisante "fetchone()", vu qu'il n'y a qu'un seul champ "nom genre" pour l'UPDATE
             data_client = mybd_conn.fetchone()
             print("data_client ", data_client, " type ", type(data_client), " genre ",
@@ -216,7 +216,7 @@ def client_delete_wtf():
     # Pour afficher ou cacher les boutons "EFFACER"
     data_client_delete = None
     btn_submit_del = None
-    # L'utilisateur vient de cliquer sur le bouton "DELETE". Récupère la valeur de "id_film"
+    # L'utilisateur vient de cliquer sur le bouton "DELETE". Récupère la valeur de "id_mail"
     id_client_delete = request.values['id_genre_btn_delete_html']
 
     # Objet formulaire pour effacer le film sélectionné.
@@ -248,8 +248,8 @@ def client_delete_wtf():
             str_sql_delete_fk_adresse_client = """DELETE FROM t_pers_adresse WHERE fk_client = %(value_id_client)s"""
             str_sql_delete_fk_achat_client = """DELETE FROM t_pers_achat_client WHERE fk_client = %(value_id_client)s"""
             str_sql_delete_client = """DELETE FROM t_client WHERE id_client = %(value_id_client)s"""
-            # Manière brutale d'effacer d'abord la "fk_film", même si elle n'existe pas dans la "t_genre_film"
-            # Ensuite on peut effacer le film vu qu'il n'est plus "lié" (INNODB) dans la "t_genre_film"
+            # Manière brutale d'effacer d'abord la "fk_film", même si elle n'existe pas dans la "t_pers_mail"
+            # Ensuite on peut effacer le film vu qu'il n'est plus "lié" (INNODB) dans la "t_pers_mail"
             with DBconnection() as mconn_bd:
                 mconn_bd.execute(str_sql_delete_fk_traitement_client, valeur_delete_dictionnaire)
                 mconn_bd.execute(str_sql_delete_fk_telephone_client, valeur_delete_dictionnaire)

@@ -176,7 +176,7 @@ def assu_update_wtf():
             # Affiche seulement la valeur modifiée, "ASC" et l'"id_assu_update"
             return redirect(url_for('assu_afficher', order_by="ASC", id_assu_sel=id_assu_update))
         elif request.method == "GET":
-            # Opération sur la BD pour récupérer "id_genre" et "intitule_genre" de la "t_genre"
+            # Opération sur la BD pour récupérer "id_genre" et "nom_genre" de la "t_genre"
             str_sql_id_genre = "SELECT id_assu, nom_assu FROM t_assurance " \
                                "WHERE id_assu = %(value_id_assu)s"
             valeur_select_dictionnaire = {"value_id_assu": id_assu_update}
@@ -246,8 +246,8 @@ def assu_delete_wtf():
 
                 str_sql_delete_client_assu = """DELETE FROM t_client WHERE fk_assu = %(value_id_assu)s"""
                 str_sql_delete_idgenre = """DELETE FROM t_assurance WHERE id_assu = %(value_id_assu)s"""
-                # Manière brutale d'effacer d'abord la "fk_genre", même si elle n'existe pas dans la "t_genre_film"
-                # Ensuite on peut effacer le genre vu qu'il n'est plus "lié" (INNODB) dans la "t_genre_film"
+                # Manière brutale d'effacer d'abord la "fk_genre", même si elle n'existe pas dans la "t_pers_mail"
+                # Ensuite on peut effacer le genre vu qu'il n'est plus "lié" (INNODB) dans la "t_pers_mail"
                 with DBconnection() as mconn_bd:
                     mconn_bd.execute(str_sql_delete_client_assu, valeur_delete_dictionnaire)
                     mconn_bd.execute(str_sql_delete_idgenre, valeur_delete_dictionnaire)
@@ -276,7 +276,7 @@ def assu_delete_wtf():
                 # le formulaire "genres/assu_delete_wtf.html" lorsque le bouton "Etes-vous sur d'effacer ?" est cliqué.
                 session['data_assu_attribue_genre_delete'] = data_assu_attribue_genre_delete
 
-                # Opération sur la BD pour récupérer "id_genre" et "intitule_genre" de la "t_genre"
+                # Opération sur la BD pour récupérer "id_genre" et "nom_genre" de la "t_genre"
                 str_sql_id_assu = "SELECT id_assu, nom_assu FROM t_assurance WHERE id_assu = %(value_id_assu)s"
 
                 mydb_conn.execute(str_sql_id_assu, valeur_select_dictionnaire)
