@@ -52,10 +52,12 @@ try:
     from APP_FILMS_164.assurance import gestion_assu_crud
     from APP_FILMS_164.assurance import gestion_assu_wtf_forms
 
+    "from APP_FILMS_164.mailT import gestion_mail_crud"
+    "from APP_FILMS_164.mailT import gestion_mail_wtf_forms"
+    "from APP_FILMS_164.mail_pers import gestion_mail_pers_crud"
+
     from APP_FILMS_164.mail import gestion_mail_crud
     from APP_FILMS_164.mail import gestion_mail_wtf_forms
-
-    from APP_FILMS_164.mail_pers import gestion_mail_pers_crud
 
 except Exception as Exception_init_app_films_164:
     print(f"4567756434 Une erreur est survenue {type(Exception_init_app_films_164)} dans"

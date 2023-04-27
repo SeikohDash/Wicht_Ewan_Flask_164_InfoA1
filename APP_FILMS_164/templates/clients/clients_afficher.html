@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %} Afficher FILMS {% endblock %}
+{% block title %} Afficher CLIENTS {% endblock %}
 {% block body %}
 <div class="container">
 	<div class="col-md-12">
@@ -8,7 +8,7 @@
 				<thead>
 					<tr>
 						<th class="align-middle" >
-						  Id_client
+						  id
 						</th>
 						<th class="align-middle" >
 						  Nom
@@ -75,7 +75,7 @@
 				<tbody>
 					<tr>
 						<td>
-							Aucun film.
+							Aucun client.
 						</td>
 						<td>
 							<a class="btn btn-primary" href="{{ url_for('avertissement_sympa_pour_geeks') }}" role="button">Add</a>
