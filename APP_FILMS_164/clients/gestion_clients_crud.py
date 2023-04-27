@@ -113,10 +113,10 @@ def client_add_wtf():
                         print("valeurs_insertion_dictionnaire ", valeurs_insertion_dictionnaire)
 
 
-                        strsql_insert_mail = """INSERT INTO t_client (id_client,nom,prenom,date_de_nais,fk_genre,fk_assu) 
+                        strsql_insert_client = """INSERT INTO t_client (id_client,nom,prenom,date_de_nais,fk_genre,fk_assu) 
                                                 VALUES (NULL,%(value_nom_client)s,%(value_prenom_client)s,%(value_date_client)s,%(genre_val_list_dropdown)s,%(value_assurance_client)s) """
                         with DBconnection() as mconn_bd:
-                            mconn_bd.execute(strsql_insert_mail, valeurs_insertion_dictionnaire)
+                            mconn_bd.execute(strsql_insert_client, valeurs_insertion_dictionnaire)
 
                         flash(f"Données insérées !!", "success")
                         print(f"Données insérées !!")
