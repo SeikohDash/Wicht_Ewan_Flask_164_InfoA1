@@ -77,35 +77,52 @@ def client_add_wtf():
     if request.method == "POST":
         try:
             if form.validate_on_submit():
+                with DBconnection() as mc_afficher:
+                    strsql_genres_afficher = """SELECT id_genre, nom_genre FROM t_genre ORDER BY id_genre ASC"""
+                    mc_afficher.execute(strsql_genres_afficher)
 
-                nom_client = form.nom_client_wtf.data
-                prenom_client = form.prenom_client_wtf.data
-                date_nais_client = form.date_nais_client_wtf.data
-                fk_genre_client = form.fk_genre_client_wtf.data
-                fk_assu_client = form.fk_assu_client_wtf.data
+                    data_genres = mc_afficher.fetchall()
+                    session['data_genres'] = data_genres
+                    print("demo_select_wtf data_genres ", data_genres, " Type : ", type(data_genres))
+
+                    for i in data_genres:
+                        genre_val_list_dropdown = [(i["id_genre"], i["nom_genre"]) for i in data_genres]
+                        nom_client = form.nom_client_wtf.data
+                        prenom_client = form.prenom_client_wtf.data
+                        date_nais_client = form.date_nais_client_wtf.data
+                        "fk_genre_client = form.fk_genre_client_wtf.data"
+                        fk_assu_client = form.fk_assu_client_wtf.data
+
+                        print("genre_val_list_dropdown ", genre_val_list_dropdown)
+
+                        form.genres_dropdown_wtf.choices = genre_val_list_dropdown
+                        session['genre_val_list_dropdown'] = genre_val_list_dropdown
+                        form.genres_dropdown_wtf.data = "Homme"
+                        genre_selectionne = form.genres_dropdown_wtf.data
+                        print("genre choisi dans la liste :", genre_selectionne)
+                        session['genre_selectionne_get'] = genre_selectionne
 
 
+                        valeurs_insertion_dictionnaire = {"value_nom_client": nom_client,
+                                                          "value_prenom_client": prenom_client,
+                                                          "value_date_client": date_nais_client,
+                                                          "value_genre_client"": fk_genre_client,"
+                                                          "genre_val_list_dropdown ": genre_val_list_dropdown,
+                                                          "value_assurance_client": fk_assu_client
+                                                          }
+                        print("valeurs_insertion_dictionnaire ", valeurs_insertion_dictionnaire)
 
 
+                        strsql_insert_mail = """INSERT INTO t_client (id_client,nom,prenom,date_de_nais,fk_genre,fk_assu) 
+                                                VALUES (NULL,%(value_nom_client)s,%(value_prenom_client)s,%(value_date_client)s,%(genre_val_list_dropdown)s,%(value_assurance_client)s) """
+                        with DBconnection() as mconn_bd:
+                            mconn_bd.execute(strsql_insert_mail, valeurs_insertion_dictionnaire)
 
-                valeurs_insertion_dictionnaire = {"value_nom_client": nom_client,
-                                                  "value_prenom_client": prenom_client,
-                                                  "value_date_client": date_nais_client,
-                                                  "value_genre_client": fk_genre_client,
-                                                  "value_assurance_client": fk_assu_client
-                                                  }
-                print("valeurs_insertion_dictionnaire ", valeurs_insertion_dictionnaire)
+                        flash(f"Données insérées !!", "success")
+                        print(f"Données insérées !!")
 
-                strsql_insert_mail = """INSERT INTO t_client (id_client,nom,prenom,date_de_nais,fk_genre,fk_assu) 
-                                        VALUES (NULL,%(value_nom_client)s,%(value_prenom_client)s,%(value_date_client)s,%(value_genre_client)s,%(value_assurance_client)s) """
-                with DBconnection() as mconn_bd:
-                    mconn_bd.execute(strsql_insert_mail, valeurs_insertion_dictionnaire)
-
-                flash(f"Données insérées !!", "success")
-                print(f"Données insérées !!")
-
-                # Pour afficher et constater l'insertion du nouveau film (id_client_sel=0 => afficher tous les films)
-                return redirect(url_for('clients_afficher', id_client_sel=0))
+                        # Pour afficher et constater l'insertion du nouveau film (id_client_sel=0 => afficher tous les films)
+                        return redirect(url_for('clients_afficher', id_client_sel=0))
 
         except Exception as Exception_genres_ajouter_wtf:
             raise ExceptionGenresAjouterWtf(f"fichier : {Path(__file__).name}  ;  "
@@ -113,6 +130,7 @@ def client_add_wtf():
                                             f"{Exception_genres_ajouter_wtf}")
 
     return render_template("clients/client_add_wtf.html", form=form)
+
 
 
 """Editer(update) un film qui a été sélectionné dans le formulaire "clients_afficher.html"

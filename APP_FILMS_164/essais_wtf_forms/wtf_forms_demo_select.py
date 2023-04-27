@@ -48,10 +48,4 @@ class DemoFormSelectWTF(FlaskForm):
                                       validators=[DataRequired(message="Sélectionner un genre.")],
                                       validate_choice=False
                                       )
-    # Alternative qui correspond aux lignes en commentaires lignes 88 et 89 du "gestion_wtf_forms_demo_select.py"
-    # genres_dropdown_wtf = SelectField('Genres (liste déroulante)',
-    #                                   validators=[DataRequired(message="Sélectionner un genre.")],
-    #                                   validate_choice=False,
-    #                                   coerce=int
-    #                                   )
     submit_btn_ok_dplist_genre = SubmitField("Choix genre")

@@ -67,17 +67,16 @@ def demo_select_wtf():
             """
             genre_val_list_dropdown = []
             for i in data_genres:
-                genre_val_list_dropdown.append(i['nom_genre'])
-
-            # Aussi possible d'avoir un id numérique et un texte en correspondance
-            # genre_val_list_dropdown = [(i["id_genre"], i["nom_genre"]) for i in data_genres]
+                genre_val_list_dropdown = [(i["id_genre"], i["nom_genre"]) for i in data_genres]
 
             print("genre_val_list_dropdown ", genre_val_list_dropdown)
 
             form_demo.genres_dropdown_wtf.choices = genre_val_list_dropdown
             session['genre_val_list_dropdown'] = genre_val_list_dropdown
+
+
             # Ceci est simplement une petite démo. on fixe la valeur PRESELECTIONNEE de la liste
-            form_demo.genres_dropdown_wtf.data = "philosophique"
+            form_demo.genres_dropdown_wtf.data = "Homme"
             genre_selectionne = form_demo.genres_dropdown_wtf.data
             print("genre choisi dans la liste :", genre_selectionne)
             session['genre_selectionne_get'] = genre_selectionne
@@ -86,22 +85,7 @@ def demo_select_wtf():
     except KeyError:
         flash(f"__KeyError dans wtf_forms_demo_select : {sys.exc_info()[0]} {sys.exc_info()[1]} {sys.exc_info()[2]}",
               "danger")
-    except ValueError:
-        flash(f"Erreur dans wtf_forms_demo_select : {sys.exc_info()[0]} {sys.exc_info()[1]}", "danger")
-    except (pymysql.err.OperationalError,
-            pymysql.ProgrammingError,
-            pymysql.InternalError,
-            pymysql.err.IntegrityError,
-            TypeError) as erreur_gest_genr_crud:
-        code, msg = erreur_gest_genr_crud.args
-        flash(f"attention : {error_codes.get(code, msg)} {erreur_gest_genr_crud} ", "danger")
 
-        flash(f"Erreur dans wtf_forms_demo_select : {sys.exc_info()[0]} "
-              f"{erreur_gest_genr_crud.args[0]} , "
-              f"{erreur_gest_genr_crud}", "danger")
-
-        flash(f"__KeyError dans wtf_forms_demo_select : {sys.exc_info()[0]} {sys.exc_info()[1]} {sys.exc_info()[2]}",
-              "danger")
 
     return render_template("zzz_essais_om_104/demo_form_select_wtf.html",
                            form=form_demo,
@@ -109,28 +93,3 @@ def demo_select_wtf():
                            data_genres_drop_down=data_genres)
 
 
-@app.route("/demo_select_dropdown_bootstrap", methods=['GET', 'POST'])
-def demo_select_dropdown_bootstrap():
-    print("genre choisi dans la liste :")
-    if request.method == 'POST':
-        choix_list_drop_down = request.form.getlist("ma_petite_liste_unique")
-        print("choix_list_drop_down ", choix_list_drop_down)
-        print("choix_list_drop_down form ", request.form["ma_petite_liste_unique"])
-        print("choix_list_drop_down form.items() ", request.form.items())
-
-        for key, val in request.form.items():
-            print(key, val)
-
-        keys = request.form.keys()
-        keys = [key for key in keys]
-        print("choix_list_drop_down keys ", keys)
-
-        print("choix_list_drop_down request values ", request.values["ma_petite_liste_unique"])
-        print("choix_list_drop_down request data ", request.data)
-
-        for x in choix_list_drop_down:
-            print("x", x, "genre ", choix_list_drop_down)
-
-    return render_template("zzz_essais_om_104/essai_form_result_dropdown.html",
-                           my_choice_dropdown=x,
-                           liste_choice="essai")
