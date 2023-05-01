@@ -34,22 +34,22 @@
 
 					</p>
 
-					<p>
+					<p style = "color:white">
             			{{ form.genres_dropdown_wtf.label(class="form-control-label") }}<br>
             			{{ form.genres_dropdown_wtf(class="form-select-sm") }}
 						{% for error in form.genres_dropdown_wtf.errors %}
                 		<span style="color: red;">[{{ error }}]</span>
             			{% endfor %}
         			</p>
-					<p>Genre choisi : {{ form.genres_dropdown_wtf.data }}</p>
+
 
 					<p style = "color:white">
-						{{ form.fk_assu_client_wtf.label }}<br>
-						{{ form.fk_assu_client_wtf(size=3) }}<br>
-						{% for error in form.fk_assu_client_wtf.errors %}
-							<span style="color: red;">[{{ error }}]</span>
-						{% endfor %}
-					</p>
+            			{{ form.assu_dropdown_wtf.label(class="form-control-label") }}<br>
+            			{{ form.assu_dropdown_wtf(class="form-select-sm") }}
+						{% for error in form.assu_dropdown_wtf.errors %}
+                		<span style="color: red;">[{{ error }}]</span>
+            			{% endfor %}
+        			</p>
 
 
 				</div>

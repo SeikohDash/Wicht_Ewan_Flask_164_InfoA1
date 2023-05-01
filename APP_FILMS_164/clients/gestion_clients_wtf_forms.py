@@ -46,11 +46,11 @@ class FormWTFAddClient(FlaskForm):
                                     )
 
 
-    fk_assu_client_regexp = ""
-    fk_assu_client_wtf = IntegerField("Assurance maladie du client 1 = Assura 2 = Helsana 3 = Visana", validators=[InputRequired("L'assurance doit etre comrpis entre 1 et 5"),
-                                                                                NumberRange(min=1, max=5,
-                                                                             message="L'assurance doit être 1 et 5")
-                                                                      ])
+
+    assu_dropdown_wtf = SelectField('Assurance',
+                                    validators=[DataRequired(message="Sélectionner une assurance.")],
+                                    validate_choice=False
+                                    )
 
     submit = SubmitField("Enregistrer le client")
 
@@ -82,12 +82,11 @@ class FormWTFUpdateClient(FlaskForm):
                                        validators=[Length(min=10, max=10, message="Date trop longue/court"),
                                                    Regexp(date_nais_client_update_regexp,
                                                           message="Le format de la date doit être AAAA-MM-JJ")])
-    fk_genre_client_update_regexp = ""
-    fk_genre_client_update_wtf = IntegerField("Genre de la personne 1 = Homme 2 = Femme 3 = Autre",
-                                       validators=[InputRequired("Le genre doit etre comrpis entre 1 - 2 - 3"),
-                                                   NumberRange(min=1, max=3,
-                                                               message="Le genre doit être 1 2 ou 3")
-                                                   ])
+    genres_dropdown_update_wtf = SelectField('Genres (liste déroulante)',
+                                      validators=[DataRequired(message="Sélectionner un genre.")],
+                                      validate_choice=False
+                                      )
+
     assu_maladie_client_update_regexp = ""
     fk_assu_client_update_wtf = IntegerField("Assurance maladie du client 1 = Assura 2 = Helsana 3 = Visana", validators=[InputRequired("L'assurance doit etre comrpis entre 1 et 5"),
                                                     NumberRange(min=1, max=5,

@@ -122,6 +122,10 @@ class ExceptionFilmDeleteWtf(Base):
 class ExceptionInitAppFilms164(Base):
     pass
 
+class ExceptionClientsAjouterWtf(Base):
+    """Erreur lors de l'ajout d'un client. EW"""
+
+
 
 """
     Grâce à la méthode "flash" cela permet de "raise" (remonter) les erreurs "try...execpt" dans la page "home.html"

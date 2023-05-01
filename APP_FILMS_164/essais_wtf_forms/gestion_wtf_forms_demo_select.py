@@ -76,7 +76,7 @@ def demo_select_wtf():
 
 
             # Ceci est simplement une petite démo. on fixe la valeur PRESELECTIONNEE de la liste
-            form_demo.genres_dropdown_wtf.data = "Homme"
+            form_demo.genres_dropdown_wtf.data = "2"
             genre_selectionne = form_demo.genres_dropdown_wtf.data
             print("genre choisi dans la liste :", genre_selectionne)
             session['genre_selectionne_get'] = genre_selectionne

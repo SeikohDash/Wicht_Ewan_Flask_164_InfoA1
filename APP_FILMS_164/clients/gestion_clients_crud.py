@@ -72,64 +72,86 @@ def clients_afficher(id_client_sel):
 
 @app.route("/client_add_wtf", methods=['GET', 'POST'])
 def client_add_wtf():
-    # Objet formulaire pour AJOUTER un film
+    # Objet formulaire pour AJOUTER un client
     form = FormWTFAddClient()
-    if request.method == "POST":
-        try:
-            if form.validate_on_submit():
-                with DBconnection() as mc_afficher:
-                    strsql_genres_afficher = """SELECT id_genre, nom_genre FROM t_genre ORDER BY id_genre ASC"""
-                    mc_afficher.execute(strsql_genres_afficher)
+    print(" on submit FormWTFAddClient ", form.submit.data, " req ", request.method)
+    try:
+        if request.method == "POST" and form.submit.data:
+            # Récuperer les données du formulaire défini dans APP_FILMS_164/clients/gestion_clients_wtf_forms.py
+            nom_client = form.nom_client_wtf.data
+            prenom_client = form.prenom_client_wtf.data
+            date_nais_client = form.date_nais_client_wtf.data
+            genre_selectionne = form.genres_dropdown_wtf.data
+            assurance_selectionne = form.assu_dropdown_wtf.data
 
-                    data_genres = mc_afficher.fetchall()
-                    session['data_genres'] = data_genres
-                    print("demo_select_wtf data_genres ", data_genres, " Type : ", type(data_genres))
+            valeurs_insertion_dictionnaire = {"value_nom_client": nom_client,
+                                              "value_prenom_client": prenom_client,
+                                              "value_date_client": date_nais_client,
+                                              "value_genre_val_list_dropdown": genre_selectionne,
+                                              "value_assu_val_list_dropdown": assurance_selectionne
+                                              }
+            print("valeurs_insertion_dictionnaire ", valeurs_insertion_dictionnaire)
 
-                    for i in data_genres:
-                        genre_val_list_dropdown = [(i["id_genre"], i["nom_genre"]) for i in data_genres]
-                        nom_client = form.nom_client_wtf.data
-                        prenom_client = form.prenom_client_wtf.data
-                        date_nais_client = form.date_nais_client_wtf.data
-                        "fk_genre_client = form.fk_genre_client_wtf.data"
-                        fk_assu_client = form.fk_assu_client_wtf.data
+            strsql_insert_client = """INSERT INTO t_client (id_client,nom,prenom,date_de_nais,fk_genre,fk_assu)
+                                    VALUES (NULL,%(value_nom_client)s,%(value_prenom_client)s,%(value_date_client)s,%(value_genre_val_list_dropdown)s,%(value_assu_val_list_dropdown)s) """
+            with DBconnection() as mconn_bd:
+                mconn_bd.execute(strsql_insert_client, valeurs_insertion_dictionnaire)
 
-                        print("genre_val_list_dropdown ", genre_val_list_dropdown)
+            flash(f"Données insérées !!", "success")
+            print(f"Données insérées !!")
 
-                        form.genres_dropdown_wtf.choices = genre_val_list_dropdown
-                        session['genre_val_list_dropdown'] = genre_val_list_dropdown
-                        form.genres_dropdown_wtf.data = "Homme"
-                        genre_selectionne = form.genres_dropdown_wtf.data
-                        print("genre choisi dans la liste :", genre_selectionne)
-                        session['genre_selectionne_get'] = genre_selectionne
+            # Pour afficher et constater l'insertion du nouveau film (id_client_sel=0 => afficher tous les films)
+            return redirect(url_for('clients_afficher', id_client_sel=0))
 
+        if request.method == "GET":
+            with DBconnection() as mc_afficher:
+                strsql_genres_afficher = """SELECT id_genre, nom_genre FROM t_genre ORDER BY id_genre ASC"""
+                mc_afficher.execute(strsql_genres_afficher)
 
-                        valeurs_insertion_dictionnaire = {"value_nom_client": nom_client,
-                                                          "value_prenom_client": prenom_client,
-                                                          "value_date_client": date_nais_client,
-                                                          "value_genre_client"": fk_genre_client,"
-                                                          "genre_val_list_dropdown ": genre_val_list_dropdown,
-                                                          "value_assurance_client": fk_assu_client
-                                                          }
-                        print("valeurs_insertion_dictionnaire ", valeurs_insertion_dictionnaire)
+            data_genres = mc_afficher.fetchall()
+            print("demo_select_wtf data_genres ", data_genres, " Type : ", type(data_genres))
 
+            """
+                Préparer les valeurs pour la liste déroulante de l'objet "FormWTFAddClient"
+                la liste déroulante est définie dans le "APP_FILMS_164/clients/gestion_clients_wtf_forms.py" 
+                le formulaire qui utilise la liste déroulante "APP_FILMS_164/templates/clients/client_add_wtf.html"
+            """
+            genre_val_list_dropdown = []
+            for i in data_genres:
+                genre_val_list_dropdown = [(i["id_genre"], i["nom_genre"]) for i in data_genres]
 
-                        strsql_insert_client = """INSERT INTO t_client (id_client,nom,prenom,date_de_nais,fk_genre,fk_assu) 
-                                                VALUES (NULL,%(value_nom_client)s,%(value_prenom_client)s,%(value_date_client)s,%(genre_val_list_dropdown)s,%(value_assurance_client)s) """
-                        with DBconnection() as mconn_bd:
-                            mconn_bd.execute(strsql_insert_client, valeurs_insertion_dictionnaire)
+            print("genre_val_list_dropdown ", genre_val_list_dropdown)
+            # Les valeurs sont chargées dans la liste déroulante
+            form.genres_dropdown_wtf.choices = genre_val_list_dropdown
 
-                        flash(f"Données insérées !!", "success")
-                        print(f"Données insérées !!")
+        if request.method == "GET":
+            with DBconnection() as mc_afficher:
+                strsql_assu_afficher = """SELECT id_assu, nom_assu FROM t_assurance ORDER BY id_assu ASC"""
+                mc_afficher.execute(strsql_assu_afficher)
 
-                        # Pour afficher et constater l'insertion du nouveau film (id_client_sel=0 => afficher tous les films)
-                        return redirect(url_for('clients_afficher', id_client_sel=0))
+            data_assu = mc_afficher.fetchall()
+            print("demo_select_wtf data_assu ", data_assu, " Type : ", type(data_assu))
 
-        except Exception as Exception_genres_ajouter_wtf:
-            raise ExceptionGenresAjouterWtf(f"fichier : {Path(__file__).name}  ;  "
-                                            f"{client_add_wtf.__name__} ; "
-                                            f"{Exception_genres_ajouter_wtf}")
+            """
+                Préparer les valeurs pour la liste déroulante de l'objet "FormWTFAddClient"
+                la liste déroulante est définie dans le "APP_FILMS_164/clients/gestion_clients_wtf_forms.py" 
+                le formulaire qui utilise la liste déroulante "APP_FILMS_164/templates/clients/client_add_wtf.html"
+            """
+            assu_val_list_dropdown = []
+            for i in data_assu:
+                assu_val_list_dropdown = [(i["id_assu"], i["nom_assu"]) for i in data_assu]
+
+            print("assu_dropdown_wtf ", assu_val_list_dropdown)
+            # Les valeurs sont chargées dans la liste déroulante
+            form.assu_dropdown_wtf.choices = assu_val_list_dropdown
+
+    except Exception as Exception_client_ajouter_wtf:
+        raise ExceptionClientsAjouterWtf(f"fichier : {Path(__file__).name}  ;  "
+                                        f"{client_add_wtf.__name__} ; "
+                                        f"{ExceptionClientsAjouterWtf}")
 
     return render_template("clients/client_add_wtf.html", form=form)
+
 
 
 
@@ -163,14 +185,14 @@ def client_update_wtf():
             nom_client_update = form_update_client.nom_client_update_wtf.data
             prenom_client_update = form_update_client.prenom_client_update_wtf.data
             date_nais_client_update = form_update_client.date_nais_client_update_wtf.data
-            fk_genre_client_update = form_update_client.fk_genre_client_update_wtf.data
+            genre_client_update = form_update_client.genres_dropdown_update_wtf.data
             fk_assu_client_update = form_update_client.fk_assu_client_update_wtf.data
 
             valeur_update_dictionnaire = {"value_id_client": id_client_update,
                                           "value_nom_client": nom_client_update,
                                           "value_prenom_client": prenom_client_update,
                                           "value_date_client": date_nais_client_update,
-                                          "value_genre_client": fk_genre_client_update,
+                                          "value_genre_val_list_dropdown": genre_client_update,
                                           "value_assurance_client": fk_assu_client_update
                                         }
             print("valeur_update_dictionnaire ", valeur_update_dictionnaire)
@@ -178,7 +200,7 @@ def client_update_wtf():
             str_sql_update_nom_mail = """UPDATE t_client SET nom = %(value_nom_client)s,
                                                             prenom = %(value_prenom_client)s,
                                                             date_de_nais = %(value_date_client)s,
-                                                            fk_genre = %(value_genre_client)s,
+                                                            fk_genre = %(value_genre_val_list_dropdown)s,
                                                             fk_assu = %(value_assurance_client)s
                                                             WHERE id_client = %(value_id_client)s"""
             with DBconnection() as mconn_bd:
@@ -205,8 +227,32 @@ def client_update_wtf():
             form_update_client.nom_client_update_wtf.data = data_client["nom"]
             form_update_client.prenom_client_update_wtf.data = data_client["prenom"]
             form_update_client.date_nais_client_update_wtf.data = data_client["date_de_nais"]
-            form_update_client.fk_genre_client_update_wtf.data = data_client["fk_genre"]
+            form_update_client.genres_dropdown_update_wtf.data = data_client["fk_genre"]
             form_update_client.fk_assu_client_update_wtf.data = data_client["fk_assu"]
+        if request.method == "GET":
+            with DBconnection() as mc_afficher:
+                strsql_genres_afficher = """SELECT id_genre, nom_genre FROM t_genre ORDER BY id_genre ASC"""
+                mc_afficher.execute(strsql_genres_afficher)
+
+            data_genres = mc_afficher.fetchall()
+            print("demo_select_wtf data_genres ", data_genres, " Type : ", type(data_genres))
+
+            """
+                Préparer les valeurs pour la liste déroulante de l'objet "FormWTFAddClient"
+                la liste déroulante est définie dans le "APP_FILMS_164/clients/gestion_clients_wtf_forms.py" 
+                le formulaire qui utilise la liste déroulante "APP_FILMS_164/templates/clients/client_add_wtf.html"
+            """
+            genre_val_list_dropdown = []
+            for i in data_genres:
+                genre_val_list_dropdown = [(i["id_genre"], i["nom_genre"]) for i in data_genres]
+
+            print("genre_val_list_dropdown ", genre_val_list_dropdown)
+            # Les valeurs sont chargées dans la liste déroulante
+            form_update_client.genres_dropdown_update_wtf.choices = genre_val_list_dropdown
+
+
+            print("genre choisi dans la liste :", form_update_client.genres_dropdown_update_wtf.data)
+            session['genre_selectionne_get'] = form_update_client.genres_dropdown_update_wtf.data
 
     except Exception as Exception_film_update_wtf:
         raise ExceptionFilmUpdateWtf(f"fichier : {Path(__file__).name}  ;  "
