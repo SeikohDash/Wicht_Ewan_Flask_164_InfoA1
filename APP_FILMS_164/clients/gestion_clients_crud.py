@@ -244,12 +244,11 @@ def client_update_wtf():
             """
             genre_val_list_dropdown = []
             for i in data_genres:
+
                 genre_val_list_dropdown = [(i["id_genre"], i["nom_genre"]) for i in data_genres]
-
             print("genre_val_list_dropdown ", genre_val_list_dropdown)
-            # Les valeurs sont chargées dans la liste déroulante
+            # Les valeurs sont chargées dans la liste dérou lante
             form_update_client.genres_dropdown_update_wtf.choices = genre_val_list_dropdown
-
 
             print("genre choisi dans la liste :", form_update_client.genres_dropdown_update_wtf.data)
             session['genre_selectionne_get'] = form_update_client.genres_dropdown_update_wtf.data

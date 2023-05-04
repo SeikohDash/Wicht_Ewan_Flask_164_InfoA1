@@ -57,12 +57,13 @@ CREATE TABLE IF NOT EXISTS `t_achat_client` (
   `nombre_medic` int DEFAULT NULL,
   `nom_medic` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id_achat_client`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Export de données de la table wicht_ewan_infoa1_pharmacie.t_achat_client : ~0 rows (environ)
 /*!40000 ALTER TABLE `t_achat_client` DISABLE KEYS */;
 INSERT INTO `t_achat_client` (`id_achat_client`, `date_achat`, `nombre_medic`, `nom_medic`) VALUES
-	(1, '2023-02-01', 3, 'dafalgan');
+	(1, '2023-02-01', 3, 'dafalgan'),
+	(2, '2023-05-04', 5, 'bepanthen ');
 /*!40000 ALTER TABLE `t_achat_client` ENABLE KEYS */;
 
 -- Export de la structure de la table wicht_ewan_infoa1_pharmacie. t_adresse
@@ -72,12 +73,14 @@ CREATE TABLE IF NOT EXISTS `t_adresse` (
   `NPA` varchar(50) DEFAULT NULL,
   `Localite` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id_adresse`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Export de données de la table wicht_ewan_infoa1_pharmacie.t_adresse : ~0 rows (environ)
 /*!40000 ALTER TABLE `t_adresse` DISABLE KEYS */;
 INSERT INTO `t_adresse` (`id_adresse`, `nom_rue`, `NPA`, `Localite`) VALUES
-	(1, 'Route d\'Yverdon', '1033', 'cheseaux');
+	(1, 'Route d\'Yverdon 10b', '1033', 'Cheseaux'),
+	(2, 'Pl. de l\'Hôtel de Ville 1 ', '1041', 'Echallens'),
+	(3, 'Rue du Village 9 ', '1121', ' Bremblens');
 /*!40000 ALTER TABLE `t_adresse` ENABLE KEYS */;
 
 -- Export de la structure de la table wicht_ewan_infoa1_pharmacie. t_assurance
@@ -85,14 +88,16 @@ CREATE TABLE IF NOT EXISTS `t_assurance` (
   `id_assu` int NOT NULL AUTO_INCREMENT,
   `nom_assu` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id_assu`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Export de données de la table wicht_ewan_infoa1_pharmacie.t_assurance : ~0 rows (environ)
+-- Export de données de la table wicht_ewan_infoa1_pharmacie.t_assurance : ~3 rows (environ)
 /*!40000 ALTER TABLE `t_assurance` DISABLE KEYS */;
 INSERT INTO `t_assurance` (`id_assu`, `nom_assu`) VALUES
 	(1, 'Assura'),
 	(2, 'Helsana'),
-	(3, 'Visana');
+	(3, 'Visana'),
+	(4, 'Sanitas'),
+	(5, 'Aturpi');
 /*!40000 ALTER TABLE `t_assurance` ENABLE KEYS */;
 
 -- Export de la structure de la table wicht_ewan_infoa1_pharmacie. t_client
@@ -151,12 +156,14 @@ CREATE TABLE IF NOT EXISTS `t_mail` (
   `id_mail` int NOT NULL AUTO_INCREMENT,
   `nom_mail` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id_mail`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Export de données de la table wicht_ewan_infoa1_pharmacie.t_mail : ~0 rows (environ)
 /*!40000 ALTER TABLE `t_mail` DISABLE KEYS */;
 INSERT INTO `t_mail` (`id_mail`, `nom_mail`) VALUES
-	(1, 'e.wicht@gmail.com');
+	(1, 'e.wicht@gmail.com'),
+	(2, 'maccaud@eduvaud.ch'),
+	(3, 'Eric.lulu@apple.com');
 /*!40000 ALTER TABLE `t_mail` ENABLE KEYS */;
 
 -- Export de la structure de la table wicht_ewan_infoa1_pharmacie. t_mise_en_stock
@@ -203,10 +210,13 @@ CREATE TABLE IF NOT EXISTS `t_pers_achat_client` (
   KEY `FK_t_pers_achat_client_client` (`fk_client`),
   CONSTRAINT `FK_t_pers_achat_client_achat_client` FOREIGN KEY (`fk_achat_client`) REFERENCES `t_achat_client` (`id_achat_client`),
   CONSTRAINT `FK_t_pers_achat_client_client` FOREIGN KEY (`fk_client`) REFERENCES `t_client` (`id_client`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Export de données de la table wicht_ewan_infoa1_pharmacie.t_pers_achat_client : ~0 rows (environ)
 /*!40000 ALTER TABLE `t_pers_achat_client` DISABLE KEYS */;
+INSERT INTO `t_pers_achat_client` (`id_pers_achat_client`, `fk_client`, `fk_achat_client`) VALUES
+	(1, 5, 1),
+	(2, 3, 1);
 /*!40000 ALTER TABLE `t_pers_achat_client` ENABLE KEYS */;
 
 -- Export de la structure de la table wicht_ewan_infoa1_pharmacie. t_pers_adresse
