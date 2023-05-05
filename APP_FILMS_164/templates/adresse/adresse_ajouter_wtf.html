@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %} Ajouter une ADRESSE (WTF) {% endblock %}
+{% block body %}
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<p>
+				Ajouter une nouvelle adresse (WTForms)
+			</p>
+			<form action="" method="POST" novalidate>
+				<!-- Protection contre les attaques Cross-Site Request Forgery (CSRF) -->
+				{{ form.hidden_tag() }}
+				<div class="form-group">
+					<p>
+						{{ form.nom_rue_wtf.label }}<br>
+						{{ form.nom_rue_wtf(size=32) }}<br>
+						{% for error in form.nom_rue_wtf.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					</p>
+					<p>
+						{{ form.NPA_adresse_wtf.label }}<br>
+						{{ form.NPA_adresse_wtf(size=32) }}<br>
+						{% for error in form.NPA_adresse_wtf.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					</p>
+					<p>
+						{{ form.localite_adresse_wtf.label }}<br>
+						{{ form.localite_adresse_wtf(size=32) }}<br>
+						{% for error in form.localite_adresse_wtf.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					</p>
+				</div>
+				{{ form.submit(class="btn btn-primary") }}
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
