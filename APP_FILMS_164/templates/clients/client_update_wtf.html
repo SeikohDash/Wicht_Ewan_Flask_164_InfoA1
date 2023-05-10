@@ -39,14 +39,14 @@
                 		<span style="color: red;">[{{ error }}]</span>
             			{% endfor %}
         			</p>
-					<p>Genre choisi : {{ form_update_client.genres_dropdown_update_wtf.data }}</p>
+
 					<p style = "color:white">
-						{{ form_update_client.fk_assu_client_update_wtf.label }}<br>
-						{{ form_update_client.fk_assu_client_update_wtf(size=12) }}<br>
-						{% for error in form_update_client.fk_assu_client_update_wtf.errors %}
-						<span style="color: red;">[{{ error }}]</span>
-						{% endfor %}
-					</p>
+            			{{ form_update_client.assu_dropdown_update_wtf.label(class="form-control-label") }}<br>
+            			{{ form_update_client.assu_dropdown_update_wtf(class="form-select-sm") }}
+						{% for error in form_update_client.assu_dropdown_update_wtf.errors %}
+                		<span style="color: red;">[{{ error }}]</span>
+            			{% endfor %}
+        			</p>
 				</div>
 				{{ form_update_client.submit(class="btn btn-primary") }}
 			</form>

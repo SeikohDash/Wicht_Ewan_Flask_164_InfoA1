@@ -83,15 +83,17 @@ class FormWTFUpdateClient(FlaskForm):
                                                    Regexp(date_nais_client_update_regexp,
                                                           message="Le format de la date doit être AAAA-MM-JJ")])
     genres_dropdown_update_wtf = SelectField('Genres (liste déroulante)',
-                                      validators=[DataRequired(message="Sélectionner un genre.")],
-                                      validate_choice=False
-                                      )
+                                             validators=[DataRequired(message="Sélectionner un genre.")],
+                                             validate_choice=False,
+                                             coerce=int
+                                             )
 
     assu_maladie_client_update_regexp = ""
-    fk_assu_client_update_wtf = IntegerField("Assurance maladie du client 1 = Assura 2 = Helsana 3 = Visana", validators=[InputRequired("L'assurance doit etre comrpis entre 1 et 5"),
-                                                    NumberRange(min=1, max=5,
-                                                                message="L'assurance doit être 1 et 5")
-                                                   ])
+    assu_dropdown_update_wtf = SelectField('Genres (liste déroulante)',
+                                             validators=[DataRequired(message="Sélectionner un genre.")],
+                                             validate_choice=False,
+                                             coerce=int
+                                             )
     submit = SubmitField("Update Client")
 
 

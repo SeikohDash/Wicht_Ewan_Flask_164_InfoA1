@@ -186,13 +186,13 @@ def client_update_wtf():
             prenom_client_update = form_update_client.prenom_client_update_wtf.data
             date_nais_client_update = form_update_client.date_nais_client_update_wtf.data
             genre_client_update = form_update_client.genres_dropdown_update_wtf.data
-            fk_assu_client_update = form_update_client.fk_assu_client_update_wtf.data
+            fk_assu_client_update = form_update_client.assu_dropdown_update_wtf.data
 
             valeur_update_dictionnaire = {"value_id_client": id_client_update,
                                           "value_nom_client": nom_client_update,
                                           "value_prenom_client": prenom_client_update,
                                           "value_date_client": date_nais_client_update,
-                                          "value_genre_val_list_dropdown": genre_client_update,
+                                          "value_genre_update_val_list_dropdown": genre_client_update,
                                           "value_assurance_client": fk_assu_client_update
                                         }
             print("valeur_update_dictionnaire ", valeur_update_dictionnaire)
@@ -200,7 +200,7 @@ def client_update_wtf():
             str_sql_update_nom_mail = """UPDATE t_client SET nom = %(value_nom_client)s,
                                                             prenom = %(value_prenom_client)s,
                                                             date_de_nais = %(value_date_client)s,
-                                                            fk_genre = %(value_genre_val_list_dropdown)s,
+                                                            fk_genre = %(value_genre_update_val_list_dropdown)s,
                                                             fk_assu = %(value_assurance_client)s
                                                             WHERE id_client = %(value_id_client)s"""
             with DBconnection() as mconn_bd:
@@ -228,7 +228,8 @@ def client_update_wtf():
             form_update_client.prenom_client_update_wtf.data = data_client["prenom"]
             form_update_client.date_nais_client_update_wtf.data = data_client["date_de_nais"]
             form_update_client.genres_dropdown_update_wtf.data = data_client["fk_genre"]
-            form_update_client.fk_assu_client_update_wtf.data = data_client["fk_assu"]
+            form_update_client.assu_dropdown_update_wtf.data = data_client["fk_assu"]
+
         if request.method == "GET":
             with DBconnection() as mc_afficher:
                 strsql_genres_afficher = """SELECT id_genre, nom_genre FROM t_genre ORDER BY id_genre ASC"""
@@ -247,16 +248,34 @@ def client_update_wtf():
 
                 genre_val_list_dropdown = [(i["id_genre"], i["nom_genre"]) for i in data_genres]
             print("genre_val_list_dropdown ", genre_val_list_dropdown)
-            # Les valeurs sont chargées dans la liste dérou lante
+            # Les valeurs sont chargées dans la liste déroulante
             form_update_client.genres_dropdown_update_wtf.choices = genre_val_list_dropdown
 
-            print("genre choisi dans la liste :", form_update_client.genres_dropdown_update_wtf.data)
-            session['genre_selectionne_get'] = form_update_client.genres_dropdown_update_wtf.data
+        if request.method == "GET":
+            with DBconnection() as mc_afficher:
+                strsql_assu_afficher = """SELECT id_assu, nom_assu FROM t_assurance ORDER BY id_assu ASC"""
+                mc_afficher.execute(strsql_assu_afficher)
 
-    except Exception as Exception_film_update_wtf:
+            data_assu = mc_afficher.fetchall()
+            print("demo_select_wtf data_assu ", data_assu, " Type : ", type(data_assu))
+
+            """
+                Préparer les valeurs pour la liste déroulante de l'objet "FormWTFAddClient"
+                la liste déroulante est définie dans le "APP_FILMS_164/clients/gestion_clients_wtf_forms.py" 
+                le formulaire qui utilise la liste déroulante "APP_FILMS_164/templates/clients/client_add_wtf.html"
+            """
+            assu_update_val_list_dropdown = []
+            for i in data_assu:
+                assu_update_val_list_dropdown = [(i["id_assu"], i["nom_assu"]) for i in data_assu]
+
+            print("assu_dropdown_update_wtf ", assu_update_val_list_dropdown)
+            # Les valeurs sont chargées dans la liste déroulante
+            form_update_client.assu_dropdown_update_wtf.choices = assu_update_val_list_dropdown
+
+    except Exception as ExceptionClientsUpdateWtf:
         raise ExceptionFilmUpdateWtf(f"fichier : {Path(__file__).name}  ;  "
                                      f"{client_update_wtf.__name__} ; "
-                                     f"{Exception_film_update_wtf}")
+                                     f"{ExceptionClientsUpdateWtf}")
 
     return render_template("clients/client_update_wtf.html", form_update_client=form_update_client)
 
