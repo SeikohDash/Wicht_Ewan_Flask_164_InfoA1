@@ -180,7 +180,6 @@ def adresse_update_wtf():
             str_sql_update_adresse = """UPDATE t_adresse SET nom_rue = %(value_nom_rue)s,
                                                                         NPA = %(value_npa_adresse)s,
                                                                         Localite = %(value_localite_adresse)s,
-                                                                        
                                                                         WHERE id_adresse = %(value_id_adresse)s"""
             with DBconnection() as mconn_bd:
                 mconn_bd.execute(str_sql_update_adresse, valeur_update_dictionnaire)
@@ -194,7 +193,7 @@ def adresse_update_wtf():
         elif request.method == "GET":
             # Opération sur la BD pour récupérer "id_genre" et "nom_genre" de la "t_genre"
             str_sql_id_genre = "SELECT id_adresse, nom_rue, NPA, Localite FROM t_adresse " \
-                               "WHERE id_adresse = %(value_id_adresse)s"
+                                   "WHERE id_adresse = %(value_id_adresse)s"
             valeur_select_dictionnaire = {"value_id_adresse": id_adresse_update}
             with DBconnection() as mybd_conn:
                 mybd_conn.execute(str_sql_id_genre, valeur_select_dictionnaire)

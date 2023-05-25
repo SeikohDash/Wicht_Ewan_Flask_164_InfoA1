@@ -62,6 +62,12 @@ try:
     from APP_FILMS_164.adresse import gestion_adresse_crud
     from APP_FILMS_164.adresse import gestion_adresse_wtf_forms
 
+    from APP_FILMS_164.objets import gestion_objets_crud
+    from APP_FILMS_164.objets import gestion_objets_wtf_forms
+
+    from APP_FILMS_164.reception_objets_fourn import gestion_reception_objets_crud
+
+
 except Exception as Exception_init_app_films_164:
     print(f"4567756434 Une erreur est survenue {type(Exception_init_app_films_164)} dans"
           f"__init__ {Exception_init_app_films_164.args}")

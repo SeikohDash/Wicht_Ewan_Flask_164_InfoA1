@@ -124,7 +124,7 @@ def client_add_wtf():
             # Les valeurs sont chargées dans la liste déroulante
             form.genres_dropdown_wtf.choices = genre_val_list_dropdown
 
-        if request.method == "GET":
+
             with DBconnection() as mc_afficher:
                 strsql_assu_afficher = """SELECT id_assu, nom_assu FROM t_assurance ORDER BY id_assu ASC"""
                 mc_afficher.execute(strsql_assu_afficher)
@@ -171,7 +171,7 @@ Remarque :  Dans le champ "nom_mail_update_wtf" du formulaire "clients/films_upd
 """
 
 
-@app.route("/Client_Update", methods=['GET', 'POST'])
+@app.route("/client_update_wtf", methods=['GET', 'POST'])
 def client_update_wtf():
     # L'utilisateur vient de cliquer sur le bouton "EDIT". Récupère la valeur de "id_client"
     id_client_update = request.values['id_client_btn_edit_html']
@@ -179,8 +179,8 @@ def client_update_wtf():
     # Objet formulaire pour l'UPDATE
     form_update_client = FormWTFUpdateClient()
     try:
-        print(" on submit ", form_update_client.validate_on_submit())
-        if form_update_client.validate_on_submit():
+
+        if request.method == "POST" and form_update_client.submit.data:
             # Récupèrer la valeur du champ depuis "genre_update_wtf.html" après avoir cliqué sur "SUBMIT".
             nom_client_update = form_update_client.nom_client_update_wtf.data
             prenom_client_update = form_update_client.prenom_client_update_wtf.data
@@ -243,15 +243,15 @@ def client_update_wtf():
                 la liste déroulante est définie dans le "APP_FILMS_164/clients/gestion_clients_wtf_forms.py" 
                 le formulaire qui utilise la liste déroulante "APP_FILMS_164/templates/clients/client_add_wtf.html"
             """
-            genre_val_list_dropdown = []
+            genre_update_val_list_dropdown = []
             for i in data_genres:
 
-                genre_val_list_dropdown = [(i["id_genre"], i["nom_genre"]) for i in data_genres]
-            print("genre_val_list_dropdown ", genre_val_list_dropdown)
+                genre_update_val_list_dropdown = [(i["id_genre"], i["nom_genre"]) for i in data_genres]
+            print("genre_update_val_list_dropdown ", genre_update_val_list_dropdown)
             # Les valeurs sont chargées dans la liste déroulante
-            form_update_client.genres_dropdown_update_wtf.choices = genre_val_list_dropdown
+            form_update_client.genres_dropdown_update_wtf.choices = genre_update_val_list_dropdown
 
-        if request.method == "GET":
+
             with DBconnection() as mc_afficher:
                 strsql_assu_afficher = """SELECT id_assu, nom_assu FROM t_assurance ORDER BY id_assu ASC"""
                 mc_afficher.execute(strsql_assu_afficher)
@@ -268,7 +268,7 @@ def client_update_wtf():
             for i in data_assu:
                 assu_update_val_list_dropdown = [(i["id_assu"], i["nom_assu"]) for i in data_assu]
 
-            print("assu_dropdown_update_wtf ", assu_update_val_list_dropdown)
+            print("assu_update_val_list_dropdown ", assu_update_val_list_dropdown)
             # Les valeurs sont chargées dans la liste déroulante
             form_update_client.assu_dropdown_update_wtf.choices = assu_update_val_list_dropdown
 
