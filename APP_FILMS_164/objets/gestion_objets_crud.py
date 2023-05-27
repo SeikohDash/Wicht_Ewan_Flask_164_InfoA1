@@ -148,81 +148,81 @@ Test : ex. cliquer sur le menu "film" puis cliquer sur le bouton "DELETE" d'un "
     
 Paramètres : sans
 
-Remarque :  Dans le champ "nom_film_delete_wtf" du formulaire "films/film_delete_wtf.html"
+Remarque :  Dans le champ "nom_film_delete_wtf" du formulaire "films/objets_delete_wtf.html"
             On doit simplement cliquer sur "DELETE"
 """
 
 
-@app.route("/film_delete", methods=['GET', 'POST'])
-def film_delete_wtf():
+@app.route("/Objets_delete", methods=['GET', 'POST'])
+def objets_delete_wtf():
     # Pour afficher ou cacher les boutons "EFFACER"
-    data_film_delete = None
+    data_objets_delete = None
     btn_submit_del = None
     # L'utilisateur vient de cliquer sur le bouton "DELETE". Récupère la valeur de "id_film"
-    id_film_delete = request.values['id_film_btn_delete_html']
+    id_objets_delete = request.values['id_objets_btn_delete_html']
 
     # Objet formulaire pour effacer le film sélectionné.
-    form_delete_film = FormWTFDeleteFilm()
+    form_delete_objets = FormWTFDeleteFilm()
     try:
         # Si on clique sur "ANNULER", afficher tous les films.
-        if form_delete_film.submit_btn_annuler.data:
+        if form_delete_objets.submit_btn_annuler.data:
             return redirect(url_for("objets_reception_fourn_afficher", id_objets_sel=0))
 
-        if form_delete_film.submit_btn_conf_del_film.data:
+        if form_delete_objets.submit_btn_conf_del_film.data:
             # Récupère les données afin d'afficher à nouveau
-            # le formulaire "films/film_delete_wtf.html" lorsque le bouton "Etes-vous sur d'effacer ?" est cliqué.
-            data_film_delete = session['data_film_delete']
-            print("data_film_delete ", data_film_delete)
+            # le formulaire "films/objets_delete_wtf.html" lorsque le bouton "Etes-vous sur d'effacer ?" est cliqué.
+            data_objets_delete = session['data_objets_delete']
+            print("data_objets_delete ", data_objets_delete)
 
-            flash(f"Effacer le film de façon définitive de la BD !!!", "danger")
+            flash(f"Effacer l'Objets de façon définitive de la BD !!!", "danger")
             # L'utilisateur vient de cliquer sur le bouton de confirmation pour effacer...
             # On affiche le bouton "Effacer genre" qui va irrémédiablement EFFACER le genre
             btn_submit_del = True
 
         # L'utilisateur a vraiment décidé d'effacer.
-        if form_delete_film.submit_btn_del_film.data:
-            valeur_delete_dictionnaire = {"value_id_objets": id_film_delete}
+        if form_delete_objets.submit_btn_del_film.data:
+            valeur_delete_dictionnaire = {"value_id_objets": id_objets_delete}
             print("valeur_delete_dictionnaire ", valeur_delete_dictionnaire)
 
-            str_sql_delete_fk_film_genre = """DELETE FROM t_reception_objets_four WHERE fk_film = %(value_id_objets)s"""
-            str_sql_delete_film = """DELETE FROM t_film WHERE id_film = %(value_id_objets)s"""
-            # Manière brutale d'effacer d'abord la "fk_film", même si elle n'existe pas dans la "t_reception_objets_four"
-            # Ensuite on peut effacer le film vu qu'il n'est plus "lié" (INNODB) dans la "t_reception_objets_four"
+            str_sql_delete_fk_objets_fournisseur = """DELETE FROM t_recep_objets_fourn WHERE fk_objets = %(value_id_objets)s"""
+            str_sql_delete_objets = """DELETE FROM t_objets WHERE id_objets = %(value_id_objets)s"""
+            # Manière brutale d'effacer d'abord la "fk_film", même si elle n'existe pas dans la "t_recep_objets_fourn"
+            # Ensuite on peut effacer le film vu qu'il n'est plus "lié" (INNODB) dans la "t_recep_objets_fourn"
             with DBconnection() as mconn_bd:
-                mconn_bd.execute(str_sql_delete_fk_film_genre, valeur_delete_dictionnaire)
-                mconn_bd.execute(str_sql_delete_film, valeur_delete_dictionnaire)
+                mconn_bd.execute(str_sql_delete_fk_objets_fournisseur, valeur_delete_dictionnaire)
+                mconn_bd.execute(str_sql_delete_objets, valeur_delete_dictionnaire)
 
-            flash(f"Film définitivement effacé !!", "success")
-            print(f"Film définitivement effacé !!")
+            flash(f"Objets définitivement effacé !!", "success")
+            print(f"Objets définitivement effacé !!")
 
             # afficher les données
             return redirect(url_for('objets_reception_fourn_afficher', id_objets_sel=0))
         if request.method == "GET":
-            valeur_select_dictionnaire = {"value_id_objets": id_film_delete}
-            print(id_film_delete, type(id_film_delete))
+            valeur_select_dictionnaire = {"value_id_objets": id_objets_delete}
+            print(id_objets_delete, type(id_objets_delete))
 
             # Requête qui affiche le film qui doit être efffacé.
-            str_sql_genres_films_delete = """SELECT * FROM t_film WHERE id_film = %(value_id_objets)s"""
+            str_sql_fournisseur_objets_delete = """SELECT * FROM t_objets WHERE id_objets = %(value_id_objets)s"""
 
             with DBconnection() as mydb_conn:
-                mydb_conn.execute(str_sql_genres_films_delete, valeur_select_dictionnaire)
-                data_film_delete = mydb_conn.fetchall()
-                print("data_film_delete...", data_film_delete)
+                mydb_conn.execute(str_sql_fournisseur_objets_delete, valeur_select_dictionnaire)
+                data_objets_delete = mydb_conn.fetchall()
+                print("data_objets_delete...", data_objets_delete)
 
                 # Nécessaire pour mémoriser les données afin d'afficher à nouveau
-                # le formulaire "films/film_delete_wtf.html" lorsque le bouton "Etes-vous sur d'effacer ?" est cliqué.
-                session['data_film_delete'] = data_film_delete
+                # le formulaire "films/objets_delete_wtf.html" lorsque le bouton "Etes-vous sur d'effacer ?" est cliqué.
+                session['data_objets_delete'] = data_objets_delete
 
-            # Le bouton pour l'action "DELETE" dans le form. "film_delete_wtf.html" est caché.
+            # Le bouton pour l'action "DELETE" dans le form. "objets_delete_wtf.html" est caché.
             btn_submit_del = False
 
     except Exception as Exception_film_delete_wtf:
         raise ExceptionFilmDeleteWtf(f"fichier : {Path(__file__).name}  ;  "
-                                     f"{film_delete_wtf.__name__} ; "
+                                     f"{objets_delete_wtf.__name__} ; "
                                      f"{Exception_film_delete_wtf}")
 
-    return render_template("films/film_delete_wtf.html",
-                           form_delete_film=form_delete_film,
+    return render_template("objets/objets_delete_wtf.html",
+                           form_delete_objets=form_delete_objets,
                            btn_submit_del=btn_submit_del,
-                           data_film_del=data_film_delete
+                           data_film_del=data_objets_delete
                            )

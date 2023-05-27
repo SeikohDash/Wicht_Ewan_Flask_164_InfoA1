@@ -16,30 +16,27 @@ class FormWTFAddObjets(FlaskForm):
         Dans le formulaire "genres_ajouter_wtf.html" on impose que le champ soit rempli.
         Définition d'un "bouton" submit avec un libellé personnalisé.
     """
-    nom_objets_regexp = ""
-    nom_objets_wtf = StringField("Nom de l'objets ", validators=[Length(min=2, max=2000, message="min 2 max 20"),
-                                                               Regexp(nom_objets_regexp,
-                                                                      message="Pas de chiffres, de caractères "
-                                                                              "spéciaux, "
-                                                                              "d'espace à double, de double "
-                                                                              "apostrophe, de double trait union")
-                                                               ])
-    cb_ean_regexp = ""
-    cb_ean_wtf = StringField("Code Barre ", validators=[Length(min=2, max=2000, message="min 2 max 20"),
-                                                             Regexp(cb_ean_regexp,
-                                                                    message="Pas de chiffres, de caractères "
-                                                                            "spéciaux, "
-                                                                            "d'espace à double, de double "
-                                                                            "apostrophe, de double trait union")
-                                                             ])
-    prix_regexp = ""
-    prix_wtf = StringField("Prix ", validators=[Length(min=2, max=2000, message="min 2 max 20"),
-                                                             Regexp(prix_regexp,
-                                                                    message="Pas de chiffres, de caractères "
-                                                                            "spéciaux, "
-                                                                            "d'espace à double, de double "
-                                                                            "apostrophe, de double trait union")
-                                                             ])
+
+    nom_objets_regexp = "^[a-zA-Z]+$"
+    nom_objets_wtf = StringField("Nom de l'objet ", validators=[
+        Length(min=2, max=45, message="min 2 max 45"),
+        DataRequired(message="Ce champ est obligatoire."),
+        Regexp(nom_objets_regexp, message="Veuillez saisir uniquement des lettres.")
+    ])
+
+    cb_ean_regexp = "^[01]+$"
+    cb_ean_wtf = StringField("Code Barre ", validators=[
+        Length(min=2, max=500, message="min 2 max 500"),
+        DataRequired(message="Ce champ est obligatoire."),
+        Regexp(cb_ean_regexp, message="Veuillez saisir uniquement des caractères '0' ou '1'.")
+    ])
+
+    prix_regexp = "^\d+\.-$"
+    prix_wtf = StringField("Prix ", validators=[
+        Length(min=1, max=7, message="min 1 max 7"),
+        DataRequired(message="Ce champ est obligatoire."),
+        Regexp(prix_regexp, message="Veuillez saisir un prix valide se terminant par un point tiret '.-'")
+    ])
 
 
     submit = SubmitField("Enregistrer Objets")
@@ -51,22 +48,40 @@ class FormWTFUpdateObjets(FlaskForm):
         Définition d'un "bouton" submit avec un libellé personnalisé.
     """
 
-    nom_objets_update = StringField("Clavioter le nom de l'objets", widget=TextArea())
-    cb_ean_update_wtf = StringField("Clavioter le nom de l'objets", widget=TextArea())
-    prix_update_wtf = StringField("Clavioter le nom de l'objets", widget=TextArea())
-    submit = SubmitField("Update film")
+    nom_objets_update_regexp = "^[a-zA-Z]+$"
+    nom_objets_update = StringField("Nom de l'objet ", validators=[
+        Length(min=2, max=45, message="min 2 max 45"),
+        DataRequired(message="Ce champ est obligatoire."),
+        Regexp(nom_objets_update_regexp, message="Veuillez saisir uniquement des lettres.")
+                                                                ])
+
+    cb_ean_update_regexp = "^[01]+$"
+    cb_ean_update_wtf = StringField("Code Barre ", validators=[
+        Length(min=2, max=500, message="min 2 max 500"),
+        DataRequired(message="Ce champ est obligatoire."),
+        Regexp(cb_ean_update_regexp, message="Veuillez saisir uniquement des caractères '0' ou '1'.")
+                                                                 ])
+
+    prix_update_regexp = "^\d+\.-$"
+    prix_update_wtf = StringField("Prix ", validators=[
+        Length(min=1, max=5, message="min 1 max 5"),
+        DataRequired(message="Ce champ est obligatoire."),
+        Regexp(prix_update_regexp, message="Veuillez saisir un prix valide se terminant par un point tiret '.-'")
+                                                             ])
+
+    submit = SubmitField("Update Objets")
 
 
 class FormWTFDeleteFilm(FlaskForm):
     """
-        Dans le formulaire "film_delete_wtf.html"
+        Dans le formulaire "objets_delete_wtf.html"
 
         nom_film_delete_wtf : Champ qui reçoit la valeur du film, lecture seule. (readonly=true)
         submit_btn_del : Bouton d'effacement "DEFINITIF".
         submit_btn_conf_del : Bouton de confirmation pour effacer un "film".
         submit_btn_annuler : Bouton qui permet d'afficher la table "t_film".
     """
-    nom_film_delete_wtf = StringField("Effacer ce film")
-    submit_btn_del_film = SubmitField("Effacer film")
+    nom_film_delete_wtf = StringField("Effacer cette objets")
+    submit_btn_del_film = SubmitField("Effacer objets")
     submit_btn_conf_del_film = SubmitField("Etes-vous sur d'effacer ?")
     submit_btn_annuler = SubmitField("Annuler")

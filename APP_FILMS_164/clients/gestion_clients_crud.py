@@ -41,12 +41,12 @@ def clients_afficher(id_client_sel):
                     mc_afficher.execute(strsql_client_afficher_data)
                 else:
                     # Constitution d'un dictionnaire pour associer l'id du film sélectionné avec un nom de variable
-                    valeur_id_film_selected_dictionnaire = {"value_id_client_selected": id_client_sel}
+                    valeur_id_objets_selected_dictionnaire = {"value_id_client_selected": id_client_sel}
                     # En MySql l'instruction HAVING fonctionne comme un WHERE... mais doit être associée à un GROUP BY
                     # L'opérateur += permet de concaténer une nouvelle valeur à la valeur de gauche préalablement définie.
                     strsql_client_afficher_data += """ HAVING id_client= %(value_id_client_selected)s"""
 
-                    mc_afficher.execute(strsql_client_afficher_data, valeur_id_film_selected_dictionnaire)
+                    mc_afficher.execute(strsql_client_afficher_data, valeur_id_objets_selected_dictionnaire)
 
                 # Récupère les données de la requête.
                 data_client_afficher = mc_afficher.fetchall()
@@ -350,10 +350,10 @@ def client_delete_wtf():
             print(id_client_delete, type(id_client_delete))
 
             # Requête qui affiche le film qui doit être efffacé.
-            str_sql_genres_films_delete = """SELECT * FROM t_client WHERE id_client = %(value_id_client)s"""
+            str_sql_fournisseur_objets_delete = """SELECT * FROM t_client WHERE id_client = %(value_id_client)s"""
 
             with DBconnection() as mydb_conn:
-                mydb_conn.execute(str_sql_genres_films_delete, valeur_select_dictionnaire)
+                mydb_conn.execute(str_sql_fournisseur_objets_delete, valeur_select_dictionnaire)
                 data_client_delete = mydb_conn.fetchall()
                 print("data_client_delete...", data_client_delete)
 
