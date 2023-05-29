@@ -42,23 +42,23 @@ def adresse_afficher(order_by, id_adresse_sel):
                     # Pour "lever"(raise) une erreur s'il y a des erreurs sur les noms d'attributs dans la table
                     # donc, je précise les champs à afficher
                     # Constitution d'un dictionnaire pour associer l'id du genre sélectionné avec un nom de variable
-                    valeur_id_genre_selected_dictionnaire = {"value_id_adresse_selected": id_adresse_sel}
+                    valeur_id_adresse_selected_dictionnaire = {"value_id_adresse_selected": id_adresse_sel}
                     strsql_adresse_afficher = """SELECT * from t_adresse"""
 
-                    mc_afficher.execute(strsql_adresse_afficher, valeur_id_genre_selected_dictionnaire)
+                    mc_afficher.execute(strsql_adresse_afficher, valeur_id_adresse_selected_dictionnaire)
                 else:
                     strsql_adresse_afficher = """SELECT * from t_adresse"""
 
                     mc_afficher.execute(strsql_adresse_afficher)
 
-                data_genres = mc_afficher.fetchall()
+                data_adresse = mc_afficher.fetchall()
 
-                print("data_genres ", data_genres, " Type : ", type(data_genres))
+                print("data_adresse ", data_adresse, " Type : ", type(data_adresse))
 
                 # Différencier les messages si la table est vide.
-                if not data_genres and id_adresse_sel == 0:
+                if not data_adresse and id_adresse_sel == 0:
                     flash("""La table "t_adresse" est vide. !!""", "warning")
-                elif not data_genres and id_adresse_sel > 0:
+                elif not data_adresse and id_adresse_sel > 0:
                     # Si l'utilisateur change l'id_genre dans l'URL et que le genre n'existe pas,
                     flash(f"L'adresse demandé n'existe pas !!", "warning")
                 else:
@@ -66,13 +66,13 @@ def adresse_afficher(order_by, id_adresse_sel):
                     # OM 2020.04.09 La ligne ci-dessous permet de donner un sentiment rassurant aux utilisateurs.
                     flash(f"Adresse affichés !!", "success")
 
-        except Exception as Exception_genres_afficher:
-            raise ExceptionGenresAfficher(f"fichier : {Path(__file__).name}  ;  "
+        except Exception as Exception_adresse_afficher:
+            raise ExceptionadresseAfficher(f"fichier : {Path(__file__).name}  ;  "
                                           f"{adresse_afficher.__name__} ; "
-                                          f"{Exception_genres_afficher}")
+                                          f"{Exception_adresse_afficher}")
 
     # Envoie la page "HTML" au serveur.
-    return render_template("adresse/adresse_afficher.html", data=data_genres)
+    return render_template("adresse/adresse_afficher.html", data=data_adresse)
 
 
 """
@@ -123,10 +123,10 @@ def adresse_ajouter_wtf():
                 # Pour afficher et constater l'insertion de la valeur, on affiche en ordre inverse. (DESC)
                 return redirect(url_for('adresse_afficher', order_by='DESC', id_adresse_sel=0))
 
-        except Exception as Exception_genres_ajouter_wtf:
-            raise ExceptionGenresAjouterWtf(f"fichier : {Path(__file__).name}  ;  "
+        except Exception as Exception_adresse_ajouter_wtf:
+            raise ExceptionadresseAjouterWtf(f"fichier : {Path(__file__).name}  ;  "
                                             f"{adresse_ajouter_wtf.__name__} ; "
-                                            f"{Exception_genres_ajouter_wtf}")
+                                            f"{Exception_adresse_ajouter_wtf}")
 
     return render_template("adresse/adresse_ajouter_wtf.html", form=form)
 
@@ -198,19 +198,19 @@ def adresse_update_wtf():
             with DBconnection() as mybd_conn:
                 mybd_conn.execute(str_sql_id_genre, valeur_select_dictionnaire)
             # Une seule valeur est suffisante "fetchone()", vu qu'il n'y a qu'un seul champ "nom genre" pour l'UPDATE
-            data_nom_genre = mybd_conn.fetchone()
-            print("data_nom_rue ", data_nom_genre, " type ", type(data_nom_genre), " adresse ",
-                  data_nom_genre["nom_rue"])
+            data_nom_adresse = mybd_conn.fetchone()
+            print("data_nom_rue ", data_nom_adresse, " type ", type(data_nom_adresse), " adresse ",
+                  data_nom_adresse["nom_rue"])
 
             # Afficher la valeur sélectionnée dans les champs du formulaire "adresse_update_wtf.html"
-            form_update.nom_rue_update_wtf.data = data_nom_genre["nom_rue"]
-            form_update.NPA_adresse_update_wtf.data = data_nom_genre["NPA"]
-            form_update.localite_adresse_update_wtf.data = data_nom_genre["Localite"]
+            form_update.nom_rue_update_wtf.data = data_nom_adresse["nom_rue"]
+            form_update.NPA_adresse_update_wtf.data = data_nom_adresse["NPA"]
+            form_update.localite_adresse_update_wtf.data = data_nom_adresse["Localite"]
 
-    except Exception as Exception_genre_update_wtf:
-        raise ExceptionGenreUpdateWtf(f"fichier : {Path(__file__).name}  ;  "
+    except Exception as Exception_adresse_update_wtf:
+        raise ExceptionAdresseUpdateWtf(f"fichier : {Path(__file__).name}  ;  "
                                       f"{adresse_update_wtf.__name__} ; "
-                                      f"{Exception_genre_update_wtf}")
+                                      f"{Exception_adresse_update_wtf}")
 
     return render_template("adresse/adresse_update_wtf.html", form_update=form_update)
 
@@ -279,15 +279,15 @@ def adresse_delete_wtf():
             valeur_select_dictionnaire = {"value_id_adresse": id_adresse_delete}
             print(id_adresse_delete, type(id_adresse_delete))
 
-            # Requête qui affiche tous les films_genres qui ont le genre que l'utilisateur veut effacer
-            str_sql_genres_client_delete = """SELECT nom_rue, t_client.nom
+            # Requête qui affiche tous les client qui ont l'adresse que l'utilisateur veut effacer
+            str_sql_adresse_client_delete = """SELECT nom_rue, t_client.nom
                                                 FROM t_client
                                                 JOIN t_pers_adresse ON id_client = fk_client 
                                                 JOIN t_adresse ON id_adresse = fk_adresse
                                             WHERE fk_adresse = %(value_id_adresse)s"""
 
             with DBconnection() as mydb_conn:
-                mydb_conn.execute(str_sql_genres_client_delete, valeur_select_dictionnaire)
+                mydb_conn.execute(str_sql_adresse_client_delete, valeur_select_dictionnaire)
                 data_adresse_delete = mydb_conn.fetchall()
                 print("data_adresse_delete...", data_adresse_delete)
 
@@ -301,12 +301,12 @@ def adresse_delete_wtf():
                 mydb_conn.execute(str_sql_id_adresse, valeur_select_dictionnaire)
                 # Une seule valeur est suffisante "fetchone()",
                 # vu qu'il n'y a qu'un seul champ "nom genre" pour l'action DELETE
-                data_nom_genre = mydb_conn.fetchone()
-                print("data_nom_rue ", data_nom_genre, " type ", type(data_nom_genre), " rue ",
-                      data_nom_genre["nom_rue"])
+                data_nom_adresse = mydb_conn.fetchone()
+                print("data_nom_rue ", data_nom_adresse, " type ", type(data_nom_adresse), " rue ",
+                      data_nom_adresse["nom_rue"])
 
             # Afficher la valeur sélectionnée dans le champ du formulaire "adresse_delete_wtf.html"
-            form_delete.nom_adresse_delete_wtf.data = data_nom_genre["nom_rue"]
+            form_delete.nom_adresse_delete_wtf.data = data_nom_adresse["nom_rue"]
 
             # Le bouton pour l'action "DELETE" dans le form. "adresse_delete_wtf.html" est caché.
             btn_submit_del = False

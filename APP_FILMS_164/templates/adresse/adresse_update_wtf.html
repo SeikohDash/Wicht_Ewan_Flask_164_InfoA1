@@ -1,31 +1,31 @@
 {% extends "base.html" %}
-{% block title %} Editer un GENRE (WTF) {% endblock %}
+{% block title %} Editer une Adresse {% endblock %}
 {% block body %}
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
-			<p>
-				Editer un GENRE
+			<p style="color: white">
+				Editer une Adresse
 			</p>
 			<form action="" method="POST" novalidate>
 				<!-- Protection contre les attaques Cross-Site Request Forgery (CSRF) -->
 				{{ form_update.hidden_tag() }}
 				<div class="form-group">
-					<p>
+					<p style="color: white">
 						{{ form_update.nom_rue_update_wtf.label }}<br>
 						{{ form_update.nom_rue_update_wtf(size=32) }}<br>
 						{% for error in form_update.nom_rue_update_wtf.errors %}
 							<span style="color: red;">[{{ error }}]</span>
 						{% endfor %}
 					</p>
-					<p>
+					<p style="color: white">
 						{{ form_update.NPA_adresse_update_wtf.label }}<br>
 						{{ form_update.NPA_adresse_update_wtf(size=32) }}<br>
 						{% for error in form_update.NPA_adresse_update_wtf.errors %}
 							<span style="color: red;">[{{ error }}]</span>
 						{% endfor %}
 					</p>
-					<p>
+					<p style="color: white">
 						{{ form_update.localite_adresse_update_wtf.label }}<br>
 						{{ form_update.localite_adresse_update_wtf(size=32) }}<br>
 						{% for error in form_update.localite_adresse_update_wtf.errors %}

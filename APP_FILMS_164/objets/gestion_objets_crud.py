@@ -28,7 +28,7 @@ Remarque :  Dans le champ "nom_film_update_wtf" du formulaire "films/films_updat
 """
 
 
-@app.route("/film_add", methods=['GET', 'POST'])
+@app.route("/objets_add", methods=['GET', 'POST'])
 def objets_add_wtf():
     # Objet formulaire pour AJOUTER un film
     form_add_objets = FormWTFAddObjets()
@@ -56,10 +56,10 @@ def objets_add_wtf():
                 # Pour afficher et constater l'insertion du nouveau film (id_objets_sel=0 => afficher tous les films)
                 return redirect(url_for('objets_reception_fourn_afficher', id_objets_sel=0))
 
-        except Exception as Exception_genres_ajouter_wtf:
-            raise ExceptionGenresAjouterWtf(f"fichier : {Path(__file__).name}  ;  "
+        except Exception as Exception_objets_ajouter_wtf:
+            raise ExceptionObjetsAjouterWtf(f"fichier : {Path(__file__).name}  ;  "
                                             f"{objets_add_wtf.__name__} ; "
-                                            f"{Exception_genres_ajouter_wtf}")
+                                            f"{Exception_objets_ajouter_wtf}")
 
     return render_template("objets/objets_add_wtf.html", form_add_objets=form_add_objets)
 
@@ -80,7 +80,7 @@ Remarque :  Dans le champ "nom_film_update_wtf" du formulaire "films/films_updat
 """
 
 
-@app.route("/film_update", methods=['GET', 'POST'])
+@app.route("/objets_update", methods=['GET', 'POST'])
 def Objets_update_wtf():
     # L'utilisateur vient de cliquer sur le bouton "EDIT". Récupère la valeur de "id_film"
     id_objets_update = request.values['id_objets_btn_edit_html']
@@ -103,12 +103,12 @@ def Objets_update_wtf():
             
             print("valeur_update_dictionnaire ", valeur_update_dictionnaire)
 
-            str_sql_update_nom_film = """UPDATE t_objets SET nom_objets = %(value_nom_objets_update)s,
+            str_sql_update_nom_objets = """UPDATE t_objets SET nom_objets = %(value_nom_objets_update)s,
                                                             cb_ean = %(value_cb_ean_update)s,
                                                             prix = %(value_prix_update)s
                                                             WHERE id_objets = %(value_id_objets)s"""
             with DBconnection() as mconn_bd:
-                mconn_bd.execute(str_sql_update_nom_film, valeur_update_dictionnaire)
+                mconn_bd.execute(str_sql_update_nom_objets, valeur_update_dictionnaire)
 
             flash(f"Donnée mise à jour !!", "success")
             print(f"Donnée mise à jour !!")
@@ -123,19 +123,19 @@ def Objets_update_wtf():
             with DBconnection() as mybd_conn:
                 mybd_conn.execute(str_sql_id_objets, valeur_select_dictionnaire)
             # Une seule valeur est suffisante "fetchone()", vu qu'il n'y a qu'un seul champ "nom genre" pour l'UPDATE
-            data_film = mybd_conn.fetchone()
-            print("data_objets ", data_film, " type ", type(data_film), " genre ",
-                  data_film["nom_objets"])
+            data_objets = mybd_conn.fetchone()
+            print("data_objets ", data_objets, " type ", type(data_objets), " genre ",
+                  data_objets["nom_objets"])
 
             # Afficher la valeur sélectionnée dans le champ du formulaire "film_update_wtf.html"
-            form_update_objets.nom_objets_update.data = data_film["nom_objets"]
-            form_update_objets.cb_ean_update_wtf.data = data_film["cb_ean"]
-            form_update_objets.prix_update_wtf.data = data_film["prix"]
+            form_update_objets.nom_objets_update.data = data_objets["nom_objets"]
+            form_update_objets.cb_ean_update_wtf.data = data_objets["cb_ean"]
+            form_update_objets.prix_update_wtf.data = data_objets["prix"]
 
-    except Exception as Exception_film_update_wtf:
-        raise ExceptionFilmUpdateWtf(f"fichier : {Path(__file__).name}  ;  "
+    except Exception as Exception_objets_update_wtf:
+        raise ExceptionObjetsUpdateWtf(f"fichier : {Path(__file__).name}  ;  "
                                      f"{Objets_update_wtf.__name__} ; "
-                                     f"{Exception_film_update_wtf}")
+                                     f"{Exception_objets_update_wtf}")
 
     return render_template("objets/objets_update_wtf.html", form_update_objets=form_update_objets)
 
@@ -216,13 +216,13 @@ def objets_delete_wtf():
             # Le bouton pour l'action "DELETE" dans le form. "objets_delete_wtf.html" est caché.
             btn_submit_del = False
 
-    except Exception as Exception_film_delete_wtf:
-        raise ExceptionFilmDeleteWtf(f"fichier : {Path(__file__).name}  ;  "
+    except Exception as Exception_objets_delete_wtf:
+        raise ExceptionObjetsDeleteWtf(f"fichier : {Path(__file__).name}  ;  "
                                      f"{objets_delete_wtf.__name__} ; "
-                                     f"{Exception_film_delete_wtf}")
+                                     f"{Exception_objets_delete_wtf}")
 
     return render_template("objets/objets_delete_wtf.html",
                            form_delete_objets=form_delete_objets,
                            btn_submit_del=btn_submit_del,
-                           data_film_del=data_objets_delete
+                           data_objets_del=data_objets_delete
                            )

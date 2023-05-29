@@ -1,14 +1,14 @@
 {% extends "base.html" %}
-{% block title %} Effacer un FILM (WTF) {% endblock %}
+{% block title %} Effacer un Client {% endblock %}
 {% block body %}
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
-			<p>
+			<p style="color: white">
 				Effacer un client
 			</p>
 			<table class="table table-responsive-sm">
-				{% if data_film_del %}
+				{% if data_client_del %}
 				<thead>
 				<tr>
 					<th class="" >
@@ -32,7 +32,7 @@
 				</tr>
 				</thead>
 				{% endif %}
-				{% for row in data_film_del %}
+				{% for row in data_client_del %}
 				<tbody>
 				<tr>
 					<th class="align-middle">
@@ -54,9 +54,6 @@
 						{{ row.fk_assu }}
 					</th>
 
-				<tr>
-
-				</tr>
 				</tr>
 				</tbody>
 				{% else %}

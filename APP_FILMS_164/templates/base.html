@@ -56,6 +56,18 @@
 								<a class="nav-link" href="{{ url_for('assu_afficher', order_by='ASC', id_assu_sel=0) }}">Assurance</a>
 								<a class="nav-link" href="{{ url_for('mail_afficher', order_by='ASC', id_mail_sel=0) }}">Mail</a>
 								<a class="nav-link" href="{{ url_for('adresse_afficher', order_by='ASC', id_adresse_sel=0) }}">Adresse</a>
+
+							</li>
+
+						</ul>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navdropdownobjets" role="button"
+						   data-bs-toggle="dropdown" aria-expanded="false">
+							Objets
+						</a>
+						<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+							<li>
 								<a class="nav-link" href="{{ url_for('objets_reception_fourn_afficher', order_by='ASC', id_objets_sel=0) }}">Objets</a>
 								<a class="nav-link" href="{{ url_for('objets_reception_fourn_afficher', order_by='ASC', id_objets_sel=0) }}">Objets/Fournisseur</a>
 							</li>

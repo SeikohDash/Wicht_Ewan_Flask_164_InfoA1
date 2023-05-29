@@ -51,14 +51,14 @@ def mail_afficher(order_by, id_mail_sel):
 
                     mc_afficher.execute(strsql_mail_afficher)
 
-                data_genres = mc_afficher.fetchall()
+                data_mail = mc_afficher.fetchall()
 
-                print("data_genres ", data_genres, " Type : ", type(data_genres))
+                print("data_mail ", data_mail, " Type : ", type(data_mail))
 
                 # Différencier les messages si la table est vide.
-                if not data_genres and id_mail_sel == 0:
+                if not data_mail and id_mail_sel == 0:
                     flash("""La table "t_mail" est vide. !!""", "warning")
-                elif not data_genres and id_mail_sel > 0:
+                elif not data_mail and id_mail_sel > 0:
                     # Si l'utilisateur change l'id_genre dans l'URL et que le genre n'existe pas,
                     flash(f"Le mail demandé n'existe pas !!", "warning")
                 else:
@@ -66,13 +66,13 @@ def mail_afficher(order_by, id_mail_sel):
                     # OM 2020.04.09 La ligne ci-dessous permet de donner un sentiment rassurant aux utilisateurs.
                     flash(f"Données mail affichés !!", "success")
 
-        except Exception as Exception_genres_afficher:
-            raise ExceptionGenresAfficher(f"fichier : {Path(__file__).name}  ;  "
+        except Exception as Exception_mail_afficher:
+            raise ExceptionMailAfficher(f"fichier : {Path(__file__).name}  ;  "
                                           f"{mail_afficher.__name__} ; "
-                                          f"{Exception_genres_afficher}")
+                                          f"{Exception_mail_afficher}")
 
     # Envoie la page "HTML" au serveur.
-    return render_template("mail/mail_afficher.html", data=data_genres)
+    return render_template("mail/mail_afficher.html", data=data_mail)
 
 
 """
@@ -106,9 +106,9 @@ def mail_ajouter_wtf():
                 valeurs_insertion_dictionnaire = {"value_nom_mail": nom_mail}
                 print("valeurs_insertion_dictionnaire ", valeurs_insertion_dictionnaire)
 
-                strsql_insert_genre = """INSERT INTO t_mail (id_mail,nom_mail) VALUES (NULL,%(value_nom_mail)s) """
+                strsql_insert_mail = """INSERT INTO t_mail (id_mail,nom_mail) VALUES (NULL,%(value_nom_mail)s) """
                 with DBconnection() as mconn_bd:
-                    mconn_bd.execute(strsql_insert_genre, valeurs_insertion_dictionnaire)
+                    mconn_bd.execute(strsql_insert_mail, valeurs_insertion_dictionnaire)
 
                 flash(f"Données insérées !!", "success")
                 print(f"Données insérées !!")
@@ -116,10 +116,10 @@ def mail_ajouter_wtf():
                 # Pour afficher et constater l'insertion de la valeur, on affiche en ordre inverse. (DESC)
                 return redirect(url_for('mail_afficher', order_by='DESC', id_mail_sel=0))
 
-        except Exception as Exception_genres_ajouter_wtf:
+        except Exception as Exception_mail_ajouter_wtf:
             raise ExceptionGenresAjouterWtf(f"fichier : {Path(__file__).name}  ;  "
                                             f"{mail_ajouter_wtf.__name__} ; "
-                                            f"{Exception_genres_ajouter_wtf}")
+                                            f"{Exception_mail_ajouter_wtf}")
 
     return render_template("mail/mail_ajouter_wtf.html", form=form)
 
@@ -164,10 +164,10 @@ def mail_update_wtf():
                                           "value_nom_mail": nom_mail_update}
             print("valeur_update_dictionnaire ", valeur_update_dictionnaire)
 
-            str_sql_update_intitulegenre = """UPDATE t_mail SET nom_mail = %(value_nom_mail)s 
+            str_sql_update_mail = """UPDATE t_mail SET nom_mail = %(value_nom_mail)s 
             WHERE id_mail = %(value_id_mail)s """
             with DBconnection() as mconn_bd:
-                mconn_bd.execute(str_sql_update_intitulegenre, valeur_update_dictionnaire)
+                mconn_bd.execute(str_sql_update_mail, valeur_update_dictionnaire)
 
             flash(f"Donnée mise à jour !!", "success")
             print(f"Donnée mise à jour !!")
@@ -183,18 +183,18 @@ def mail_update_wtf():
             with DBconnection() as mybd_conn:
                 mybd_conn.execute(str_sql_id_mail, valeur_select_dictionnaire)
             # Une seule valeur est suffisante "fetchone()", vu qu'il n'y a qu'un seul champ "nom genre" pour l'UPDATE
-            data_nom_genre = mybd_conn.fetchone()
-            print("data_nom_genre ", data_nom_genre, " type ", type(data_nom_genre), " genre ",
-                  data_nom_genre["nom_mail"])
+            data_nom_mail = mybd_conn.fetchone()
+            print("data_nom_mail ", data_nom_mail, " type ", type(data_nom_mail), " genre ",
+                  data_nom_mail["nom_mail"])
 
             # Afficher la valeur sélectionnée dans les champs du formulaire "mail_update_wtf.html"
-            form_update.nom_mail_update_wtf.data = data_nom_genre["nom_mail"]
+            form_update.nom_mail_update_wtf.data = data_nom_mail["nom_mail"]
 
 
-    except Exception as Exception_genre_update_wtf:
-        raise ExceptionGenreUpdateWtf(f"fichier : {Path(__file__).name}  ;  "
+    except Exception as Exception_mail_update_wtf:
+        raise ExceptionMailUpdateWtf(f"fichier : {Path(__file__).name}  ;  "
                                       f"{mail_update_wtf.__name__} ; "
-                                      f"{Exception_genre_update_wtf}")
+                                      f"{Exception_mail_update_wtf}")
 
     return render_template("mail/mail_update_wtf.html", form_update=form_update)
 
@@ -244,13 +244,13 @@ def mail_delete_wtf():
                 valeur_delete_dictionnaire = {"value_id_mail": id_mail_delete}
                 print("valeur_delete_dictionnaire ", valeur_delete_dictionnaire)
 
-                str_sql_delete_client_genre = """DELETE FROM t_pers_mail WHERE fk_mail = %(value_id_mail)s"""
-                str_sql_delete_idgenre = """DELETE FROM t_mail WHERE id_mail = %(value_id_mail)s"""
+                str_sql_delete_client_mail = """DELETE FROM t_pers_mail WHERE fk_mail = %(value_id_mail)s"""
+                str_sql_delete_mail = """DELETE FROM t_mail WHERE id_mail = %(value_id_mail)s"""
                 # Manière brutale d'effacer d'abord la "fk_genre", même si elle n'existe pas dans la "t_pers_mail"
                 # Ensuite on peut effacer le genre vu qu'il n'est plus "lié" (INNODB) dans la "t_pers_mail"
                 with DBconnection() as mconn_bd:
-                    mconn_bd.execute(str_sql_delete_client_genre, valeur_delete_dictionnaire)
-                    mconn_bd.execute(str_sql_delete_idgenre, valeur_delete_dictionnaire)
+                    mconn_bd.execute(str_sql_delete_client_mail, valeur_delete_dictionnaire)
+                    mconn_bd.execute(str_sql_delete_mail, valeur_delete_dictionnaire)
 
                 flash(f"Genre définitivement effacé !!", "success")
                 print(f"Genre définitivement effacé !!")
@@ -263,14 +263,14 @@ def mail_delete_wtf():
             print(id_mail_delete, type(id_mail_delete))
 
             # Requête qui affiche tous les films_genres qui ont le genre que l'utilisateur veut effacer
-            str_sql_genres_client_delete = """SELECT nom_mail, t_client.nom
+            str_sql_mail_client_delete = """SELECT nom_mail, t_client.nom
                                                 FROM t_client
                                                 JOIN t_pers_mail ON id_client = fk_client 
                                                 JOIN t_mail ON id_mail = fk_mail
                                             WHERE fk_mail = %(value_id_mail)s"""
 
             with DBconnection() as mydb_conn:
-                mydb_conn.execute(str_sql_genres_client_delete, valeur_select_dictionnaire)
+                mydb_conn.execute(str_sql_mail_client_delete, valeur_select_dictionnaire)
                 data_client_attribue_mail_delete = mydb_conn.fetchall()
                 print("data_client_attribue_mail_delete...", data_client_attribue_mail_delete)
 
@@ -284,20 +284,20 @@ def mail_delete_wtf():
                 mydb_conn.execute(str_sql_id_mail, valeur_select_dictionnaire)
                 # Une seule valeur est suffisante "fetchone()",
                 # vu qu'il n'y a qu'un seul champ "nom genre" pour l'action DELETE
-                data_nom_genre = mydb_conn.fetchone()
-                print("data_nom_genre ", data_nom_genre, " type ", type(data_nom_genre), " genre ",
-                      data_nom_genre["nom_mail"])
+                data_nom_mail = mydb_conn.fetchone()
+                print("data_nom_mail ", data_nom_mail, " type ", type(data_nom_mail), " genre ",
+                      data_nom_mail["nom_mail"])
 
             # Afficher la valeur sélectionnée dans le champ du formulaire "mail_delete_wtf.html"
-            form_delete.nom_mail_delete_wtf.data = data_nom_genre["nom_mail"]
+            form_delete.nom_mail_delete_wtf.data = data_nom_mail["nom_mail"]
 
             # Le bouton pour l'action "DELETE" dans le form. "mail_delete_wtf.html" est caché.
             btn_submit_del = False
 
-    except Exception as Exception_genre_delete_wtf:
-        raise ExceptionGenreDeleteWtf(f"fichier : {Path(__file__).name}  ;  "
+    except Exception as Exception_mail_delete_wtf:
+        raise ExceptionMailDeleteWtf(f"fichier : {Path(__file__).name}  ;  "
                                       f"{mail_delete_wtf.__name__} ; "
-                                      f"{Exception_genre_delete_wtf}")
+                                      f"{Exception_mail_delete_wtf}")
 
     return render_template("mail/mail_delete_wtf.html",
                            form_delete=form_delete,

@@ -42,10 +42,10 @@ def assu_afficher(order_by, id_assu_sel):
                     # Pour "lever"(raise) une erreur s'il y a des erreurs sur les noms d'attributs dans la table
                     # donc, je précise les champs à afficher
                     # Constitution d'un dictionnaire pour associer l'id du genre sélectionné avec un nom de variable
-                    valeur_id_genre_selected_dictionnaire = {"value_id_assu_selected": id_assu_sel}
+                    valeur_id_assurance_selected_dictionnaire = {"value_id_assu_selected": id_assu_sel}
                     strsql_assu_afficher = """SELECT * from t_assurance"""
 
-                    mc_afficher.execute(strsql_assu_afficher, valeur_id_genre_selected_dictionnaire)
+                    mc_afficher.execute(strsql_assu_afficher, valeur_id_assurance_selected_dictionnaire)
                 else:
                     strsql_assu_afficher = """SELECT * from t_assurance"""
 
@@ -57,17 +57,17 @@ def assu_afficher(order_by, id_assu_sel):
 
                 # Différencier les messages si la table est vide.
                 if not data_assu and id_assu_sel == 0:
-                    flash("""La table "t_genre" est vide. !!""", "warning")
+                    flash("""La table "t_assurance" est vide. !!""", "warning")
                 elif not data_assu and id_assu_sel > 0:
                     # Si l'utilisateur change l'id_genre dans l'URL et que le genre n'existe pas,
-                    flash(f"Le genre demandé n'existe pas !!", "warning")
+                    flash(f"L'assurance demandé n'existe pas !!", "warning")
                 else:
                     # Dans tous les autres cas, c'est que la table "t_genre" est vide.
                     # OM 2020.04.09 La ligne ci-dessous permet de donner un sentiment rassurant aux utilisateurs.
-                    flash(f"Données genres affichés !!", "success")
+                    flash(f"Données assurance affichés !!", "success")
 
         except Exception as Exception_assu_afficher:
-            raise ExceptionGenresAfficher(f"fichier : {Path(__file__).name}  ;  "
+            raise ExceptionAssuranceAfficher(f"fichier : {Path(__file__).name}  ;  "
                                           f"{assu_afficher.__name__} ; "
                                           f"{Exception_assu_afficher}")
 
@@ -106,9 +106,9 @@ def assu_ajouter_wtf():
                 valeurs_insertion_dictionnaire = {"value_nom_assu": name_assu}
                 print("valeurs_insertion_dictionnaire ", valeurs_insertion_dictionnaire)
 
-                strsql_insert_genre = """INSERT INTO t_assurance (id_assu,nom_assu) VALUES (NULL,%(value_nom_assu)s) """
+                strsql_insert_assurance = """INSERT INTO t_assurance (id_assu,nom_assu) VALUES (NULL,%(value_nom_assu)s) """
                 with DBconnection() as mconn_bd:
-                    mconn_bd.execute(strsql_insert_genre, valeurs_insertion_dictionnaire)
+                    mconn_bd.execute(strsql_insert_assurance, valeurs_insertion_dictionnaire)
 
                 flash(f"Données insérées !!", "success")
                 print(f"Données insérées !!")
@@ -117,7 +117,7 @@ def assu_ajouter_wtf():
                 return redirect(url_for('assu_afficher', order_by='DESC', id_assu_sel=0))
 
         except Exception as Exception_assu_ajouter_wtf:
-            raise ExceptionGenresAjouterWtf(f"fichier : {Path(__file__).name}  ;  "
+            raise ExceptionAssuranceAjouterWtf(f"fichier : {Path(__file__).name}  ;  "
                                             f"{assu_ajouter_wtf.__name__} ; "
                                             f"{Exception_assu_ajouter_wtf}")
 
@@ -164,10 +164,10 @@ def assu_update_wtf():
                                           "value_name_assu": name_assu_update}
             print("valeur_update_dictionnaire ", valeur_update_dictionnaire)
 
-            str_sql_update_intituleassu = """UPDATE t_assurance SET nom_assu = %(value_name_assu)s 
+            str_sql_update_assurance = """UPDATE t_assurance SET nom_assu = %(value_name_assu)s 
             WHERE id_assu = %(value_id_assu)s """
             with DBconnection() as mconn_bd:
-                mconn_bd.execute(str_sql_update_intituleassu, valeur_update_dictionnaire)
+                mconn_bd.execute(str_sql_update_assurance, valeur_update_dictionnaire)
 
             flash(f"Donnée mise à jour !!", "success")
             print(f"Donnée mise à jour !!")
@@ -177,11 +177,11 @@ def assu_update_wtf():
             return redirect(url_for('assu_afficher', order_by="ASC", id_assu_sel=id_assu_update))
         elif request.method == "GET":
             # Opération sur la BD pour récupérer "id_genre" et "nom_genre" de la "t_genre"
-            str_sql_id_genre = "SELECT id_assu, nom_assu FROM t_assurance " \
+            str_sql_id_assurance = "SELECT id_assu, nom_assu FROM t_assurance " \
                                "WHERE id_assu = %(value_id_assu)s"
             valeur_select_dictionnaire = {"value_id_assu": id_assu_update}
             with DBconnection() as mybd_conn:
-                mybd_conn.execute(str_sql_id_genre, valeur_select_dictionnaire)
+                mybd_conn.execute(str_sql_id_assurance, valeur_select_dictionnaire)
             # Une seule valeur est suffisante "fetchone()", vu qu'il n'y a qu'un seul champ "nom genre" pour l'UPDATE
             data_nom_assu = mybd_conn.fetchone()
             print("data_nom_assu ", data_nom_assu, " type ", type(data_nom_assu), " genre ",
@@ -192,7 +192,7 @@ def assu_update_wtf():
 
 
     except Exception as Exception_assu_update_wtf:
-        raise ExceptionGenreUpdateWtf(f"fichier : {Path(__file__).name}  ;  "
+        raise ExceptionAssuranceUpdateWtf(f"fichier : {Path(__file__).name}  ;  "
                                       f"{assu_update_wtf.__name__} ; "
                                       f"{Exception_assu_update_wtf}")
 
@@ -215,7 +215,7 @@ def assu_update_wtf():
 
 @app.route("/assu_delete", methods=['GET', 'POST'])
 def assu_delete_wtf():
-    data_assu_attribue_genre_delete = None
+    data_assu_attribue_client_delete = None
     btn_submit_del = None
     # L'utilisateur vient de cliquer sur le bouton "DELETE". Récupère la valeur de "id_genre"
     id_assu_delete = request.values['id_assu_btn_delete_htlm']
@@ -232,8 +232,8 @@ def assu_delete_wtf():
             if form_delete.submit_btn_conf_del.data:
                 # Récupère les données afin d'afficher à nouveau
                 # le formulaire "genres/assu_delete_wtf.html" lorsque le bouton "Etes-vous sur d'effacer ?" est cliqué.
-                data_assu_attribue_assu_delete = session['data_assu_attribue_genre_delete']
-                print("data_assu_attribue_genre_delete ", data_assu_attribue_assu_delete)
+                data_assu_attribue_client_delete = session['data_assu_attribue_client_delete']
+                print("data_assu_attribue_client_delete ", data_assu_attribue_client_delete)
 
                 flash(f"Effacer le genre de façon définitive de la BD !!!", "danger")
                 # L'utilisateur vient de cliquer sur le bouton de confirmation pour effacer...
@@ -245,12 +245,12 @@ def assu_delete_wtf():
                 print("valeur_delete_dictionnaire ", valeur_delete_dictionnaire)
 
                 str_sql_delete_client_assu = """DELETE FROM t_client WHERE fk_assu = %(value_id_assu)s"""
-                str_sql_delete_idgenre = """DELETE FROM t_assurance WHERE id_assu = %(value_id_assu)s"""
+                str_sql_delete_assurance = """DELETE FROM t_assurance WHERE id_assu = %(value_id_assu)s"""
                 # Manière brutale d'effacer d'abord la "fk_genre", même si elle n'existe pas dans la "t_pers_mail"
                 # Ensuite on peut effacer le genre vu qu'il n'est plus "lié" (INNODB) dans la "t_pers_mail"
                 with DBconnection() as mconn_bd:
                     mconn_bd.execute(str_sql_delete_client_assu, valeur_delete_dictionnaire)
-                    mconn_bd.execute(str_sql_delete_idgenre, valeur_delete_dictionnaire)
+                    mconn_bd.execute(str_sql_delete_assurance, valeur_delete_dictionnaire)
 
                 flash(f"Genre définitivement effacé !!", "success")
                 print(f"Genre définitivement effacé !!")
@@ -263,18 +263,18 @@ def assu_delete_wtf():
             print(id_assu_delete, type(id_assu_delete))
 
             # Requête qui affiche tous les films_genres qui ont le genre que l'utilisateur veut effacer
-            str_sql_genres_client_delete = """SELECT id_client, nom, id_assu, nom_assu FROM t_client 
+            str_sql_assurance_client_delete = """SELECT id_client, nom, id_assu, nom_assu FROM t_client 
                                             INNER JOIN t_assurance ON t_assurance.id_assu = t_client.fk_assu
                                             WHERE fk_assu = %(value_id_assu)s"""
 
             with DBconnection() as mydb_conn:
-                mydb_conn.execute(str_sql_genres_client_delete, valeur_select_dictionnaire)
-                data_assu_attribue_genre_delete = mydb_conn.fetchall()
-                print("data_assu_attribue_genre_delete...", data_assu_attribue_genre_delete)
+                mydb_conn.execute(str_sql_assurance_client_delete, valeur_select_dictionnaire)
+                data_assu_attribue_client_delete = mydb_conn.fetchall()
+                print("data_assu_attribue_client_delete...", data_assu_attribue_client_delete)
 
                 # Nécessaire pour mémoriser les données afin d'afficher à nouveau
                 # le formulaire "genres/assu_delete_wtf.html" lorsque le bouton "Etes-vous sur d'effacer ?" est cliqué.
-                session['data_assu_attribue_genre_delete'] = data_assu_attribue_genre_delete
+                session['data_assu_attribue_client_delete'] = data_assu_attribue_client_delete
 
                 # Opération sur la BD pour récupérer "id_genre" et "nom_genre" de la "t_genre"
                 str_sql_id_assu = "SELECT id_assu, nom_assu FROM t_assurance WHERE id_assu = %(value_id_assu)s"
@@ -292,12 +292,12 @@ def assu_delete_wtf():
             # Le bouton pour l'action "DELETE" dans le form. "assu_delete_wtf.html" est caché.
             btn_submit_del = False
 
-    except Exception as Exception_genre_delete_wtf:
-        raise ExceptionGenreDeleteWtf(f"fichier : {Path(__file__).name}  ;  "
+    except Exception as Exception_assu_delete_wtf:
+        raise ExceptionAdresseDeleteWtf(f"fichier : {Path(__file__).name}  ;  "
                                       f"{assu_delete_wtf.__name__} ; "
-                                      f"{Exception_genre_delete_wtf}")
+                                      f"{Exception_assu_delete_wtf}")
 
     return render_template("assurance/assu_delete_wtf.html",
                            form_delete=form_delete,
                            btn_submit_del=btn_submit_del,
-                           data_client_associes=data_assu_attribue_genre_delete)
+                           data_client_associes=data_assu_attribue_client_delete)

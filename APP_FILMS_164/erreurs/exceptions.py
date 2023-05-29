@@ -79,35 +79,67 @@ class DatabaseException(Base):
     pass
 
 
+class ExceptionadresseAfficher(Base):
+    pass
+class ExceptionadresseAjouterWtf(Base):
+    pass
+class ExceptionAdresseUpdateWtf(Base):
+    pass
+class ExceptionAdresseDeleteWtf(Base):
+    pass
+
+class ExceptionAssuranceAfficher(Base):
+    pass
+class ExceptionAssuranceAjouterWtf(Base):
+    pass
+class ExceptionAssuranceUpdateWtf(Base):
+    pass
+class ExceptionAssuranceDeleteWtf(Base):
+    pass
+
+class ExceptionClientsAjouterWtf(Base):
+    """Erreur lors de l'ajout d'un client. EW"""
+class ExceptionClientAjouterWtf(Base):
+    pass
+class ExceptionClientUpdateWtf(Base):
+    pass
+class ExceptionClientDeleteWtf(Base):
+    pass
+
 class ExceptionGenresAfficher(Base):
     pass
-
-
 class ExceptionGenreDeleteWtf(Base):
     pass
-
-
 class ExceptionGenreUpdateWtf(Base):
     pass
-
-
 class ExceptionGenresAjouterWtf(Base):
     pass
 
-
-class ExceptionFilmsGenresAfficher(Base):
+class ExceptionMailAfficher(Base):
+    pass
+class ExceptionMailDeleteWtf(Base):
+    pass
+class ExceptionMailUpdateWtf(Base):
+    pass
+class ExceptionMailAjouterWtf(Base):
     pass
 
-
-class ExceptionEditGenreFilmSelected(Base):
+class ExceptionObjetsFournsiseurAfficher(Base):
+    pass
+class ExceptionObjetsDeleteWtf(Base):
+    pass
+class ExceptionObjetsUpdateWtf(Base):
+    pass
+class ExceptionObjetsAjouterWtf(Base):
     pass
 
-
-class ExceptionUpdateGenreFilmSelected(Base):
+class ExceptionEditFournisseurObjetsSelected(Base):
     pass
 
+class ExceptionUpdateFournObjetsSelected(Base):
+    pass
 
-class ExceptionGenresFilmsAfficherData(Base):
+class ExceptionFournObjetsAfficherData(Base):
     pass
 
 
@@ -122,8 +154,7 @@ class ExceptionFilmDeleteWtf(Base):
 class ExceptionInitAppFilms164(Base):
     pass
 
-class ExceptionClientsAjouterWtf(Base):
-    """Erreur lors de l'ajout d'un client. EW"""
+
 
 
 

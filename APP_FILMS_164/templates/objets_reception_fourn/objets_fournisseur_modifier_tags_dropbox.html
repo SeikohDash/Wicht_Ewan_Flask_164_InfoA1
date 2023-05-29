@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %} Afficher FILMS GENRES {% endblock %}
+{% block title %} Afficher OBJETS FOURNISSEUR {% endblock %}
 {% block head %}
     <!--
         OM 2020.05.04
@@ -30,17 +30,11 @@
 
 <div class="container">
 		<div class="col-md-12">
-			<p>
-				Tagselect, c'est une DROPBOX qui surgit quand on sélectionne l'espace "TAGS". Pour votre information, le composant TAGSELECT est à disposition sur ce site :
-                 <a href="https://www.jqueryscript.net/form/tags-selector-tagselect.html"
-                    target="_blank">https://www.jqueryscript.net/form/tags-selector-tagselect.html</a>
-
-			</p>
-            <p>
-                Objets
+            <p style="color: white">
+                Objets :
             </p>
             <table class="table table-responsive-sm">
-                {% if data_film_selected %}
+                {% if data_objets_selected %}
                     <thead>
                         <tr>
                             <th class="">
@@ -65,7 +59,7 @@
                     </thead>
             {% endif %}
 
-            {% for row in data_film_selected %}
+            {% for row in data_objets_selected %}
 				<tbody>
 					<tr>
 						<td class="align-middle">
@@ -79,6 +73,12 @@
 						</td>
 						<td class="align-middle">
 							{{ row.prix }}
+						</td>
+                        <td class="align-middle">
+
+						</td>
+                        <td class="align-middle">
+
 						</td>
 					</tr>
 				</tbody>
@@ -102,7 +102,7 @@
     <div class="row mx-md-n5">
       <div class="col px-md-5">
           <div class="p-3">
-            <form id="form_tags_select_confirm" action="{{ url_for('update_genre_film_selected') }}" method="POST">
+            <form id="form_tags_select_confirm" action="{{ url_for('update_fournisseur_objets_selected') }}" method="POST">
                 <div class="qtagselect isw360">
                     <select id="OM_JTSD" name="name_select_tags" class="qtagselect__select" multiple>
                         {% for row in data_genres_non_attribues %}

@@ -15,14 +15,13 @@ class FormWTFAjouterAdresse(FlaskForm):
         Dans le formulaire "adresse_ajouter_wtf.html" on impose que le champ soit rempli.
         Définition d'un "bouton" submit avec un libellé personnalisé.
     """
-    nom_rue_regexp = "^([A-Z]|[a-zÀ-ÖØ-öø-ÿ])[A-Za-zÀ-ÖØ-öø-ÿ]*['\- ]?[A-Za-zÀ-ÖØ-öø-ÿ]+$"
-    nom_rue_wtf = StringField("Clavioter la rue ", validators=[Length(min=2, max=20, message="min 2 max 20"),
-                                                                   Regexp(nom_rue_regexp,
-                                                                          message="Pas de chiffres, de caractères "
-                                                                                  "spéciaux, "
-                                                                                  "d'espace à double, de double "
-                                                                                  "apostrophe, de double trait union")
-                                                                   ])
+    nom_rue_regexp = "^([A-Z]|[a-zÀ-ÖØ-öø-ÿ])[A-Za-zÀ-ÖØ-öø-ÿ' \-]+$"
+    nom_rue_wtf = StringField("Clavioter la rue", validators=[
+        Length(min=2, max=20, message="min 2 max 20"),
+        Regexp(nom_rue_regexp, message="Pas de chiffres, de caractères spéciaux, "
+                                              "de double apostrophe ou de double trait union")
+    ])
+
     npa_regexp = "^([0-9])+$"
     NPA_adresse_wtf = StringField("Clavioter le NPA", validators=[Length(min=2, max=20, message="min 2 max 20"),
                                                                    Regexp(npa_regexp,
@@ -44,19 +43,19 @@ class FormWTFUpdateAdresse(FlaskForm):
         Dans le formulaire "adresse_update_wtf.html" on impose que le champ soit rempli.
         Définition d'un "bouton" submit avec un libellé personnalisé.
     """
-    nom_rue_update_regexp = "^([A-Z]|[a-zÀ-ÖØ-öø-ÿ])[A-Za-zÀ-ÖØ-öø-ÿ]*['\- ]?[A-Za-zÀ-ÖØ-öø-ÿ]+$"
-    nom_rue_update_wtf = StringField("Clavioter la rue ", validators=[Length(min=2, max=20, message="min 2 max 20"),
-                                                               Regexp(nom_rue_update_regexp,
-                                                                      message="Pas de chiffres, de caractères "
-                                                                              "spéciaux, "
-                                                                              "d'espace à double, de double "
-                                                                              "apostrophe, de double trait union")
-                                                               ])
+    nom_rue_update_regexp = "^([A-Z]|[a-zÀ-ÖØ-öø-ÿ])[A-Za-zÀ-ÖØ-öø-ÿ' \-]+$"
+    nom_rue_update_wtf = StringField("Clavioter la rue", validators=[
+        Length(min=2, max=20, message="min 2 max 20"),
+        Regexp(nom_rue_update_regexp, message="Pas de chiffres, de caractères spéciaux, "
+                                              "de double apostrophe ou de double trait union")
+                                                ])
+
     NPA_adresse_update_regexp = "^([0-9])+$"
     NPA_adresse_update_wtf = StringField("Clavioter le NPA", validators=[Length(min=2, max=20, message="min 2 max 20"),
                                                                   Regexp(NPA_adresse_update_regexp,
                                                                          message="Seulement des chiffres!")
                                                                   ])
+
     localite_adresse_update_regexp = "^([A-Z]|[a-zÀ-ÖØ-öø-ÿ])[A-Za-zÀ-ÖØ-öø-ÿ]*['\- ]?[A-Za-zÀ-ÖØ-öø-ÿ]+$"
     localite_adresse_update_wtf = StringField("Clavioter la localité ",
                                        validators=[Length(min=2, max=20, message="min 2 max 20"),
@@ -67,7 +66,7 @@ class FormWTFUpdateAdresse(FlaskForm):
                                                                   "apostrophe, de double trait union")
                                                    ])
 
-    submit = SubmitField("Update genre")
+    submit = SubmitField("Update Adresse")
 
 
 class FormWTFDeleteAdresse(FlaskForm):

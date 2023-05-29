@@ -53,7 +53,7 @@ def objets_reception_fourn_afficher(id_objets_sel):
 
                 # Récupère les données de la requête.
                 data_objets_fourn_afficher = mc_afficher.fetchall()
-                print("data_genres ", data_objets_fourn_afficher, " Type : ", type(data_objets_fourn_afficher))
+                print("data_objets_fourn ", data_objets_fourn_afficher, " Type : ", type(data_objets_fourn_afficher))
 
                 # Différencier les messages.
                 if not data_objets_fourn_afficher and id_objets_sel == 0:
@@ -64,9 +64,10 @@ def objets_reception_fourn_afficher(id_objets_sel):
                 else:
                     flash(f"Données objets et fournisseur affichés !!", "success")
 
-        except Exception as Exception_films_genres_afficher:
-            raise ExceptionFilmsGenresAfficher(f"fichier : {Path(__file__).name}  ;  {objets_reception_fourn_afficher.__name__} ;"
-                                               f"{Exception_films_genres_afficher}")
+        except Exception as Exception_objets_fourn_afficher:
+            raise ExceptionObjetsFournsiseurAfficher(f"fichier : {Path(__file__).name};  "
+                                                     f"{objets_reception_fourn_afficher.__name__} ;"
+                                                     f"{Exception_objets_fourn_afficher}")
 
     print("objets_reception_fourn_afficher  ", data_objets_fourn_afficher)
     # Envoie la page "HTML" au serveur.
@@ -90,14 +91,14 @@ def objets_reception_fourn_afficher(id_objets_sel):
 
 
 @app.route("/edit_objets_fournisseur_select", methods=['GET', 'POST'])
-def edit_genre_film_selected():
+def edit_fournisseur_objets_selected():
     if request.method == "GET":
         try:
             with DBconnection() as mc_afficher:
                 strsql_fourn_afficher = """SELECT id_fournisseur, nom_four FROM t_fournisseur ORDER BY id_fournisseur ASC"""
                 mc_afficher.execute(strsql_fourn_afficher)
-            data_genres_all = mc_afficher.fetchall()
-            print("dans edit_genre_film_selected ---> data_genres_all", data_genres_all)
+            data_fourn_all = mc_afficher.fetchall()
+            print("dans edit_fournisseur_objets_selected ---> data_fourn_all", data_fourn_all)
 
             # Récupère la valeur de "id_film" du formulaire html "objets_reception_fourn_afficher.html"
             # l'utilisateur clique sur le bouton "Modifier" et on récupère la valeur de "id_film"
@@ -118,8 +119,8 @@ def edit_genre_film_selected():
             # 2) Sélection des genres "déjà" attribués pour le film.
             # 3) Sélection des genres "pas encore" attribués pour le film choisi.
             # ATTENTION à l'ordre d'assignation des variables retournées par la fonction "genres_films_afficher_data"
-            data_objets_fournisseur_selected, data_genres_films_non_attribues, data_genres_films_attribues = \
-                genres_films_afficher_data(valeur_id_objets_selected_dictionnaire)
+            data_objets_fournisseur_selected, data_fournisseur_objets_non_attribues, data_fournisseur_objets_attribues = \
+                fourn_objets_afficher_data(valeur_id_objets_selected_dictionnaire)
 
             print(data_objets_fournisseur_selected)
             lst_data_objets_selected = [item['id_objets'] for item in data_objets_fournisseur_selected]
@@ -128,40 +129,40 @@ def edit_genre_film_selected():
 
             # Dans le composant "tags-selector-tagselect" on doit connaître
             # les genres qui ne sont pas encore sélectionnés.
-            lst_data_genres_films_non_attribues = [item['id_fournisseur'] for item in data_genres_films_non_attribues]
-            session['session_lst_data_genres_films_non_attribues'] = lst_data_genres_films_non_attribues
+            lst_data_genres_films_non_attribues = [item['id_fournisseur'] for item in data_fournisseur_objets_non_attribues]
+            session['session_lst_data_fourn_objets_non_attribues'] = lst_data_genres_films_non_attribues
             print("lst_data_genres_films_non_attribues  ", lst_data_genres_films_non_attribues,
                   type(lst_data_genres_films_non_attribues))
 
             # Dans le composant "tags-selector-tagselect" on doit connaître
             # les genres qui sont déjà sélectionnés.
-            lst_data_genres_films_old_attribues = [item['id_fournisseur'] for item in data_genres_films_attribues]
-            session['session_lst_data_genres_films_old_attribues'] = lst_data_genres_films_old_attribues
+            lst_data_genres_films_old_attribues = [item['id_fournisseur'] for item in data_fournisseur_objets_attribues]
+            session['session_lst_data_fourn_objets_old_attribues'] = lst_data_genres_films_old_attribues
             print("lst_data_genres_films_old_attribues  ", lst_data_genres_films_old_attribues,
                   type(lst_data_genres_films_old_attribues))
 
             print(" data data_objets_fournisseur_selected", data_objets_fournisseur_selected, "type ", type(data_objets_fournisseur_selected))
-            print(" data data_genres_films_non_attribues ", data_genres_films_non_attribues, "type ",
-                  type(data_genres_films_non_attribues))
-            print(" data_genres_films_attribues ", data_genres_films_attribues, "type ",
-                  type(data_genres_films_attribues))
+            print(" data data_fournisseur_objets_non_attribues ", data_fournisseur_objets_non_attribues, "type ",
+                  type(data_fournisseur_objets_non_attribues))
+            print(" data_fournisseur_objets_attribues ", data_fournisseur_objets_attribues, "type ",
+                  type(data_fournisseur_objets_attribues))
 
             # Extrait les valeurs contenues dans la table "t_genres", colonne "intitule_genre"
             # Le composant javascript "tagify" pour afficher les tags n'a pas besoin de l'id_genre
-            lst_data_genres_films_non_attribues = [item['nom_four'] for item in data_genres_films_non_attribues]
+            lst_data_genres_films_non_attribues = [item['nom_four'] for item in data_fournisseur_objets_non_attribues]
             print("lst_all_genres gf_edit_genre_film_selected ", lst_data_genres_films_non_attribues,
                   type(lst_data_genres_films_non_attribues))
 
         except Exception as Exception_edit_genre_film_selected:
-            raise ExceptionEditGenreFilmSelected(f"fichier : {Path(__file__).name}  ;  "
-                                                 f"{edit_genre_film_selected.__name__} ; "
+            raise ExceptionEditFournisseurObjetsSelected(f"fichier : {Path(__file__).name}  ;  "
+                                                 f"{edit_fournisseur_objets_selected.__name__} ; "
                                                  f"{Exception_edit_genre_film_selected}")
 
     return render_template("objets_reception_fourn/objets_fournisseur_modifier_tags_dropbox.html",
-                           data_genres=data_genres_all,
-                           data_film_selected=data_objets_fournisseur_selected,
-                           data_genres_attribues=data_genres_films_attribues,
-                           data_genres_non_attribues=data_genres_films_non_attribues)
+                           data_genres=data_fourn_all,
+                           data_objets_selected=data_objets_fournisseur_selected,
+                           data_genres_attribues=data_fournisseur_objets_attribues,
+                           data_genres_non_attribues=data_fournisseur_objets_non_attribues)
 
 
 """
@@ -178,85 +179,85 @@ def edit_genre_film_selected():
 """
 
 
-@app.route("/update_genre_film_selected", methods=['GET', 'POST'])
-def update_genre_film_selected():
+@app.route("/update_fournisseur_objets_selected", methods=['GET', 'POST'])
+def update_fournisseur_objets_selected():
     if request.method == "POST":
         try:
-            # Récupère l'id du film sélectionné
+            # Récupère l'id de l'objets sélectionné
             id_objets_selected = session['session_id_objets_fournisseur_edit']
             print("session['session_id_objets_fournisseur_edit'] ", session['session_id_objets_fournisseur_edit'])
 
             # Récupère la liste des genres qui ne sont pas associés au film sélectionné.
-            old_lst_data_genres_films_non_attribues = session['session_lst_data_genres_films_non_attribues']
-            print("old_lst_data_genres_films_non_attribues ", old_lst_data_genres_films_non_attribues)
+            old_lst_data_fourn_objets_non_attribues = session['session_lst_data_fourn_objets_non_attribues']
+            print("old_lst_data_genres_films_non_attribues ", old_lst_data_fourn_objets_non_attribues)
 
             # Récupère la liste des genres qui sont associés au film sélectionné.
-            old_lst_data_genres_films_attribues = session['session_lst_data_genres_films_old_attribues']
-            print("old_lst_data_genres_films_old_attribues ", old_lst_data_genres_films_attribues)
+            old_lst_data_fourn_objets_attribues = session['session_lst_data_fourn_objets_old_attribues']
+            print("old_lst_data_fourn_objets_attribues ", old_lst_data_fourn_objets_attribues)
 
             # Effacer toutes les variables de session.
             session.clear()
 
             # Récupère ce que l'utilisateur veut modifier comme genres dans le composant "tags-selector-tagselect"
             # dans le fichier "genres_films_modifier_tags_dropbox.html"
-            new_lst_str_genres_films = request.form.getlist('name_select_tags')
-            print("new_lst_str_genres_films ", new_lst_str_genres_films)
+            new_lst_str_fourn_objets = request.form.getlist('name_select_tags')
+            print("new_lst_str_fourn_objets ", new_lst_str_fourn_objets)
 
             # OM 2021.05.02 Exemple : Dans "name_select_tags" il y a ['4','65','2']
             # On transforme en une liste de valeurs numériques. [4,65,2]
-            new_lst_int_genre_film_old = list(map(int, new_lst_str_genres_films))
-            print("new_lst_genre_film ", new_lst_int_genre_film_old, "type new_lst_genre_film ",
-                  type(new_lst_int_genre_film_old))
+            new_lst_int_fourn_objets_old = list(map(int, new_lst_str_fourn_objets))
+            print("new_lst_genre_film ", new_lst_int_fourn_objets_old, "type new_lst_genre_film ",
+                  type(new_lst_int_fourn_objets_old))
 
             # Pour apprécier la facilité de la vie en Python... "les ensembles en Python"
             # https://fr.wikibooks.org/wiki/Programmation_Python/Ensembles
             # OM 2021.05.02 Une liste de "id_genre" qui doivent être effacés de la table intermédiaire "t_recep_objets_fourn".
-            lst_diff_genres_delete_b = list(set(old_lst_data_genres_films_attribues) -
-                                            set(new_lst_int_genre_film_old))
-            print("lst_diff_genres_delete_b ", lst_diff_genres_delete_b)
+            lst_diff_fourn_delete_b = list(set(old_lst_data_fourn_objets_attribues) -
+                                            set(new_lst_int_fourn_objets_old))
+            print("lst_diff_fourn_delete_b ", lst_diff_fourn_delete_b)
 
             # Une liste de "id_genre" qui doivent être ajoutés à la "t_recep_objets_fourn"
-            lst_diff_genres_insert_a = list(
-                set(new_lst_int_genre_film_old) - set(old_lst_data_genres_films_attribues))
-            print("lst_diff_genres_insert_a ", lst_diff_genres_insert_a)
+            lst_diff_fourn_insert_a = list(
+                set(new_lst_int_fourn_objets_old) - set(old_lst_data_fourn_objets_attribues))
+            print("lst_diff_fourn_insert_a ", lst_diff_fourn_insert_a)
 
             # SQL pour insérer une nouvelle association entre
             # "fk_film"/"id_film" et "fk_genre"/"id_genre" dans la "t_recep_objets_fourn"
-            strsql_insert_genre_film = """INSERT INTO t_recep_objets_fourn (id_reception, fk_objets, fk_fourn)
-                                                    VALUES (NULL, %(value_fk_objets)s, %(value_fk_fourn)s)"""
+            strsql_insert_fourn_objets = """INSERT INTO t_recep_objets_fourn (id_reception, fk_objets, fk_fourn)
+                                                    VALUES (NULL,%(value_fk_objets)s,%(value_fk_fourn)s)"""
 
             # SQL pour effacer une (des) association(s) existantes entre "id_film" et "id_genre" dans la "t_recep_objets_fourn"
-            strsql_delete_genre_film = """DELETE FROM t_recep_objets_fourn WHERE fk_objets = %(value_fk_objets)s AND fk_fourn = %(value_fk_fourn)s"""
+            strsql_delete_fourn_objets = """DELETE FROM t_recep_objets_fourn WHERE fk_objets = %(value_fk_objets)s AND fk_fourn = %(value_fk_fourn)s"""
 
             with DBconnection() as mconn_bd:
                 # Pour le film sélectionné, parcourir la liste des genres à INSÉRER dans la "t_recep_objets_fourn".
                 # Si la liste est vide, la boucle n'est pas parcourue.
-                for id_fournisseur_ins in lst_diff_genres_insert_a:
+                for id_fournisseur_ins in lst_diff_fourn_insert_a:
                     # Constitution d'un dictionnaire pour associer l'id du film sélectionné avec un nom de variable
                     # et "id_fournisseur_ins" (l'id du genre dans la liste) associé à une variable.
-                    valeurs_film_sel_genre_sel_dictionnaire = {"value_fk_objets": id_objets_selected,
+                    valeurs_objets_sel_fourn_sel_dictionnaire = {"value_fk_objets": id_objets_selected,
                                                                "value_fk_fourn": id_fournisseur_ins}
 
-                    mconn_bd.execute(strsql_insert_genre_film, valeurs_film_sel_genre_sel_dictionnaire)
+                    mconn_bd.execute(strsql_insert_fourn_objets, valeurs_objets_sel_fourn_sel_dictionnaire)
 
                 # Pour le film sélectionné, parcourir la liste des genres à EFFACER dans la "t_recep_objets_fourn".
                 # Si la liste est vide, la boucle n'est pas parcourue.
-                for id_fourn_del in lst_diff_genres_delete_b:
+                for id_fourn_del in lst_diff_fourn_delete_b:
                     # Constitution d'un dictionnaire pour associer l'id du film sélectionné avec un nom de variable
                     # et "id_fourn_del" (l'id du genre dans la liste) associé à une variable.
-                    valeurs_film_sel_genre_sel_dictionnaire = {"value_fk_objets": id_objets_selected,
+                    valeurs_objets_sel_fourn_sel_dictionnaire = {"value_fk_objets": id_objets_selected,
                                                                "value_fk_fourn": id_fourn_del}
 
                     # Du fait de l'utilisation des "context managers" on accède au curseur grâce au "with".
                     # la subtilité consiste à avoir une méthode "execute" dans la classe "DBconnection"
                     # ainsi quand elle aura terminé l'insertion des données le destructeur de la classe "DBconnection"
                     # sera interprété, ainsi on fera automatiquement un commit
-                    mconn_bd.execute(strsql_delete_genre_film, valeurs_film_sel_genre_sel_dictionnaire)
+                    mconn_bd.execute(strsql_delete_fourn_objets, valeurs_objets_sel_fourn_sel_dictionnaire)
 
-        except Exception as Exception_update_genre_film_selected:
-            raise ExceptionUpdateGenreFilmSelected(f"fichier : {Path(__file__).name}  ;  "
-                                                   f"{update_genre_film_selected.__name__} ; "
-                                                   f"{Exception_update_genre_film_selected}")
+        except Exception as Exception_update_fourn_objets_selected:
+            raise ExceptionUpdateFournObjetsSelected(f"fichier : {Path(__file__).name}  ;  "
+                                                   f"{update_fournisseur_objets_selected.__name__} ; "
+                                                   f"{Exception_update_fourn_objets_selected}")
 
     # Après cette mise à jour de la table intermédiaire "t_recep_objets_fourn",
     # on affiche les films et le(urs) genre(s) associé(s).
@@ -273,21 +274,21 @@ def update_genre_film_selected():
 """
 
 
-def genres_films_afficher_data(valeur_id_film_selected_dict):
+def fourn_objets_afficher_data(valeur_id_film_selected_dict):
     print("valeur_id_film_selected_dict...", valeur_id_film_selected_dict)
     try:
 
-        strsql_film_selected = """SELECT id_objets, nom_objets, cb_ean, prix, GROUP_CONCAT(id_fournisseur) as ObjetsFourn FROM t_recep_objets_fourn
+        strsql_objets_selected = """SELECT id_objets, nom_objets, cb_ean, prix, GROUP_CONCAT(id_fournisseur) as ObjetsFourn FROM t_recep_objets_fourn
                                         INNER JOIN t_objets ON t_objets.id_objets = t_recep_objets_fourn.fk_objets
                                         INNER JOIN t_fournisseur ON t_fournisseur.id_fournisseur = t_recep_objets_fourn.fk_fourn
                                         WHERE id_objets = %(value_id_objets_selected)s"""
 
-        strsql_genres_films_non_attribues = """SELECT id_fournisseur, nom_four FROM t_fournisseur WHERE id_fournisseur not in(SELECT id_fournisseur as idObjetsFourn FROM t_recep_objets_fourn
+        strsql_fournisseur_objets_non_attribues = """SELECT id_fournisseur, nom_four FROM t_fournisseur WHERE id_fournisseur not in(SELECT id_fournisseur as idObjetsFourn FROM t_recep_objets_fourn
                                                     INNER JOIN t_objets ON t_objets.id_objets = t_recep_objets_fourn.fk_objets
                                                     INNER JOIN t_fournisseur ON t_fournisseur.id_fournisseur = t_recep_objets_fourn.fk_fourn
                                                     WHERE id_objets = %(value_id_objets_selected)s)"""
 
-        strsql_genres_films_attribues = """SELECT id_objets, id_fournisseur, nom_four FROM t_recep_objets_fourn
+        strsql_fournisseur_objets_attribues = """SELECT id_objets, id_fournisseur, nom_four FROM t_recep_objets_fourn
                                             INNER JOIN t_objets ON t_objets.id_objets = t_recep_objets_fourn.fk_objets
                                         	INNER JOIN t_fournisseur ON t_fournisseur.id_fournisseur = t_recep_objets_fourn.fk_fourn
                                             WHERE id_objets = %(value_id_objets_selected)s"""
@@ -295,33 +296,33 @@ def genres_films_afficher_data(valeur_id_film_selected_dict):
         # Du fait de l'utilisation des "context managers" on accède au curseur grâce au "with".
         with DBconnection() as mc_afficher:
             # Envoi de la commande MySql
-            mc_afficher.execute(strsql_genres_films_non_attribues, valeur_id_film_selected_dict)
+            mc_afficher.execute(strsql_fournisseur_objets_non_attribues, valeur_id_film_selected_dict)
             # Récupère les données de la requête.
-            data_genres_films_non_attribues = mc_afficher.fetchall()
+            data_fournisseur_objets_non_attribues = mc_afficher.fetchall()
             # Affichage dans la console
-            print("genres_films_afficher_data ----> data_genres_films_non_attribues ", data_genres_films_non_attribues,
+            print("fourn_objets_afficher_data ----> data_fournisseur_objets_non_attribues ", data_fournisseur_objets_non_attribues,
                   " Type : ",
-                  type(data_genres_films_non_attribues))
+                  type(data_fournisseur_objets_non_attribues))
 
             # Envoi de la commande MySql
-            mc_afficher.execute(strsql_film_selected, valeur_id_film_selected_dict)
+            mc_afficher.execute(strsql_objets_selected, valeur_id_film_selected_dict)
             # Récupère les données de la requête.
-            data_film_selected = mc_afficher.fetchall()
+            data_objets_selected = mc_afficher.fetchall()
             # Affichage dans la console
-            print("data_film_selected  ", data_film_selected, " Type : ", type(data_film_selected))
+            print("data_objets_selected  ", data_objets_selected, " Type : ", type(data_objets_selected))
 
             # Envoi de la commande MySql
-            mc_afficher.execute(strsql_genres_films_attribues, valeur_id_film_selected_dict)
+            mc_afficher.execute(strsql_fournisseur_objets_attribues, valeur_id_film_selected_dict)
             # Récupère les données de la requête.
-            data_genres_films_attribues = mc_afficher.fetchall()
+            data_fournisseur_objets_attribues = mc_afficher.fetchall()
             # Affichage dans la console
-            print("data_genres_films_attribues ", data_genres_films_attribues, " Type : ",
-                  type(data_genres_films_attribues))
+            print("data_fournisseur_objets_attribues ", data_fournisseur_objets_attribues, " Type : ",
+                  type(data_fournisseur_objets_attribues))
 
             # Retourne les données des "SELECT"
-            return data_film_selected, data_genres_films_non_attribues, data_genres_films_attribues
+            return data_objets_selected, data_fournisseur_objets_non_attribues, data_fournisseur_objets_attribues
 
-    except Exception as Exception_genres_films_afficher_data:
-        raise ExceptionGenresFilmsAfficherData(f"fichier : {Path(__file__).name}  ;  "
-                                               f"{genres_films_afficher_data.__name__} ; "
-                                               f"{Exception_genres_films_afficher_data}")
+    except Exception as Exception_fourn_objets_afficher_data:
+        raise ExceptionFournObjetsAfficherData(f"fichier : {Path(__file__).name}  ;  "
+                                               f"{fourn_objets_afficher_data.__name__} ; "
+                                               f"{Exception_fourn_objets_afficher_data}")

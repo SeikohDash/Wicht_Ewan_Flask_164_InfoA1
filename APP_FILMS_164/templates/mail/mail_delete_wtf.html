@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %} Effacer un Mail (WTF) {% endblock %}
+{% block title %} Effacer un Mail {% endblock %}
 {% block body %}
 <div class="container">
 	<div class="row">
@@ -14,12 +14,12 @@
 					{% if data_mailclient_associes %}
 						<h2 style="color:white">Ce mail est associé avec le(s) client(s) suivant(s) :</h2>
 					{% else %}
-						<h2 style="color:white">Ce mail à effacer n'est associé à aucun client :( </h2>
+						<h2 style="color:white">Ce mail à effacer n'est associé à aucun client :( .</h2>
 					{% endif %}
 					{% if data_mailclient_associes %}
 						<thead>
 							<tr>
-								<th style="colo:white">
+								<th>
 									Client(S)
 								</th>
 							</tr>
@@ -38,7 +38,7 @@
 
 
 				<div class="form-group">
-					<p>
+					<p style="color:white">
 						{{ form_delete.nom_mail_delete_wtf.label }}<br>
 						{{ form_delete.nom_mail_delete_wtf(size=32, readonly=true) }}<br>
 						{% for error in form_delete.nom_mail_delete_wtf.errors %}

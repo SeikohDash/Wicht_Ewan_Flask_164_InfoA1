@@ -41,12 +41,12 @@ def clients_afficher(id_client_sel):
                     mc_afficher.execute(strsql_client_afficher_data)
                 else:
                     # Constitution d'un dictionnaire pour associer l'id du film sélectionné avec un nom de variable
-                    valeur_id_objets_selected_dictionnaire = {"value_id_client_selected": id_client_sel}
+                    valeur_id_client_selected_dictionnaire = {"value_id_client_selected": id_client_sel}
                     # En MySql l'instruction HAVING fonctionne comme un WHERE... mais doit être associée à un GROUP BY
                     # L'opérateur += permet de concaténer une nouvelle valeur à la valeur de gauche préalablement définie.
                     strsql_client_afficher_data += """ HAVING id_client= %(value_id_client_selected)s"""
 
-                    mc_afficher.execute(strsql_client_afficher_data, valeur_id_objets_selected_dictionnaire)
+                    mc_afficher.execute(strsql_client_afficher_data, valeur_id_client_selected_dictionnaire)
 
                 # Récupère les données de la requête.
                 data_client_afficher = mc_afficher.fetchall()
@@ -61,9 +61,10 @@ def clients_afficher(id_client_sel):
                 else:
                     flash(f"Données client affichés !!", "success")
 
-        except Exception as Exception_films_genres_afficher:
-            raise ExceptionFilmsGenresAfficher(f"fichier : {Path(__file__).name}  ;  {clients_afficher.__name__} ;"
-                                               f"{Exception_films_genres_afficher}")
+        except Exception as Exception_client_afficher:
+            raise ExceptionClientAfficher(f"fichier : {Path(__file__).name} ; "
+                                          f"{clients_afficher.__name__} ;"
+                                        f"{Exception_client_afficher}")
 
     print("clients_afficher  ", data_client_afficher)
     # Envoie la page "HTML" au serveur.
@@ -148,7 +149,7 @@ def client_add_wtf():
     except Exception as Exception_client_ajouter_wtf:
         raise ExceptionClientsAjouterWtf(f"fichier : {Path(__file__).name}  ;  "
                                         f"{client_add_wtf.__name__} ; "
-                                        f"{ExceptionClientsAjouterWtf}")
+                                        f"{Exception_client_ajouter_wtf}")
 
     return render_template("clients/client_add_wtf.html", form=form)
 
@@ -197,14 +198,14 @@ def client_update_wtf():
                                         }
             print("valeur_update_dictionnaire ", valeur_update_dictionnaire)
 
-            str_sql_update_nom_mail = """UPDATE t_client SET nom = %(value_nom_client)s,
+            str_sql_update_client = """UPDATE t_client SET nom = %(value_nom_client)s,
                                                             prenom = %(value_prenom_client)s,
                                                             date_de_nais = %(value_date_client)s,
                                                             fk_genre = %(value_genre_update_val_list_dropdown)s,
                                                             fk_assu = %(value_assurance_client)s
                                                             WHERE id_client = %(value_id_client)s"""
             with DBconnection() as mconn_bd:
-                mconn_bd.execute(str_sql_update_nom_mail, valeur_update_dictionnaire)
+                mconn_bd.execute(str_sql_update_client, valeur_update_dictionnaire)
 
             flash(f"Donnée mise à jour !!", "success")
             print(f"Donnée mise à jour !!")
@@ -272,10 +273,10 @@ def client_update_wtf():
             # Les valeurs sont chargées dans la liste déroulante
             form_update_client.assu_dropdown_update_wtf.choices = assu_update_val_list_dropdown
 
-    except Exception as ExceptionClientsUpdateWtf:
-        raise ExceptionFilmUpdateWtf(f"fichier : {Path(__file__).name}  ;  "
+    except Exception as ExceptionClient_Update_Wtf:
+        raise ExceptionClientUpdateWtf(f"fichier : {Path(__file__).name}  ;  "
                                      f"{client_update_wtf.__name__} ; "
-                                     f"{ExceptionClientsUpdateWtf}")
+                                     f"{ExceptionClient_Update_Wtf}")
 
     return render_template("clients/client_update_wtf.html", form_update_client=form_update_client)
 
@@ -299,7 +300,7 @@ def client_delete_wtf():
     data_client_delete = None
     btn_submit_del = None
     # L'utilisateur vient de cliquer sur le bouton "DELETE". Récupère la valeur de "id_mail"
-    id_client_delete = request.values['id_genre_btn_delete_html']
+    id_client_delete = request.values['id_client_btn_delete_html']
 
     # Objet formulaire pour effacer le film sélectionné.
     form_delete_client = FormWTFDeleteClient()
@@ -350,10 +351,10 @@ def client_delete_wtf():
             print(id_client_delete, type(id_client_delete))
 
             # Requête qui affiche le film qui doit être efffacé.
-            str_sql_fournisseur_objets_delete = """SELECT * FROM t_client WHERE id_client = %(value_id_client)s"""
+            str_sql_client_delete = """SELECT * FROM t_client WHERE id_client = %(value_id_client)s"""
 
             with DBconnection() as mydb_conn:
-                mydb_conn.execute(str_sql_fournisseur_objets_delete, valeur_select_dictionnaire)
+                mydb_conn.execute(str_sql_client_delete, valeur_select_dictionnaire)
                 data_client_delete = mydb_conn.fetchall()
                 print("data_client_delete...", data_client_delete)
 
@@ -364,13 +365,13 @@ def client_delete_wtf():
             # Le bouton pour l'action "DELETE" dans le form. "client_delete_wtf.html" est caché.
             btn_submit_del = False
 
-    except Exception as Exception_film_delete_wtf:
-        raise ExceptionFilmDeleteWtf(f"fichier : {Path(__file__).name}  ;  "
+    except Exception as Exception_client_delete_wtf:
+        raise ExceptionClientDeleteWtf(f"fichier : {Path(__file__).name}  ;  "
                                      f"{client_delete_wtf.__name__} ; "
-                                     f"{Exception_film_delete_wtf}")
+                                     f"{Exception_client_delete_wtf}")
 
     return render_template("clients/client_delete_wtf.html",
                            form_delete_client=form_delete_client,
                            btn_submit_del=btn_submit_del,
-                           data_film_del=data_client_delete
+                           data_client_del=data_client_delete
                            )
