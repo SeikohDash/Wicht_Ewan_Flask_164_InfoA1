@@ -11,7 +11,7 @@
 
     On signale les erreurs importantes
 """
-from APP_FILMS_164.database import database_tools
+from APP_PHARMACIE_164.database import database_tools
 
 try:
     objet_dumpbd = database_tools.ToolsBd().load_dump_sql_bd_init()

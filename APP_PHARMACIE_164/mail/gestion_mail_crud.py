@@ -9,12 +9,12 @@ from flask import request
 from flask import session
 from flask import url_for
 
-from APP_FILMS_164 import app
-from APP_FILMS_164.database.database_tools import DBconnection
-from APP_FILMS_164.erreurs.exceptions import *
-from APP_FILMS_164.mail.gestion_mail_wtf_forms import FormWTFAjouterMail
-from APP_FILMS_164.mail.gestion_mail_wtf_forms import FormWTFDeleteMail
-from APP_FILMS_164.mail.gestion_mail_wtf_forms import FormWTFUpdateMail
+from APP_PHARMACIE_164 import app
+from APP_PHARMACIE_164.database.database_tools import DBconnection
+from APP_PHARMACIE_164.erreurs.exceptions import *
+from APP_PHARMACIE_164.mail.gestion_mail_wtf_forms import FormWTFAjouterMail
+from APP_PHARMACIE_164.mail.gestion_mail_wtf_forms import FormWTFDeleteMail
+from APP_PHARMACIE_164.mail.gestion_mail_wtf_forms import FormWTFUpdateMail
 
 """
     Auteur : OM 2021.03.16

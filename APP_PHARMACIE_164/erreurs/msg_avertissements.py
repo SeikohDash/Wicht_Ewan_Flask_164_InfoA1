@@ -7,7 +7,7 @@
 
 """
 from flask import render_template
-from APP_FILMS_164 import app
+from APP_PHARMACIE_164 import app
 
 
 @app.route("/avertissement_sympa_pour_geeks")

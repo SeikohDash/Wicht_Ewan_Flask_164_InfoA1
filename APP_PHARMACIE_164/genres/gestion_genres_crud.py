@@ -9,12 +9,12 @@ from flask import request
 from flask import session
 from flask import url_for
 
-from APP_FILMS_164 import app
-from APP_FILMS_164.database.database_tools import DBconnection
-from APP_FILMS_164.erreurs.exceptions import *
-from APP_FILMS_164.genres.gestion_genres_wtf_forms import FormWTFAjouterGenres
-from APP_FILMS_164.genres.gestion_genres_wtf_forms import FormWTFDeleteGenre
-from APP_FILMS_164.genres.gestion_genres_wtf_forms import FormWTFUpdateGenre
+from APP_PHARMACIE_164 import app
+from APP_PHARMACIE_164.database.database_tools import DBconnection
+from APP_PHARMACIE_164.erreurs.exceptions import *
+from APP_PHARMACIE_164.genres.gestion_genres_wtf_forms import FormWTFAjouterGenres
+from APP_PHARMACIE_164.genres.gestion_genres_wtf_forms import FormWTFDeleteGenre
+from APP_PHARMACIE_164.genres.gestion_genres_wtf_forms import FormWTFUpdateGenre
 
 """
     Auteur : OM 2021.03.16

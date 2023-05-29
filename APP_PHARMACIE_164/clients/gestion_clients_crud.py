@@ -9,9 +9,9 @@ from flask import request
 from flask import session
 from flask import url_for
 
-from APP_FILMS_164.database.database_tools import DBconnection
-from APP_FILMS_164.erreurs.exceptions import *
-from APP_FILMS_164.clients.gestion_clients_wtf_forms import FormWTFUpdateClient, FormWTFAddClient, FormWTFDeleteClient
+from APP_PHARMACIE_164.database.database_tools import DBconnection
+from APP_PHARMACIE_164.erreurs.exceptions import *
+from APP_PHARMACIE_164.clients.gestion_clients_wtf_forms import FormWTFUpdateClient, FormWTFAddClient, FormWTFDeleteClient
 
 """Ajouter un film grâce au formulaire "client_add_wtf.html"
 Auteur : OM 2022.04.11
@@ -78,7 +78,7 @@ def client_add_wtf():
     print(" on submit FormWTFAddClient ", form.submit.data, " req ", request.method)
     try:
         if request.method == "POST" and form.submit.data:
-            # Récuperer les données du formulaire défini dans APP_FILMS_164/clients/gestion_clients_wtf_forms.py
+            # Récuperer les données du formulaire défini dans APP_PHARMACIE_164/clients/gestion_clients_wtf_forms.py
             nom_client = form.nom_client_wtf.data
             prenom_client = form.prenom_client_wtf.data
             date_nais_client = form.date_nais_client_wtf.data
@@ -114,8 +114,8 @@ def client_add_wtf():
 
             """
                 Préparer les valeurs pour la liste déroulante de l'objet "FormWTFAddClient"
-                la liste déroulante est définie dans le "APP_FILMS_164/clients/gestion_clients_wtf_forms.py" 
-                le formulaire qui utilise la liste déroulante "APP_FILMS_164/templates/clients/client_add_wtf.html"
+                la liste déroulante est définie dans le "APP_PHARMACIE_164/clients/gestion_clients_wtf_forms.py" 
+                le formulaire qui utilise la liste déroulante "APP_PHARMACIE_164/templates/clients/client_add_wtf.html"
             """
             genre_val_list_dropdown = []
             for i in data_genres:
@@ -135,8 +135,8 @@ def client_add_wtf():
 
             """
                 Préparer les valeurs pour la liste déroulante de l'objet "FormWTFAddClient"
-                la liste déroulante est définie dans le "APP_FILMS_164/clients/gestion_clients_wtf_forms.py" 
-                le formulaire qui utilise la liste déroulante "APP_FILMS_164/templates/clients/client_add_wtf.html"
+                la liste déroulante est définie dans le "APP_PHARMACIE_164/clients/gestion_clients_wtf_forms.py" 
+                le formulaire qui utilise la liste déroulante "APP_PHARMACIE_164/templates/clients/client_add_wtf.html"
             """
             assu_val_list_dropdown = []
             for i in data_assu:
@@ -241,8 +241,8 @@ def client_update_wtf():
 
             """
                 Préparer les valeurs pour la liste déroulante de l'objet "FormWTFAddClient"
-                la liste déroulante est définie dans le "APP_FILMS_164/clients/gestion_clients_wtf_forms.py" 
-                le formulaire qui utilise la liste déroulante "APP_FILMS_164/templates/clients/client_add_wtf.html"
+                la liste déroulante est définie dans le "APP_PHARMACIE_164/clients/gestion_clients_wtf_forms.py" 
+                le formulaire qui utilise la liste déroulante "APP_PHARMACIE_164/templates/clients/client_add_wtf.html"
             """
             genre_update_val_list_dropdown = []
             for i in data_genres:
@@ -262,8 +262,8 @@ def client_update_wtf():
 
             """
                 Préparer les valeurs pour la liste déroulante de l'objet "FormWTFAddClient"
-                la liste déroulante est définie dans le "APP_FILMS_164/clients/gestion_clients_wtf_forms.py" 
-                le formulaire qui utilise la liste déroulante "APP_FILMS_164/templates/clients/client_add_wtf.html"
+                la liste déroulante est définie dans le "APP_PHARMACIE_164/clients/gestion_clients_wtf_forms.py" 
+                le formulaire qui utilise la liste déroulante "APP_PHARMACIE_164/templates/clients/client_add_wtf.html"
             """
             assu_update_val_list_dropdown = []
             for i in data_assu:

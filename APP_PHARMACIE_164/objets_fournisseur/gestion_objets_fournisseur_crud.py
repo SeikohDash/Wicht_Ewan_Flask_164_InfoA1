@@ -10,8 +10,8 @@ from flask import request
 from flask import session
 from flask import url_for
 
-from APP_FILMS_164.database.database_tools import DBconnection
-from APP_FILMS_164.erreurs.exceptions import *
+from APP_PHARMACIE_164.database.database_tools import DBconnection
+from APP_PHARMACIE_164.erreurs.exceptions import *
 
 """
     Nom : objets_reception_fourn_afficher
@@ -33,9 +33,9 @@ def objets_reception_fourn_afficher(id_objets_sel):
         try:
             with DBconnection() as mc_afficher:
                 strsql_objets_fournisseur_afficher_data = """SELECT id_objets, nom_objets, cb_ean, prix,
-                                                            GROUP_CONCAT(nom_four) as ObjetsFourn FROM t_recep_objets_fourn
-                                                            RIGHT JOIN t_objets ON t_objets.id_objets = t_recep_objets_fourn.fk_objets
-                                                            LEFT JOIN t_fournisseur ON t_fournisseur.id_fournisseur = t_recep_objets_fourn.fk_fourn
+                                                            GROUP_CONCAT(nom_four) as ObjetsFourn FROM t_fournisseur_objets
+                                                            RIGHT JOIN t_objets ON t_objets.id_objets = t_fournisseur_objets.fk_objets
+                                                            LEFT JOIN t_fournisseur ON t_fournisseur.id_fournisseur = t_fournisseur_objets.fk_fourn
                                                             GROUP BY id_objets"""
                 if id_objets_sel == 0:
                     # le paramètre 0 permet d'afficher tous les films
@@ -57,7 +57,7 @@ def objets_reception_fourn_afficher(id_objets_sel):
 
                 # Différencier les messages.
                 if not data_objets_fourn_afficher and id_objets_sel == 0:
-                    flash("""La table "t_recep_objets_fourn" est vide. !""", "warning")
+                    flash("""La table "t_fournisseur_objets" est vide. !""", "warning")
                 elif not data_objets_fourn_afficher and id_objets_sel > 0:
                     # Si l'utilisateur change l'id_film dans l'URL et qu'il ne correspond à aucun film
                     flash(f"L'Objets {id_objets_sel} demandé n'existe pas !!", "warning")
@@ -211,26 +211,26 @@ def update_fournisseur_objets_selected():
 
             # Pour apprécier la facilité de la vie en Python... "les ensembles en Python"
             # https://fr.wikibooks.org/wiki/Programmation_Python/Ensembles
-            # OM 2021.05.02 Une liste de "id_genre" qui doivent être effacés de la table intermédiaire "t_recep_objets_fourn".
+            # OM 2021.05.02 Une liste de "id_genre" qui doivent être effacés de la table intermédiaire "t_fournisseur_objets".
             lst_diff_fourn_delete_b = list(set(old_lst_data_fourn_objets_attribues) -
                                             set(new_lst_int_fourn_objets_old))
             print("lst_diff_fourn_delete_b ", lst_diff_fourn_delete_b)
 
-            # Une liste de "id_genre" qui doivent être ajoutés à la "t_recep_objets_fourn"
+            # Une liste de "id_genre" qui doivent être ajoutés à la "t_fournisseur_objets"
             lst_diff_fourn_insert_a = list(
                 set(new_lst_int_fourn_objets_old) - set(old_lst_data_fourn_objets_attribues))
             print("lst_diff_fourn_insert_a ", lst_diff_fourn_insert_a)
 
             # SQL pour insérer une nouvelle association entre
-            # "fk_film"/"id_film" et "fk_genre"/"id_genre" dans la "t_recep_objets_fourn"
-            strsql_insert_fourn_objets = """INSERT INTO t_recep_objets_fourn (id_reception, fk_objets, fk_fourn)
+            # "fk_film"/"id_film" et "fk_genre"/"id_genre" dans la "t_fournisseur_objets"
+            strsql_insert_fourn_objets = """INSERT INTO t_fournisseur_objets (id_reception, fk_objets, fk_fourn)
                                                     VALUES (NULL,%(value_fk_objets)s,%(value_fk_fourn)s)"""
 
-            # SQL pour effacer une (des) association(s) existantes entre "id_film" et "id_genre" dans la "t_recep_objets_fourn"
-            strsql_delete_fourn_objets = """DELETE FROM t_recep_objets_fourn WHERE fk_objets = %(value_fk_objets)s AND fk_fourn = %(value_fk_fourn)s"""
+            # SQL pour effacer une (des) association(s) existantes entre "id_film" et "id_genre" dans la "t_fournisseur_objets"
+            strsql_delete_fourn_objets = """DELETE FROM t_fournisseur_objets WHERE fk_objets = %(value_fk_objets)s AND fk_fourn = %(value_fk_fourn)s"""
 
             with DBconnection() as mconn_bd:
-                # Pour le film sélectionné, parcourir la liste des genres à INSÉRER dans la "t_recep_objets_fourn".
+                # Pour le film sélectionné, parcourir la liste des genres à INSÉRER dans la "t_fournisseur_objets".
                 # Si la liste est vide, la boucle n'est pas parcourue.
                 for id_fournisseur_ins in lst_diff_fourn_insert_a:
                     # Constitution d'un dictionnaire pour associer l'id du film sélectionné avec un nom de variable
@@ -240,7 +240,7 @@ def update_fournisseur_objets_selected():
 
                     mconn_bd.execute(strsql_insert_fourn_objets, valeurs_objets_sel_fourn_sel_dictionnaire)
 
-                # Pour le film sélectionné, parcourir la liste des genres à EFFACER dans la "t_recep_objets_fourn".
+                # Pour le film sélectionné, parcourir la liste des genres à EFFACER dans la "t_fournisseur_objets".
                 # Si la liste est vide, la boucle n'est pas parcourue.
                 for id_fourn_del in lst_diff_fourn_delete_b:
                     # Constitution d'un dictionnaire pour associer l'id du film sélectionné avec un nom de variable
@@ -259,7 +259,7 @@ def update_fournisseur_objets_selected():
                                                    f"{update_fournisseur_objets_selected.__name__} ; "
                                                    f"{Exception_update_fourn_objets_selected}")
 
-    # Après cette mise à jour de la table intermédiaire "t_recep_objets_fourn",
+    # Après cette mise à jour de la table intermédiaire "t_fournisseur_objets",
     # on affiche les films et le(urs) genre(s) associé(s).
     return redirect(url_for('objets_reception_fourn_afficher', id_objets_sel=id_objets_selected))
 
@@ -278,19 +278,19 @@ def fourn_objets_afficher_data(valeur_id_film_selected_dict):
     print("valeur_id_film_selected_dict...", valeur_id_film_selected_dict)
     try:
 
-        strsql_objets_selected = """SELECT id_objets, nom_objets, cb_ean, prix, GROUP_CONCAT(id_fournisseur) as ObjetsFourn FROM t_recep_objets_fourn
-                                        INNER JOIN t_objets ON t_objets.id_objets = t_recep_objets_fourn.fk_objets
-                                        INNER JOIN t_fournisseur ON t_fournisseur.id_fournisseur = t_recep_objets_fourn.fk_fourn
+        strsql_objets_selected = """SELECT id_objets, nom_objets, cb_ean, prix, GROUP_CONCAT(id_fournisseur) as ObjetsFourn FROM t_fournisseur_objets
+                                        INNER JOIN t_objets ON t_objets.id_objets = t_fournisseur_objets.fk_objets
+                                        INNER JOIN t_fournisseur ON t_fournisseur.id_fournisseur = t_fournisseur_objets.fk_fourn
                                         WHERE id_objets = %(value_id_objets_selected)s"""
 
-        strsql_fournisseur_objets_non_attribues = """SELECT id_fournisseur, nom_four FROM t_fournisseur WHERE id_fournisseur not in(SELECT id_fournisseur as idObjetsFourn FROM t_recep_objets_fourn
-                                                    INNER JOIN t_objets ON t_objets.id_objets = t_recep_objets_fourn.fk_objets
-                                                    INNER JOIN t_fournisseur ON t_fournisseur.id_fournisseur = t_recep_objets_fourn.fk_fourn
+        strsql_fournisseur_objets_non_attribues = """SELECT id_fournisseur, nom_four FROM t_fournisseur WHERE id_fournisseur not in(SELECT id_fournisseur as idObjetsFourn FROM t_fournisseur_objets
+                                                    INNER JOIN t_objets ON t_objets.id_objets = t_fournisseur_objets.fk_objets
+                                                    INNER JOIN t_fournisseur ON t_fournisseur.id_fournisseur = t_fournisseur_objets.fk_fourn
                                                     WHERE id_objets = %(value_id_objets_selected)s)"""
 
-        strsql_fournisseur_objets_attribues = """SELECT id_objets, id_fournisseur, nom_four FROM t_recep_objets_fourn
-                                            INNER JOIN t_objets ON t_objets.id_objets = t_recep_objets_fourn.fk_objets
-                                        	INNER JOIN t_fournisseur ON t_fournisseur.id_fournisseur = t_recep_objets_fourn.fk_fourn
+        strsql_fournisseur_objets_attribues = """SELECT id_objets, id_fournisseur, nom_four FROM t_fournisseur_objets
+                                            INNER JOIN t_objets ON t_objets.id_objets = t_fournisseur_objets.fk_objets
+                                        	INNER JOIN t_fournisseur ON t_fournisseur.id_fournisseur = t_fournisseur_objets.fk_fourn
                                             WHERE id_objets = %(value_id_objets_selected)s"""
 
         # Du fait de l'utilisation des "context managers" on accède au curseur grâce au "with".

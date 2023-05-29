@@ -8,11 +8,11 @@ Exemples : https://flask.palletsprojects.com/en/2.1.x/quickstart/#a-minimal-appl
 
 """
 
-from APP_FILMS_164 import app
-from APP_FILMS_164 import SECRET_KEY_FLASK
-from APP_FILMS_164 import DEBUG_FLASK
-from APP_FILMS_164 import ADRESSE_SRV_FLASK
-from APP_FILMS_164 import PORT_FLASK
+from APP_PHARMACIE_164 import app
+from APP_PHARMACIE_164 import SECRET_KEY_FLASK
+from APP_PHARMACIE_164 import DEBUG_FLASK
+from APP_PHARMACIE_164 import ADRESSE_SRV_FLASK
+from APP_PHARMACIE_164 import PORT_FLASK
 from flask_cors import CORS
 
 """Pour comprendre à quoi sert CORS... et en cas de curiosité maladive...

@@ -3,7 +3,7 @@ Fichier : 2_test_connection_bd.py
 Auteur : OM 2023.03.21
 """
 
-from APP_FILMS_164.database.database_tools import DBconnection
+from APP_PHARMACIE_164.database.database_tools import DBconnection
 
 try:
     """

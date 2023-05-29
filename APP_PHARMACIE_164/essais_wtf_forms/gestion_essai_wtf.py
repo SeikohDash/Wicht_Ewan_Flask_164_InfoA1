@@ -14,8 +14,8 @@ from flask import flash
 from flask import redirect
 from flask import render_template
 
-from APP_FILMS_164 import app
-from APP_FILMS_164.essais_wtf_forms.wtf_forms_1 import MonPremierWTForm
+from APP_PHARMACIE_164 import app
+from APP_PHARMACIE_164.essais_wtf_forms.wtf_forms_1 import MonPremierWTForm
 
 
 @app.route("/mon_premier_wtform", methods=['GET', 'POST'])

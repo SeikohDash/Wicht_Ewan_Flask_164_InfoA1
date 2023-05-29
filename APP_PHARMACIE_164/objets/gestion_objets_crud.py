@@ -9,9 +9,9 @@ from flask import request
 from flask import session
 from flask import url_for
 
-from APP_FILMS_164.database.database_tools import DBconnection
-from APP_FILMS_164.erreurs.exceptions import *
-from APP_FILMS_164.objets.gestion_objets_wtf_forms import FormWTFUpdateObjets, FormWTFAddObjets, FormWTFDeleteFilm
+from APP_PHARMACIE_164.database.database_tools import DBconnection
+from APP_PHARMACIE_164.erreurs.exceptions import *
+from APP_PHARMACIE_164.objets.gestion_objets_wtf_forms import FormWTFUpdateObjets, FormWTFAddObjets, FormWTFDeleteFilm
 
 """Ajouter un film grâce au formulaire "objets_add_wtf.html"
 Auteur : OM 2022.04.11
@@ -184,10 +184,10 @@ def objets_delete_wtf():
             valeur_delete_dictionnaire = {"value_id_objets": id_objets_delete}
             print("valeur_delete_dictionnaire ", valeur_delete_dictionnaire)
 
-            str_sql_delete_fk_objets_fournisseur = """DELETE FROM t_recep_objets_fourn WHERE fk_objets = %(value_id_objets)s"""
+            str_sql_delete_fk_objets_fournisseur = """DELETE FROM t_fournisseur_objets WHERE fk_objets = %(value_id_objets)s"""
             str_sql_delete_objets = """DELETE FROM t_objets WHERE id_objets = %(value_id_objets)s"""
-            # Manière brutale d'effacer d'abord la "fk_film", même si elle n'existe pas dans la "t_recep_objets_fourn"
-            # Ensuite on peut effacer le film vu qu'il n'est plus "lié" (INNODB) dans la "t_recep_objets_fourn"
+            # Manière brutale d'effacer d'abord la "fk_film", même si elle n'existe pas dans la "t_fournisseur_objets"
+            # Ensuite on peut effacer le film vu qu'il n'est plus "lié" (INNODB) dans la "t_fournisseur_objets"
             with DBconnection() as mconn_bd:
                 mconn_bd.execute(str_sql_delete_fk_objets_fournisseur, valeur_delete_dictionnaire)
                 mconn_bd.execute(str_sql_delete_objets, valeur_delete_dictionnaire)
