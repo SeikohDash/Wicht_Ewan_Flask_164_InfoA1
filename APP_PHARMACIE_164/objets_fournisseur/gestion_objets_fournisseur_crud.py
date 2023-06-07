@@ -223,7 +223,7 @@ def update_fournisseur_objets_selected():
 
             # SQL pour insérer une nouvelle association entre
             # "fk_film"/"id_film" et "fk_genre"/"id_genre" dans la "t_fournisseur_objets"
-            strsql_insert_fourn_objets = """INSERT INTO t_fournisseur_objets (id_reception, fk_objets, fk_fourn)
+            strsql_insert_fourn_objets = """INSERT INTO t_fournisseur_objets (id_fourn_objets, fk_objets, fk_fourn)
                                                     VALUES (NULL,%(value_fk_objets)s,%(value_fk_fourn)s)"""
 
             # SQL pour effacer une (des) association(s) existantes entre "id_film" et "id_genre" dans la "t_fournisseur_objets"
